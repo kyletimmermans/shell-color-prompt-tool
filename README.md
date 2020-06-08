@@ -5,7 +5,8 @@
 
 
 Steps:
-1. Grab their current PS1
-2. Decode what each piece of their PS1/prompt is
-3. Print list of colors for reference
-3. Allow them to chose each piece of their PS1/prompt and color it
+1. Print Welcome Message
+2. Grab their current PS1
+3. Decode what each piece of their PS1/prompt is
+4. Print list of colors for reference
+5. Allow them to chose each piece of their PS1/prompt and color it
