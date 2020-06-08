@@ -4,11 +4,15 @@ Reference: https://stackoverflow.com/questions/35281630/how-do-i-change-my-ps1-o
            <div>https://github.com/mayankk2308/set-egpu/blob/master/set-eGPU.sh (eleveate privileges)</div>
 
 Steps:
-1. Print Welcome Message / Elevate privileges
-2. Grab their current PROMPT
-3. Decode what each piece of their PROMPT is (large switch statement, check each possible '%{symbol}')
-4. Print list of colors for reference
-5. Allow them to chose each piece of their PROMPT and color it
+1. Print Welcome Message
+2. Elevate privileges, if not possible, print error
+3. Grab their current PROMPT
+4. Decode what each piece of their PROMPT is (large switch statement, check each possible '%{symbol}')
+5. Print list of colors for reference
+6. Allow them to chose each piece of their PROMPT and color it
+7. source ~/.zshrc
+8. echo "Changes Saved"
+9. exit
 
 
 <p align="center">
