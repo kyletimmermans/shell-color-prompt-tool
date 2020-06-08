@@ -1,4 +1,4 @@
-Reference: https://stackoverflow.com/questions/35281630/how-do-i-change-my-ps1-on-a-macbook-for-oh-my-zsh
+Reference: https://stackoverflow.com/questions/35281630/how-do-i-change-my-ps1-on-a-macbook-for-oh-my-zsh (maybe don't use this one)
            <div>https://scriptingosx.com/2019/07/moving-to-zsh-06-customizing-the-zsh-prompt/</div>
            <div>http://www.nparikh.org/unix/prompt.php (all zsh prompt symbols)</div>
            <div>https://github.com/mayankk2308/set-egpu/blob/master/set-eGPU.sh (eleveate privileges)</div>
