@@ -5,11 +5,12 @@ Reference: https://stackoverflow.com/questions/35281630/how-do-i-change-my-ps1-o
 
 Steps:
 1. Print Welcome Message
-2. Elevate privileges, if not possible, print error
-3. Grab their current PROMPT
-4. Decode what each piece of their PROMPT is (large case statement, check each possible '%{symbol}')
-5. Print list of colors for reference
+2. Elevate privileges, if not given correct permissions, print error
+4. Show list of parts of prompt
+5. Let them chose which parts they want and hit done
+5. Now Print list of colors for reference
 6. Allow them to chose each piece of their PROMPT and color it
+8. Place export PROMPT='their choices' into ~/.zshrc
 7. source ~/.zshrc
 8. echo "Changes Saved"
 9. exit
