@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 BOLD="$(tput bold)"
 GREEN='\033[1;32m'
@@ -8,4 +8,5 @@ PURPLE='\033[1;35m'
 CYAN='\033[1;36m'
 # Reset Color
 RC='\033[0m'
-echo -e "${BOLD}\nWelcome to the Zsh ${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r ${RC}Prompt Tool\n${NORMAL}"
+echo -e "${BOLD}\nWelcome to the Zsh ${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r ${RC}Prompt Tool${NORMAL}"
+echo @KyleTimmermans'\n'
