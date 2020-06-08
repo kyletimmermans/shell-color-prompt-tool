@@ -6,7 +6,7 @@ Reference: https://stackoverflow.com/questions/35281630/how-do-i-change-my-ps1-o
 Steps:
 1. Print Welcome Message / Elevate privileges
 2. Grab their current PROMPT
-3. Decode what each piece of their PROMPT is
+3. Decode what each piece of their PROMPT is (large switch statement)
 4. Print list of colors for reference
 5. Allow them to chose each piece of their PROMPT and color it
 
