@@ -6,6 +6,8 @@ Reference: https://stackoverflow.com/questions/35281630/how-do-i-change-my-ps1-o
 Steps:
 1. Print Welcome Message
 2. Elevate privileges, if not possible, print error
+3. Look for current ~/.zshrc, if not present, make one
+4. Add theme name ($user's-colorful-theme)
 3. Grab their current PROMPT
 4. Decode what each piece of their PROMPT is (large case statement, check each possible '%{symbol}')
 5. Print list of colors for reference
