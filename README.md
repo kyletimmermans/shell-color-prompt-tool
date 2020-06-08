@@ -13,7 +13,7 @@ Steps:
 7. source ~/.zshrc
 8. echo "Changes Saved"
 9. exit
-
+10 . Make curl that auto runs, auto chmod +x, autodeletes itself
 
 <p align="center">
   <img src="https://github.com/kyletimmermans/zsh-color-prompt-tool/blob/master/resources/color-list.png?raw=true" alt="Color List"/>
