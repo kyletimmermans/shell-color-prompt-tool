@@ -7,7 +7,7 @@ Steps:
 1. Print Welcome Message
 2. Elevate privileges, if not possible, print error
 3. Grab their current PROMPT
-4. Decode what each piece of their PROMPT is (large switch statement, check each possible '%{symbol}')
+4. Decode what each piece of their PROMPT is (large case statement, check each possible '%{symbol}')
 5. Print list of colors for reference
 6. Allow them to chose each piece of their PROMPT and color it
 7. source ~/.zshrc
