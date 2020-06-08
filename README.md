@@ -18,6 +18,8 @@ Steps:
 
 <div>-For install: Make curl that auto runs, auto chmod +x, autodeletes itself</div>
 
+<p> Esentially creating nice one line string with user preferences from pretty menu that will be exported to ./zshrc </p>
+
 </br>
 
 ## Also check built in colors for zsh
