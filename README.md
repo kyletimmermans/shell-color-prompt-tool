@@ -3,6 +3,7 @@ Reference: https://stackoverflow.com/questions/35281630/how-do-i-change-my-ps1-o
            <div>http://www.nparikh.org/unix/prompt.php (all zsh prompt symbols)</div>
            <div>https://github.com/mayankk2308/set-egpu/blob/master/set-eGPU.sh (eleveate privileges) (readline immediately)</div>
            <div>https://stackoverflow.com/questions/9268836/zsh-change-prompt-input-color (simple export prompt)
+           <div>https://zsh-prompt-generator.site/ (gives more zsh prompt variables)</div>
 
 Steps:
 1. Print Welcome Message
