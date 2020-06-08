@@ -2,7 +2,7 @@ Reference: https://stackoverflow.com/questions/35281630/how-do-i-change-my-ps1-o
 
 Steps:
 1. Print Welcome Message
-2. Grab their current PS1
+2. Grab their current PS1/prompt
 3. Decode what each piece of their PS1/prompt is
 4. Print list of colors for reference
 5. Allow them to chose each piece of their PS1/prompt and color it
