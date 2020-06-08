@@ -1,7 +1,8 @@
 Reference: https://stackoverflow.com/questions/35281630/how-do-i-change-my-ps1-on-a-macbook-for-oh-my-zsh
            <div>https://scriptingosx.com/2019/07/moving-to-zsh-06-customizing-the-zsh-prompt/</div>
-           <div>http://www.nparikh.org/unix/prompt.php</div>
+           <div>http://www.nparikh.org/unix/prompt.php (all zsh prompt symbols)</div>
            <div>https://github.com/mayankk2308/set-egpu/blob/master/set-eGPU.sh (eleveate privileges)</div>
+           <div>https://stackoverflow.com/questions/9268836/zsh-change-prompt-input-color (simple export prompt)
 
 Steps:
 1. Print Welcome Message
@@ -16,6 +17,10 @@ Steps:
 10. exit
 
 <div>-For install: Make curl that auto runs, auto chmod +x, autodeletes itself</div>
+
+</br>
+
+## Also check built in colors for zsh
 
 <p align="center">
   <img src="https://github.com/kyletimmermans/zsh-color-prompt-tool/blob/master/resources/color-list.png?raw=true" alt="Color List"/>
