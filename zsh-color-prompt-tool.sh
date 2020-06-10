@@ -24,7 +24,7 @@ while [repeat == 1]
 do
   read -n2 -p "Please enter number choice: " CHOICE
   if [$CHOICE == 'n' || $CHOICE == 'N']
-    repeat = 0
+    repeat = 0  # Break while-loop
   else
     prompt_array+=($CHOICE)  # Append to array
   fi
