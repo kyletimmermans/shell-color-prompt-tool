@@ -23,7 +23,7 @@ Steps:
 <p> Esentially creating nice one line string with user preferences from pretty menu that will be exported to ./zshrc </p>
 
 ```bash
-curl -s "https://github.com/kyletimmermans/zsh-color-prompt-tool/blob/master/zsh-color-prompt-tool.sh" | chmod +x zsh-color-prompt-tool.sh && ./zsh-color-prompt-tool.sh && rm zsh-color-prompt-tool.sh
+curl -s "https://api.github.com/repos/kyletimmermans/zsh-color-prompt-tool/contents/zsh-color-prompt-tool.sh"
 ```
 
 </br>
