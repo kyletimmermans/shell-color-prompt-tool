@@ -23,7 +23,7 @@ Steps:
 <p> Esentially creating nice one line string with user preferences from pretty menu that will be exported to ./zshrc </p>
 
 ```bash
-curl -q -s "https://api.github.com/repos/mayankk2308/set-egpu/releases/latest" | grep '"browser_download_url":' | sed -E 's/.*"browser_download_url":[ \t]*"([^"]+)".*/\1/' | xargs curl -L -s -0 > set-eGPU.sh && chmod +x set-eGPU.sh && ./set-eGPU.sh && rm set-eGPU.sh
+curl -s "https://github.com/kyletimmermans/zsh-color-prompt-tool/blob/master/zsh-color-prompt-tool.sh" | chmod +x zsh-color-prompt-tool.sh && ./zsh-color-prompt-tool.sh && rm zsh-color-prompt-tool.sh
 ```
 
 </br>
