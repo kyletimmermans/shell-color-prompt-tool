@@ -13,7 +13,7 @@ Steps:
 5. Now Print list of colors for reference
 6. Allow them to chose each piece of their PROMPT and color it (Foreground and Background)
 7. Show them a preview of final prompt and if they want to start over
-8. Place export PROMPT='their choices' into ~/.zshrc
+8. Place export PROMPT="their choices" into ~/.zshrc.   (prompt has to be wrapped in quotes I think)
 9. source ~/.zshrc
 10. echo "Changes Saved"
 11. exit
