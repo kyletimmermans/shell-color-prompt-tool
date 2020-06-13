@@ -6,10 +6,10 @@ Reference: https://stackoverflow.com/questions/35281630/how-do-i-change-my-ps1-o
            <div>https://zsh-prompt-generator.site/ (gives more zsh prompt variables)</div>
 
 Steps:
-1. Print Welcome Message
-2. Elevate privileges, if not given correct permissions, print error
-3. Show list of parts of prompt
-4. Let them chose which parts they want and hit done
+1. Print Welcome Message ✅
+2. Elevate privileges, if not given correct permissions, print error ✅
+3. Show list of parts of prompt ✅
+4. Let them chose which parts they want and hit done ✅
 5. Now Print list of colors for reference
 6. Allow them to chose each piece of their PROMPT and color it (Foreground and Background)
 7. Show them a preview of final prompt and if they want to start over
