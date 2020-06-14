@@ -49,6 +49,7 @@ while [ "$repeat" -eq 1 ] ; do
     declare -i repeat=0  # Break while-loop
   elif [[ "$CHOICE" == '30' ]] ; then  # If custom text
     read "CUSTEXT?Enter Custom Text: " \n
+    part_array+=($CHOICE)  # Needed for adding in custom text, i+1
     part_array+=($CUSTEXT)
   else
     part_array+=($CHOICE)  # Append to array
@@ -80,17 +81,19 @@ color_dictionary=('\033[0;30m' '\033[0;31m' '\033[0;32m' '\033[0;33m'
 
 # Chose Colors
 color_array=() # Append to this empty array
-for i in $part_array ; do
-  if [[ "$1" != '30' ]] ; then
+for i in $part_array;
+do
+  if [[ "$i" != '30' ]] ; then
     read "FG?Enter ${UNDERLINE}Foreground${NORMAL} Color Number for "$parts_choices[$i]": " \n  # Holds the actual values of menu, Bash/Zsh arrays start at 1
     color_array+=($FG)
     read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for "$parts_choices[$i]": " \n
     color_array+=($BG)
   else  # If its the custom text, just print it from part_array
-    read "FG?Enter ${UNDERLINE}Foreground${NORMAL} Color Number for "$i" :" \n  # Holds the actual values of menu, Bash/Zsh arrays start at 1
+    read "FG?Enter ${UNDERLINE}Foreground${NORMAL} Color Number for "$part_array[$i+1]":" \n  # Holds the actual values of menu, Bash/Zsh arrays start at 1
     color_array+=($FG)
-    read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for "$i" :" \n
+    read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for "$part_array[$i+1]":" \n
     color_array+=($BG)
+    i+=1  # Skip any element after a 30, thats the custom text. Allows user to make custom text into anything
   fi
 done
 echo $color_array  # test case
