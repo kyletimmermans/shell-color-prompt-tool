@@ -13,11 +13,3 @@ Reference: https://stackoverflow.com/questions/35281630/how-do-i-change-my-ps1-o
 ```bash
 curl -q -s "https://api.github.com/repos/kyletimmermans/zsh-color-prompt-tool/releases/latest" && chmod +x zsh-color-prompt-tool.zsh && ./zsh-color-prompt-tool.zsh && rm zsh-color-prompt-tool.zsh
 ```
-
-</br>
-
-## Also check built in colors for zsh
-
-<p align="center">
-  <img src="https://github.com/kyletimmermans/zsh-color-prompt-tool/blob/master/resources/color-list.png?raw=true" alt="Color List"/>
-</p>
