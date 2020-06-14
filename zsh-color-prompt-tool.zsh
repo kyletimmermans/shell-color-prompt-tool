@@ -2,6 +2,7 @@
 
 # Title Colors / Format Vars
 BOLD="$(tput bold)"
+UNDERLINE="$(tput smul)"
 NORMAL="$(tput sgr0)"
 GREEN='\033[1;32m'
 RED='\033[1;31m'
@@ -35,7 +36,7 @@ parts_choices=('Username' 'Hostname (Short)' 'Hostname (Full)' 'Shell"s" TTY'
 'isPrivileged?' 'Return Status of Last Command' 'Current Working Directory'
 'Current Working Directory from $HOME' 'Current History Event Number'
 'yy-mm-dd' 'mm-dd-yy' 'day-dd' '12-Hour, AM/PM' '24-Hour w/ Seconds'
-'@' '#' '!' '$' '%' '*' '&' '-' '_' ':' '~' '|' '/' '\' ' ')
+'@' '#' '!' '$' '%' '*' '&' '-' '_' ':' '~' '|' '/' '\' 'Space')
 
 # Chose parts
 echo "Type 'n' or 'N' when you're finished"
@@ -79,14 +80,20 @@ color_dictionary=('\033[0;30m' '\033[0;31m' '\033[0;32m' '\033[0;33m'
 
 # Chose Colors
 color_array=() # Append to this empty array
-for i in $part_array;
-  do
-    if [[ "$1" != '30' ]] ; then
-      echo $parts_choices[$i];  # Holds the actual values of menu, Bash/Zsh arrays start at 1
-    else  # If its the custom text, just print it from part_array
-      echo $i
-    fi
+for i in $part_array ; do
+  if [[ "$1" != '30' ]] ; then
+    read "FG?Enter ${UNDERLINE}Foreground${NORMAL} Color Number for "$parts_choices[$i]": " \n  # Holds the actual values of menu, Bash/Zsh arrays start at 1
+    color_array+=($FG)
+    read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for "$parts_choices[$i]": " \n
+    color_array+=($BG)
+  else  # If its the custom text, just print it from part_array
+    read "FG?Enter ${UNDERLINE}Foreground${NORMAL} Color Number for "$i" :" \n  # Holds the actual values of menu, Bash/Zsh arrays start at 1
+    color_array+=($FG)
+    read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for "$i" :" \n
+    color_array+=($BG)
+  fi
 done
+echo $color_array  # test case
 
 # Preview
 # Setup test show cases
@@ -94,6 +101,7 @@ done
 
 
 # Logic to actual build $final_prompt
+# Use ${var} to fix single quotes in the array that will have options appended
 # final_prompt='"options"'    # Needs double quote logic
 
 
