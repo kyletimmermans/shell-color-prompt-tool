@@ -6,25 +6,12 @@ Reference: https://stackoverflow.com/questions/35281630/how-do-i-change-my-ps1-o
            <div>https://zsh-prompt-generator.site/ (gives more zsh prompt variables)</div>
            <div>https://stackoverflow.com/questions/16843382/colored-shell-script-output-library (Background Colors)</div>
 
-Steps:
-1. Print Welcome Message ✅
-2. Elevate privileges, if not given correct permissions, print error ✅
-3. Show list of parts of prompt ✅
-4. Let them chose which parts they want and hit done ✅
-5. Now Print list of colors for reference
-6. Allow them to chose each piece of their PROMPT and color it (Foreground and Background)
-7. Show them a preview of final prompt and if they want to start over
-8. Place export PROMPT="their choices" into ~/.zshrc.   (prompt has to be wrapped in quotes I think)
-9. source ~/.zshrc
-10. echo "Changes Saved"
-11. exit
-
 <div>-For install: Make curl that auto runs, auto chmod +x, autodeletes itself</div>
 <div>&ensp;</div>
 <p> Esentially creating nice one line string with user preferences from pretty menu that will be exported to ./zshrc </p>
 
 ```bash
-curl -q -s "https://api.github.com/repos/kyletimmermans/zsh-color-prompt-tool/releases/latest" && chmod +x zsh-color-prompt-tool.zsh && ./zsh-color-prompt-tool.zsh
+curl -q -s "https://api.github.com/repos/kyletimmermans/zsh-color-prompt-tool/releases/latest" && chmod +x zsh-color-prompt-tool.zsh && ./zsh-color-prompt-tool.zsh && rm zsh-color-prompt-tool.zsh
 ```
 
 </br>
