@@ -18,4 +18,4 @@ curl -q -s "https://api.github.com/repos/kyletimmermans/zsh-color-prompt-tool/re
 
 </br>
 
-centered image here
+centered screenshot from resources here
