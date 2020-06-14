@@ -6,7 +6,7 @@ Reference: https://stackoverflow.com/questions/35281630/how-do-i-change-my-ps1-o
            <div>https://zsh-prompt-generator.site/ (gives more zsh prompt variables)</div>
            <div>https://stackoverflow.com/questions/16843382/colored-shell-script-output-library (Background Colors)</div>
 
-## Customize your Zsh Prompt, from what info want it to display (Username, Hostname, Symbols, etc) to its Foreground and Background Colors!
+### Customize your Zsh Prompt, from what info you want it to display (Username, Hostname, Symbols, etc) to its Foreground and Background Colors!
 
 ```bash
 curl -q -s "https://api.github.com/repos/kyletimmermans/zsh-color-prompt-tool/releases/latest" && chmod +x zsh-color-prompt-tool.zsh && ./zsh-color-prompt-tool.zsh && rm zsh-color-prompt-tool.zsh
