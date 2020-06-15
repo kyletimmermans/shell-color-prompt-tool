@@ -8,7 +8,7 @@ Reference: https://stackoverflow.com/questions/35281630/how-do-i-change-my-ps1-o
 
 # <div align="center">Zsh-Color-Prompt-Tool</div>
 
-_Customize your Zsh Prompt, from what info you want it to display (Username, Hostname, Symbols, etc) to its Foreground and Background Colors!_
+_Customize your Zsh Prompt, from what info you want it to display (Username, Hostname, Symbols, etc), to its Foreground and Background Colors!_
 
 </br>
 
