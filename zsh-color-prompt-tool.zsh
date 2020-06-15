@@ -41,6 +41,7 @@ parts_choices=('Username' 'Hostname (Short)' 'Hostname (Full)' 'Shell"s" TTY'
 # Chose parts
 echo "Type 'n' or 'N' when you're finished"
 part_array=() # Append to this empty array
+custom_text=() # Use if custom text is
 declare -i repeat=1
 # Keep entering options until 'n' or 'N'
 while [ "$repeat" -eq 1 ] ; do
@@ -49,8 +50,8 @@ while [ "$repeat" -eq 1 ] ; do
     declare -i repeat=0  # Break while-loop
   elif [[ "$CHOICE" == '30' ]] ; then  # If custom text
     read "CUSTEXT?Enter Custom Text: " \n
-    part_array+=($CHOICE)  # Needed for adding in custom text, i+1
-    part_array+=($CUSTEXT)
+    part_array+=($CHOICE)
+    custom_text+=($CUSTEXT) # Needed for printing custom text
   else
     part_array+=($CHOICE)  # Append to array
   fi
@@ -81,20 +82,20 @@ color_dictionary=('\033[0;30m' '\033[0;31m' '\033[0;32m' '\033[0;33m'
 
 # Chose Colors
 color_array=() # Append to this empty array
+declare -i counter=1   # Required for array indexing
 for i in $part_array ; do
-  if [[ "$i" == '30' ]] ; then
-    read "FG?Enter ${UNDERLINE}Foreground${NORMAL} Color Number for "$part_array[i+1]":" \n  # Holds the actual values of menu, Bash/Zsh arrays start at 1
+  if [[ "$i" == '30' ]] ; then   # If its the custom text, just print it from part_array
+    read "FG?Enter ${UNDERLINE}Foreground${NORMAL} Color Number for "$custom_text[$counter]":" \n  # Holds the actual values of menu, Bash/Zsh arrays start at 1
     color_array+=($FG)
-    read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for "$part_array[i+1]":" \n
+    read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for "$custom_text[$counter]":" \n
     color_array+=($BG)
-  elif [[ "$part_array[i-1]" == '30' ]] ; then  # Skip custom text, already showed it
-    continue
-  else  # If its the custom text, just print it from part_array
+  else
     read "FG?Enter ${UNDERLINE}Foreground${NORMAL} Color Number for "$parts_choices[$i]": " \n  # Holds the actual values of menu, Bash/Zsh arrays start at 1
     color_array+=($FG)
     read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for "$parts_choices[$i]": " \n
     color_array+=($BG)
   fi
+  counter+=1 # Indexing the loop iterations
 done
 echo $color_array  # test case
 
