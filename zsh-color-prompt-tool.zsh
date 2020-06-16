@@ -85,17 +85,17 @@ color_array=() # Append to this empty array
 declare -i counter=1   # Required for array indexing
 for i in $part_array ; do
   if [[ "$i" == '30' ]] ; then   # If its the custom text, just print it from part_array
-    read "FG?Enter ${UNDERLINE}Foreground${NORMAL} Color Number for "$custom_text[$counter]":" \n  # Holds the actual values of menu, Bash/Zsh arrays start at 1
+    read "FG?Enter ${UNDERLINE}Foreground${NORMAL} Color Number for "$custom_text[$counter]": " \n  # Holds the actual values of menu, Bash/Zsh arrays start at 1
     color_array+=($FG)
-    read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for "$custom_text[$counter]":" \n
+    read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for "$custom_text[$counter]": " \n
     color_array+=($BG)
+    counter+=1 # Indexing the loop iterations and allow for printing of $custom_text, i++ if another custom text found
   else
     read "FG?Enter ${UNDERLINE}Foreground${NORMAL} Color Number for "$parts_choices[$i]": " \n  # Holds the actual values of menu, Bash/Zsh arrays start at 1
     color_array+=($FG)
     read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for "$parts_choices[$i]": " \n
     color_array+=($BG)
   fi
-  counter+=1 # Indexing the loop iterations
 done
 echo $color_array  # test case
 
