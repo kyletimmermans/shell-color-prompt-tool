@@ -13,10 +13,11 @@ _Customize your Zsh Prompt, from what info you want it to display (Username, Hos
 </br>
 
 -Add Error Handeling for choices menu
-for i in {0..<number of options here}}
-  if !ok choice, echo "Invalid option, try again"
- else
-    array+=($CHOICE)
+<div>for i in {0..<number of options here}}</div>
+<div>&ensp;if !ok choice</div>
+<div>&ensp;&ensp;echo "Invalid option, try again"</div>
+<div>&ensp;else</div>
+<div>&ensp;&ensp;array+=($CHOICE)</div>
 
 ```bash
 curl -q -s "https://api.github.com/repos/kyletimmermans/zsh-color-prompt-tool/releases/latest" && chmod +x zsh-color-prompt-tool.zsh && ./zsh-color-prompt-tool.zsh
