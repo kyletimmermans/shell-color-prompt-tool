@@ -1,5 +1,8 @@
 #!/bin/zsh
 
+# In hindsight, this would have been a lot easier if I knew bash/zsh had dictionaries and C-like for loops
+# Good challenge though
+
 # Title Colors / Format Vars
 BOLD="$(tput bold)"
 UNDERLINE="$(tput smul)"
@@ -97,19 +100,39 @@ for i in $part_array ; do
     color_array+=($BG)
   fi
 done
-echo $color_array  # test case
-
-# Preview
-# Setup test show cases
-# echo $final_promp
 
 
-# Logic to actual build $final_prompt
+# Create Final Prompt and Review Prompt
+echo "\nThis is a preview of how your prompt will look:\n"
+review_prompt=""
+final_prompt=""
+declare -i counter=1   # Required for array indexing
+for i in $part_array ; do
+  review_prompt+="$color_dictionary[$color_array[$counter]]"
+  review_prompt+="$color_dictionary[$color_array[$counter+1]]"  # +1 for the fg and bg colors next to each other
+  final_prompt+="$color_dictionary[$color_array[$counter]]"
+  final_prompt+="$color_dictionary[$color_array[$counter+1]]"
+  counter+=2  # Colors come in two's, don't add bg color twice everytime
+  if [[ "$i" == '30' ]] ; then  # If it's custom text, use $custom_text array
+    review_prompt+="$custom_text[$counter-1]"  # -1 b/c counter goes up by 2's, custom text doesn't need to
+    final_prompt+="$custom_text[$counter-1]"
+  else   # If notmal
+    review_prompt+="$parts_choices[$i]"
+    final_prompt+="$parts_dictionary[$i]"
+  fi
+done
+
+echo $review_prompt
+echo $final_prompt
 # Use ${var} to fix single quotes in the array that will have options appended
 # final_prompt='"options"'    # Needs double quote logic
 
 
+#if [[ "$CHOICE" =~ ^[Yy]$ ]] ; then    # If choice is 'y' or 'Y' (regex)
+  # save, echo "Prompt Saved!"
+#else
+  # echo "Prompt not saved, exiting!"
 # Finally save it and source it
-# echo export PROMPT=$final_prompt >> ~/.zshrc
+# echo export PROMPT="$final_prompt" >> ~/.zshrc
 # source ~/.zshrc
 # echo "Changes Saved!"
