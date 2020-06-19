@@ -12,6 +12,10 @@ _Customize your Zsh Prompt, from what info you want it to display (Username, Hos
 
 </br>
 
+<div>Don't have preview actually write 'space'</div>
+<div>Get space char</div>
+<div>Fix math operator error</div>
+
 ```bash
 curl -q -s "https://api.github.com/repos/kyletimmermans/zsh-color-prompt-tool/releases/latest" && chmod +x zsh-color-prompt-tool.zsh && ./zsh-color-prompt-tool.zsh
 ```
