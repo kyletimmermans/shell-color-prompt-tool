@@ -12,8 +12,7 @@ _Customize your Zsh Prompt, from what info you want it to display (Username, Hos
 
 </br>
 
-<div>Don't have preview actually write 'space'</div>
-<div>Get space char</div>
+<div>you can't color the foreground of a space character</div>
 <div>print %anything might be an issue (good thing we're just saving final_prompt, not echoing it)</div>
 
 ```bash
