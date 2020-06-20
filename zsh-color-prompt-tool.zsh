@@ -93,6 +93,9 @@ for i in $part_array ; do
     read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for "$custom_text[$counter]": " \n
     color_array+=($BG)
     counter+=1 # Indexing the loop iterations and allow for printing of $custom_text, i++ if another custom text found
+  elif [[ "$i" == '29' ]] ; then  # If it's a space, no need for a forgeground choice, just a background
+    read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for "$parts_choices[$i]": " \n  # Iterate differently for space choice for final prompt logic
+    color_array+=($BG)
   else
     read "FG?Enter ${UNDERLINE}Foreground${NORMAL} Color Number for "$parts_choices[$i]": " \n  # Holds the actual values of menu, Bash/Zsh arrays start at 1
     color_array+=($FG)
@@ -109,11 +112,17 @@ final_prompt=""
 declare -i counter=1   # Required for array indexing
 declare -i counter2=1   # Required for array indexing of custom text
 for i in $part_array ; do
-  review_prompt+="$color_dictionary[$color_array[$counter]]"
-  review_prompt+="$color_dictionary[$color_array[$(($counter+1))]]" # +1 to print both fg and bg pair
-  final_prompt+="$color_dictionary[$color_array[$counter]]"
-  final_prompt+="$color_dictionary[$color_array[$(($counter+1))]]"
-  counter+=2  # Colors come in two's, don't add bg color twice everytime
+  if [[ $color_array[$counter] == '29' ]] ; then  # If it's a space, no fg needed, first number will act as background
+    review_prompt+=" "  # Just print a space char, don't actually print "Space"
+    final_prompt+=" "
+    counter+=1  # Only need to go up 1, not trying to skip a second number in a pair this time
+  else
+    review_prompt+="$color_dictionary[$color_array[$counter]]"
+    review_prompt+="$color_dictionary[$color_array[$(($counter+1))]]" # +1 to print both fg and bg pair
+    final_prompt+="$color_dictionary[$color_array[$counter]]"
+    final_prompt+="$color_dictionary[$color_array[$(($counter+1))]]"
+    counter+=2  # Colors come in two's, don't add bg color twice everytime
+  fi
   if [[ "$i" == '30' ]] ; then  # If it's custom text, use $custom_text array
     review_prompt+="$custom_text[$counter2]"  # Has its own counter that goes up by 1's
     final_prompt+="$custom_text[$counter2]"
