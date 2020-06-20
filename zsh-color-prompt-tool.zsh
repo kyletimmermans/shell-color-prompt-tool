@@ -73,15 +73,15 @@ echo -e "8. \033[0;37mLight Grey\033[0m  16. \033[1;37mWhite\033[0m             
 echo "17. No Foreground Color / No Change            33. No Background Color / No Change\033[0m\n"
 
 # Parts Dicionary - Each Index has each respective value from menu (Foregrounds and backgrounds)
-color_dictionary=('\033[0;30m' '\033[0;31m' '\033[0;32m' '\033[0;33m'
+color_dictionary=('\033[0;30m' '\033[0;31m' '\033[0;32m' '\033[0;33m'   # Fixed the bright color backgrounds by removing the ";0"
 '\033[0;34m' '\033[0;35m' '\033[0;36m' '\033[0;37m'
 '\033[1;30m' '\033[1;31m' '\033[1;32m' '\033[1;33m'
 '\033[1;34m' '\033[1;35m' '\033[1;36m' '\033[1;37m'
 '\033[0m' '\e[40m' '\e[41m' '\e[42m'
 '\e[43m' '\e[44m' '\e[45m' '\e[46m'
-'\e[47m' '\e[0;100m' '\e[0;101m' '\e[0;102m'
-'\e[0;103m' '\e[0;104m' '\e[0;105m' '\e[0;106m'
-'\e[0;107m' '\033[0m')
+'\e[47m' '\e[100m' '\e[101m' '\e[102m'
+'\e[103m' '\e[104m' '\e[105m' '\e[106m'
+'\e[107m' '\033[0m')
 
 # Chose Colors
 color_array=() # Append to this empty array
@@ -107,23 +107,25 @@ echo "\nThis is a preview of how your prompt will look:\n"
 review_prompt=""
 final_prompt=""
 declare -i counter=1   # Required for array indexing
+declare -i counter2=1   # Required for array indexing of custom text
 for i in $part_array ; do
   review_prompt+="$color_dictionary[$color_array[$counter]]"
-  review_prompt+="$color_dictionary[$color_array[$counter+1]]"  # +1 for the fg and bg colors next to each other
+  review_prompt+="$color_dictionary[$color_array[$(($counter+1))]]"  # +1 for the fg and bg colors next to each other
   final_prompt+="$color_dictionary[$color_array[$counter]]"
-  final_prompt+="$color_dictionary[$color_array[$counter+1]]"
+  final_prompt+="$color_dictionary[$color_array[$(($counter+1))]]"
   counter+=2  # Colors come in two's, don't add bg color twice everytime
   if [[ "$i" == '30' ]] ; then  # If it's custom text, use $custom_text array
-    review_prompt+="$custom_text[$counter-1]"  # -1 b/c counter goes up by 2's, custom text doesn't need to
-    final_prompt+="$custom_text[$counter-1]"
+    review_prompt+="$custom_text[$counter2]"  # Has its own counter that goes up by 1's
+    final_prompt+="$custom_text[$counter2]"
+    counter2+=1 # Only go up if more custom text found
   else   # If notmal
     review_prompt+="$parts_choices[$i]"
     final_prompt+="$parts_dictionary[$i]"
   fi
 done
 
-echo $review_prompt
-echo $final_prompt
+echo -e "$review_prompt"
+echo -e "$final_prompt"
 # Use ${var} to fix single quotes in the array that will have options appended
 # final_prompt='"options"'    # Needs double quote logic
 
