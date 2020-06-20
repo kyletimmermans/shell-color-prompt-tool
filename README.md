@@ -14,7 +14,6 @@ _Customize your Zsh Prompt, from what info you want it to display (Username, Hos
 
 <div>Don't have preview actually write 'space'</div>
 <div>Get space char</div>
-<div>Fix math operator error</div>
 <div>print %anything might be an issue (good thing we're just saving final_prompt, not echoing it)</div>
 
 ```bash
