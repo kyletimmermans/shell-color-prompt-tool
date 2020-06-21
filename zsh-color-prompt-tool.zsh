@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env zsh
 
 # In hindsight, this would have been a lot easier if I knew bash/zsh had dictionaries and C-like for loops
 # Good challenge though
@@ -112,8 +112,8 @@ declare -i counter=1   # Required for array indexing
 declare -i counter2=1   # Required for array indexing of custom text
 for i in $part_array ; do
   if [[ $color_array[$counter] == '29' ]] ; then  # If it's a space, no fg needed, first number will act as background
-    review_prompt+=" "  # Just print a space char, don't actually print "Space"
-    final_prompt+=" "
+    review_prompt+="$color_dictionary[$color_array[$counter]]"  # Just print a space char, don't actually print "Space"
+    final_prompt+="$color_dictionary[$color_array[$counter]]"
     counter+=1  # Only need to go up 1, not trying to skip a second number in a pair this time
   else
     next=$(($counter+1))  # +1 to print both fg and bg pair
@@ -127,8 +127,9 @@ for i in $part_array ; do
     review_prompt+="$custom_text[$counter2]"  # Has its own counter that goes up by 1's
     final_prompt+="$custom_text[$counter2]"
     counter2+=1 # Only go up if more custom text found
-  elif [[ "$i" == '29' ]] ; then  # Already have a case to deal with spaces
-    continue
+  elif [[ "$i" == '29' ]] ; then  # Add spaces
+    final_prompt+=" "
+    review_prompt+=" "
   else   # If notmal
     review_prompt+="$parts_choices[$i]"
     final_prompt+="$parts_dictionary[$i]"
