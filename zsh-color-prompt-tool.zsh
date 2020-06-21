@@ -31,7 +31,7 @@ echo "1. Username     2. Hostname (Short)     3. Hostname (Full)  4. Shell's TTY
 parts_dictionary=('%n' '%m' '%M' '%l' '%#' '%?' '%d'
 '%~' '%h' '%D' '%W' '%w' '%t' '%*'
 '@' '.' '#' '!' '$' '%' '*'
-'&' '-' '_' ':' '~' '|' '/' '\' ' ')
+'&' '-' '_' ':' '~' '|' '/' '\')
 
 # For User to know what they're coloring
 # Doesn't need custom text choice
