@@ -135,14 +135,14 @@ for i in $part_array ; do
     review_prompt+="\033[0m" # Don't let anything bleed over
     final_prompt+="\033[0m"
   elif [[ "$i" == '28' ]] ; then  # Special case, Add backslash (escape sequence logic)
-    review_prompt+=
-    final_prompt+=
-    review_prompt+="\033[0m" # Don't let anything bleed over
+    review_prompt+='\\'
+    final_prompt+='\\'
+    review_prompt+="\033[0m"
     final_prompt+="\033[0m"
   else   # If normal
     review_prompt+="$parts_choices[$i]"
     final_prompt+="$parts_dictionary[$i]"
-    review_prompt+="\033[0m" # Don't let anything bleed over
+    review_prompt+="\033[0m"
     final_prompt+="\033[0m"
   fi
 done
