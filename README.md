@@ -13,6 +13,7 @@ _Customize your Zsh Prompt, from what info you want it to display (Username, Hos
 </br>
 
 <div>Fix printing backslash</div>
+<div>Fix color reset option for bg coming after a color option for fg, canceling fg option</div>
 <div>bad math expression: empty string @ line 121 (Adding colors to final prompt part)</div>
 
 </br>
