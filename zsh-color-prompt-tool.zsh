@@ -104,7 +104,6 @@ for i in $part_array ; do
   fi
 done
 
-
 # Create Final Prompt and Review Prompt
 echo "\nThis is a preview of how your prompt will look:\n"
 review_prompt=""
@@ -117,16 +116,19 @@ for i in $part_array ; do
     final_prompt+=" "
     counter+=1  # Only need to go up 1, not trying to skip a second number in a pair this time
   else
+    next=$(($counter+1))  # +1 to print both fg and bg pair
     review_prompt+="$color_dictionary[$color_array[$counter]]"
-    review_prompt+="$color_dictionary[$color_array[$(($counter+1))]]" # +1 to print both fg and bg pair
+    review_prompt+="$color_dictionary[$color_array[$next]]"
     final_prompt+="$color_dictionary[$color_array[$counter]]"
-    final_prompt+="$color_dictionary[$color_array[$(($counter+1))]]"
+    final_prompt+="$color_dictionary[$color_array[$next]]"
     counter+=2  # Colors come in two's, don't add bg color twice everytime
   fi
   if [[ "$i" == '30' ]] ; then  # If it's custom text, use $custom_text array
     review_prompt+="$custom_text[$counter2]"  # Has its own counter that goes up by 1's
     final_prompt+="$custom_text[$counter2]"
     counter2+=1 # Only go up if more custom text found
+  elif [[ "$i" == '29' ]] ; then  # Already have a case to deal with spaces
+    continue
   else   # If notmal
     review_prompt+="$parts_choices[$i]"
     final_prompt+="$parts_dictionary[$i]"
