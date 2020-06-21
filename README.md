@@ -12,8 +12,7 @@ _Customize your Zsh Prompt, from what info you want it to display (Username, Hos
 
 </br>
 
-<div>you can't color the foreground of a space character</div>
-<div>print %anything might be an issue (good thing we're just saving final_prompt, not echoing it)</div>
+<div>Fix printing backslash</div>
 
 ```bash
 curl -q -s "https://api.github.com/repos/kyletimmermans/zsh-color-prompt-tool/releases/latest" && chmod +x zsh-color-prompt-tool.zsh && ./zsh-color-prompt-tool.zsh
