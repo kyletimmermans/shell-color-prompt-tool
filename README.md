@@ -12,7 +12,9 @@ _Customize your Zsh Prompt, from what info you want it to display (Username, Hos
 
 </br>
 
-<div>bad math expression: empty string @ line 121 (Adding colors to final prompt part) (caused by two many parts used?)</div>
+<div>bad math expression: empty string @ line 121 (Adding colors to final prompt part)</div>
+<div>&ensp;Caused by 'Space' 'Option' 'Space'</div>
+<div>&ensp;Caused by two many parts used?</div>
 
 </br>
 
