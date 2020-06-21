@@ -12,7 +12,6 @@ _Customize your Zsh Prompt, from what info you want it to display (Username, Hos
 
 </br>
 
-<div>Fix printing backslash</div>
 <div>bad math expression: empty string @ line 121 (Adding colors to final prompt part) (caused by two many parts used?)</div>
 
 </br>
