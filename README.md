@@ -17,6 +17,12 @@ _Customize your Zsh Prompt, from what info you want it to display (Username, Hos
 
 </br>
 
+<div>Add error handeling</div>
+<div>&ensp;If part choice is a number and in range (1-30)</div>
+<div>&ensp;If color choice is a number and within respective foreground (1-17) / background range (18-34)
+
+</br>
+
 ### Install:
 ```bash
 curl -q -s "https://api.github.com/repos/kyletimmermans/zsh-color-prompt-tool/releases/latest" && chmod +x zsh-color-prompt-tool.zsh && ./zsh-color-prompt-tool.zsh
