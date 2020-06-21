@@ -77,11 +77,11 @@ color_dictionary=('\033[0;30m' '\033[0;31m' '\033[0;32m' '\033[0;33m'   # Fixed 
 '\033[0;34m' '\033[0;35m' '\033[0;36m' '\033[0;37m'
 '\033[1;30m' '\033[1;31m' '\033[1;32m' '\033[1;33m'
 '\033[1;34m' '\033[1;35m' '\033[1;36m' '\033[1;37m'
-'\033[0m' '\e[40m' '\e[41m' '\e[42m'
+'' '\e[40m' '\e[41m' '\e[42m'
 '\e[43m' '\e[44m' '\e[45m' '\e[46m'
 '\e[47m' '\e[100m' '\e[101m' '\e[102m'
 '\e[103m' '\e[104m' '\e[105m' '\e[106m'
-'\e[107m' '\033[0m')
+'\e[107m' '')
 
 # Chose Colors
 color_array=() # Append to this empty array
@@ -126,27 +126,34 @@ for i in $part_array ; do
   if [[ "$i" == '30' ]] ; then  # If it's custom text, use $custom_text array
     review_prompt+="$custom_text[$counter2]"  # Has its own counter that goes up by 1's
     final_prompt+="$custom_text[$counter2]"
+    review_prompt+="\033[0m" # Don't let anything bleed over
+    final_prompt+="\033[0m"
     counter2+=1 # Only go up if more custom text found
-  elif [[ "$i" == '29' ]] ; then  # Add spaces
-    final_prompt+=" "
+  elif [[ "$i" == '29' ]] ; then  # Special case, Add space
     review_prompt+=" "
-  else   # If notmal
+    final_prompt+=" "
+    review_prompt+="\033[0m" # Don't let anything bleed over
+    final_prompt+="\033[0m"
+  elif [[ "$i" == '28' ]] ; then  # Special case, Add backslash (escape sequence logic)
+    review_prompt+=
+    final_prompt+=
+    review_prompt+="\033[0m" # Don't let anything bleed over
+    final_prompt+="\033[0m"
+  else   # If normal
     review_prompt+="$parts_choices[$i]"
     final_prompt+="$parts_dictionary[$i]"
+    review_prompt+="\033[0m" # Don't let anything bleed over
+    final_prompt+="\033[0m"
   fi
 done
 
-echo -e "$review_prompt"
-echo -e "$final_prompt"
-# Use ${var} to fix single quotes in the array that will have options appended
-# final_prompt='"options"'    # Needs double quote logic
+echo -e "$review_prompt\033[0m"
 
-
-#if [[ "$CHOICE" =~ ^[Yy]$ ]] ; then    # If choice is 'y' or 'Y' (regex)
-  # save, echo "Prompt Saved!"
-#else
-  # echo "Prompt not saved, exiting!"
-# Finally save it and source it
-# echo export PROMPT="$final_prompt" >> ~/.zshrc
-# source ~/.zshrc
-# echo "Changes Saved!"
+read "CHOICE?Would you like to make this your prompt? (Y/n): " \n
+if [[ "$CHOICE" =~ ^[Yy]$ ]] ; then    # If choice is 'y' or 'Y' (regex)
+  echo export PROMPT="$final_prompt" >> ~/.zshrc   # Edit .zshrc file
+  source ~/.zshrc  # Save file
+  echo "Prompt Saved Successfully! Restart your Terminal now!"
+else
+  echo "Prompt not saved, exiting!"
+fi
