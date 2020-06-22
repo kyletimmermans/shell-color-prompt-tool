@@ -14,8 +14,7 @@ _Customize your Zsh Prompt, from what info you want it to display (Username, Hos
 
 <div>Add error handeling</div>
 <div>Do while solution</div>
-<div>&ensp;If part choice is a number and in range (1-30)</div>
-<div>&ensp;If color choice is a number and within respective foreground (1-17) / background range (18-34)
+<div>&ensp;colorfilter() func: If color choice is a number and within respective foreground (1-17) / background range (18-34)
 
 </br>
 
