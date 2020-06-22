@@ -96,8 +96,13 @@ for i in $part_array ; do
   elif [[ "$i" == '29' ]] ; then  # If it's a space, no need for a forgeground choice, just a background
     read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for "$parts_choices[$i]": " \n  # Iterate differently for space choice for final prompt logic
     color_array+=($BG)
+  elif [[ "$i" == '24' ]] ; then  # :: issue
+    read "FG?Enter ${UNDERLINE}Foreground${NORMAL} Color Number for : : " \n
+    color_array+=($FG)
+    read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for : : " \n
+    color_array+=($BG)
   else
-    read "FG?Enter ${UNDERLINE}Foreground${NORMAL} Color Number for "$parts_choices[$i]": " \n  # Holds the actual values of menu, Bash/Zsh arrays start at 1
+    read "FG?Enter ${UNDERLINE}Foreground${NORMAL} Color Number for "$parts_choices[$i]": " \n
     color_array+=($FG)
     read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for "$parts_choices[$i]": " \n
     color_array+=($BG)
@@ -111,7 +116,7 @@ final_prompt=""
 declare -i counter=1   # Required for array indexing
 declare -i counter2=1   # Required for array indexing of custom text
 for i in $part_array ; do
-  if [[ $color_array[$counter] == '29' ]] ; then  # If it's a space, no fg needed, first number will act as background
+  if [[ "$i" == '29' ]] ; then  # If it's a space, no fg needed, first number will act as background
     review_prompt+="$color_dictionary[$color_array[$counter]]"  # Just print a space char, don't actually print "Space"
     final_prompt+="$color_dictionary[$color_array[$counter]]"
     counter+=1  # Only need to go up 1, not trying to skip a second number in a pair this time
@@ -130,8 +135,8 @@ for i in $part_array ; do
     final_prompt+="\033[0m"
     counter2+=1 # Only go up if more custom text found
   elif [[ "$i" == '29' ]] ; then  # Special case, Add space
-    review_prompt+=" "
-    final_prompt+=" "
+    review_prompt+=' '
+    final_prompt+=' '
     review_prompt+="\033[0m" # Don't let anything bleed over
     final_prompt+="\033[0m"
   elif [[ "$i" == '28' ]] ; then  # Special case, Add backslash (escape sequence logic)
