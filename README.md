@@ -30,7 +30,10 @@ curl -q -s "https://api.github.com/repos/kyletimmermans/zsh-color-prompt-tool/re
 
 </br>
 
+### Sample Output
 centered screenshot from resources here
+
+</br>
 
 ### Reset
 | Don't like the prompt that got saved and want to change it back to its default? |
