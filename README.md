@@ -31,3 +31,12 @@ curl -q -s "https://api.github.com/repos/kyletimmermans/zsh-color-prompt-tool/re
 </br>
 
 centered screenshot from resources here
+
+
+| Don't like the prompt that got saved and want to change it back to its default? |
+|---------------------------------------------------------------------------------|
+|1. In your Terminal ```vi ~/.zshrc```|
+|2. Hit 'i' on your keyboard and remove the "export PROMPT=etc" line|
+|3. Hit escape and then type ```:wq``` and hit enter|
+|4. Restart your Terminal|
+|Good as new!|
