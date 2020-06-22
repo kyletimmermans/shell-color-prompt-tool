@@ -35,11 +35,11 @@ centered screenshot from resources here
 
 </br>
 
-### Reset
+### Reset Prompt Back to Default
 | Don't like the prompt that got saved and want to change it back to its default? |
 |---------------------------------------------------------------------------------|
-|1. In your Terminal ```vi ~/.zshrc```|
-|2. Hit 'i' on your keyboard and remove the "export PROMPT=etc" line|
-|3. Hit escape and then type ```:wq``` and hit enter|
+|1. In your Terminal type: ```vi ~/.zshrc```|
+|2. Hit 'i' on your keyboard to start editing the file and remove the "export PROMPT=etc" line|
+|3. Hit 'escape (esc)' on your keyboard and then type ```:wq``` and hit enter|
 |4. Restart your Terminal|
 |Good as new!|
