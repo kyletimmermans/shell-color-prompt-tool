@@ -41,22 +41,27 @@ parts_choices=('Username' 'Hostname (Short)' 'Hostname (Full)' 'Shell"s" TTY'
 'yy-mm-dd' 'mm-dd-yy' 'day-dd' '12-Hour, AM/PM' '24-Hour w/ Seconds'
 '@' '#' '!' '$' '%' '*' '&' '-' '_' ':' '~' '|' '/' '\' 'Space')
 
-# Chose parts
+# Chose Parts
 echo "Type 'n' or 'N' when you're finished"
 part_array=() # Append to this empty array
 custom_text=() # Use if custom text is
 declare -i repeat=1
-# Keep entering options until 'n' or 'N'
-while [ "$repeat" -eq 1 ] ; do
-  read "CHOICE?Enter number choice: " \n
+
+# Keep entering options until 'n' or 'N' also has error handling
+while :; do  # No argument for break, keep going until a break is found in the body
+  read "CHOICE?Enter a number choice: " \n
   if [[ "$CHOICE" =~ ^[Nn]$ ]] ; then    # If choice is 'n' or 'N' (regex)
-    declare -i repeat=0  # Break while-loop
+    break  # Break while-loop
   elif [[ "$CHOICE" == '30' ]] ; then  # If custom text
     read "CUSTEXT?Enter Custom Text: " \n
     part_array+=($CHOICE)
     custom_text+=($CUSTEXT) # Needed for printing custom text
-  else
-    part_array+=($CHOICE)  # Append to array
+  else [[ $CHOICE =~ ^[0-9]+$ ]]  # If it's a number
+    if ((CHOICE >= 1 && CHOICE <= 29)); then  # And it's in range (30 already handled)
+      part_array+=($CHOICE)  # Append to array
+    else
+      echo "Enter a valid number! (1-30)"
+    fi
   fi
 done
 
@@ -82,6 +87,10 @@ color_dictionary=('\033[0;30m' '\033[0;31m' '\033[0;32m' '\033[0;33m'   # Fixed 
 '\e[47m' '\e[100m' '\e[101m' '\e[102m'
 '\e[103m' '\e[104m' '\e[105m' '\e[106m'
 '\e[107m' '')
+
+colorfilter(){
+  
+}
 
 # Chose Colors
 color_array=() # Append to this empty array
