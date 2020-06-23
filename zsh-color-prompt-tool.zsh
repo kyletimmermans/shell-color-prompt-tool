@@ -88,8 +88,11 @@ color_dictionary=('\033[0;30m' '\033[0;31m' '\033[0;32m' '\033[0;33m'   # Fixed 
 '\e[103m' '\e[104m' '\e[105m' '\e[106m'
 '\e[107m' '')
 
-colorfilter(){
-  
+# FG must be a number between 1-17, BG must be a number between 18-34
+# PUT IN FOR-LOOP
+colorfilter() {
+  do ;: while
+   if statements
 }
 
 # Chose Colors
