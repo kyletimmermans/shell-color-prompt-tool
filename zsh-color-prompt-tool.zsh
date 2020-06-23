@@ -65,6 +65,11 @@ while :; do  # No argument for break, keep going until a break is found in the b
   fi
 done
 
+if [ ${#part_array[@]} -eq 0 ]; then  # Check if part_array is empty (if size is zero)
+    echo "\nNothing added to prompt, exiting!"  # If empty, exit.
+    exit 1
+fi
+
 # Color Menu (black text on white bg, white text on black bg)
 echo "\nEnter the color of the number you want, in order of each part of the prompt you chose:"
 echo -e "1. \033[0;30m\e[47mBlack\033[0m  9. \033[1;30m\e[47mDark Grey\033[0m           Backgrounds:  18. \e[40mBlack\033[0m         26. \e[0;100mBright Black\033[0m\n"
@@ -91,7 +96,7 @@ color_dictionary=('\033[0;30m' '\033[0;31m' '\033[0;32m' '\033[0;33m'   # Fixed 
 # FG must be a number between 1-17, BG must be a number between 18-34
 # PUT IN FOR-LOOP
 colorfilter() {
-  do ;: while
+  do ;: while # if at the end $FG is not 1-17 or $BG is not 18-34
    if statements
 }
 
