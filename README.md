@@ -12,9 +12,7 @@ _Customize your Zsh Prompt, from what info you want it to display (Username, Hos
 
 </br>
 
-<div>Add error handeling</div>
-<div>Do while solution</div>
-<div>&ensp;colorfilter() func: If color choice is a number and within respective foreground (1-17) / background range (18-34)
+<div>Final prompt adds weird carrots and its a bad pattern</div>
 
 </br>
 
