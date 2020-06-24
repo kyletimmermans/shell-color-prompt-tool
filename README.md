@@ -12,7 +12,8 @@ _Customize your Zsh Prompt, from what info you want it to display (Username, Hos
 
 </br>
 
-<div>/Users/kyletimmermans/.zshrc:2: bad pattern: 31m^[[102m%n^[[0m^[[103m</div>
+<div>Fix: /Users/kyletimmermans/.zshrc:2: bad pattern: 31m^[[102m%n^[[0m^[[103m</div>
+<div>Test program a lot more</div>
 <div>Add to release and make sure curl install line works</div>
 <div>Add screenshot of output and cleanup readme</div>
 
