@@ -93,36 +93,54 @@ color_dictionary=('\033[0;30m' '\033[0;31m' '\033[0;32m' '\033[0;33m'   # Fixed 
 '\e[103m' '\e[104m' '\e[105m' '\e[106m'
 '\e[107m' '')
 
-# FG must be a number between 1-17, BG must be a number between 18-34
-# PUT IN FOR-LOOP
-colorfilter() {
-  do ;: while # if at the end $FG is not 1-17 or $BG is not 18-34
-   if statements
-}
-
 # Chose Colors
 color_array=() # Append to this empty array
 declare -i counter=1   # Required for array indexing
 for i in $part_array ; do
-  if [[ "$i" == '30' ]] ; then   # If its the custom text, just print it from part_array
-    read "FG?Enter ${UNDERLINE}Foreground${NORMAL} Color Number for "$custom_text[$counter]": " \n  # Holds the actual values of menu, Bash/Zsh arrays start at 1
-    color_array+=($FG)
-    read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for "$custom_text[$counter]": " \n
+  while :; do  # Let it go input prompts, then do check at the end
+    if [[ "$i" == '30' ]] ; then   # If its the custom text, just print it from part_array
+      read "FG?Enter ${UNDERLINE}Foreground${NORMAL} Color Number for "$custom_text[$counter]": " \n  # Holds the actual values of menu, Bash/Zsh arrays start at 1
+      read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for "$custom_text[$counter]": " \n
+    elif [[ "$i" == '29' ]] ; then  # If it's a space, no need for a forgeground choice, just a background
+      read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for "$parts_choices[$i]": " \n  # Iterate differently for space choice for final prompt logic
+    elif [[ "$i" == '24' ]] ; then  # :: issue
+      read "FG?Enter ${UNDERLINE}Foreground${NORMAL} Color Number for : : " \n
+      read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for : : " \n
+    else
+      read "FG?Enter ${UNDERLINE}Foreground${NORMAL} Color Number for "$parts_choices[$i]": " \n
+      read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for "$parts_choices[$i]": " \n
+    fi
+    # Filtering each part's color inputs
+    declare -i FG_allow=0  # False by default
+    if [[ -n "$FG" && $FG =~ ^[0-9]+$ ]] ; then  # Check if fg is a number and used (sometimes not used, like with spaces)
+      if ((FG >= 1 && CHOICE <= 17)); then  # Check if it's between 1-17
+        FG_allow=1  # Passes FG check
+      else  # Never need to break on foreground, still need to check background
+        echo "The Foreground number you entered was invalid. Make sure to use a valid Foreground number this time! (1-17)"
+      fi     # ^^Go back to top of while loop and ask for input again
+    else
+      echo "The Foreground number you entered was invalid. Make sure to use a valid Foreground number this time! (1-17)"
+    fi
+    declare -i BG_allow=0 # False by default
+    if [[ $BG =~ ^[0-9]+$ ]] ; then  # Always need bg, no need to check if its used
+      if ((BG >= 18 && BG <= 34)); then  # Check if it's between 18-34
+        BG_allow=1  # Passed BG check
+        break  # End this loop, the color input is fine for this part, go to the next for-loop iteration
+      else
+        echo "The Background number you entered was invalid. Make sure to use a valid Background number this time! (18-34)"
+      fi  # ^^Go back to top of while loop and ask for input again
+    else  # If its not even a number
+      echo "The Background number you entered was invalid. Make sure to use a valid Background number this time! (18-34)"
+    fi  # ^^Go back to top of while loop and ask for input again
+  done
+  # Results of tests
+  if [[ "$i" == '30' ]] && [[ "$FG_allow" == '1' ]] && [[ "$BG_allow" == '1' ]]; then  # Custom_text case
+    counter+=1
+    color_array+=($FG $BG)
+  elif [[ "$i" == '29' ]] && [[ "$BG_allow" == '1' ]]; then  # Spaces case
     color_array+=($BG)
-    counter+=1 # Indexing the loop iterations and allow for printing of $custom_text, i++ if another custom text found
-  elif [[ "$i" == '29' ]] ; then  # If it's a space, no need for a forgeground choice, just a background
-    read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for "$parts_choices[$i]": " \n  # Iterate differently for space choice for final prompt logic
-    color_array+=($BG)
-  elif [[ "$i" == '24' ]] ; then  # :: issue
-    read "FG?Enter ${UNDERLINE}Foreground${NORMAL} Color Number for : : " \n
-    color_array+=($FG)
-    read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for : : " \n
-    color_array+=($BG)
-  else
-    read "FG?Enter ${UNDERLINE}Foreground${NORMAL} Color Number for "$parts_choices[$i]": " \n
-    color_array+=($FG)
-    read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for "$parts_choices[$i]": " \n
-    color_array+=($BG)
+  elif [[ "$i" != '29' ]] && [[ "$FG_allow" == '1' ]] && [[ "$BG_allow" == '1' ]]; then  # Normal case
+    color_array+=($FG $BG)
   fi
 done
 
