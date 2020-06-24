@@ -21,7 +21,7 @@ _Customize your Zsh Prompt, from what info you want it to display (Username, Hos
 
 ### Install:
 ```bash
-curl -q -s "https://api.github.com/repos/kyletimmermans/zsh-color-prompt-tool/releases/latest" && chmod +x zsh-color-prompt-tool.zsh && ./zsh-color-prompt-tool.zsh
+curl -q -s -LJO "https://api.github.com/repos/kyletimmermans/zsh-color-prompt-tool/releases/latest" && chmod +x zsh-color-prompt-tool.zsh && ./zsh-color-prompt-tool.zsh
 ```
 
 </br>
