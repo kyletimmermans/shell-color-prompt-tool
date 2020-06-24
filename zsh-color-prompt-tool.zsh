@@ -103,7 +103,7 @@ for i in $part_array ; do
       read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for "$custom_text[$counter]": " \n
     elif [[ "$i" == '29' ]] ; then  # If it's a space, no need for a forgeground choice, just a background
       read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for "$parts_choices[$i]": " \n  # Iterate differently for space choice for final prompt logic
-    elif [[ "$i" == '24' ]] ; then  # :: issue
+    elif [[ "$i" == '24' ]] ; then  # double ":" issue
       read "FG?Enter ${UNDERLINE}Foreground${NORMAL} Color Number for : : " \n
       read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for : : " \n
     else
@@ -133,7 +133,7 @@ for i in $part_array ; do
       echo "The Background number you entered was invalid. Make sure to use a valid Background number this time! (18-34)"
     fi  # ^^Go back to top of while loop and ask for input again
   done
-  # Results of tests
+  # Results of tests - Both must be good before adding, or it messes up color_array
   if [[ "$i" == '30' ]] && [[ "$FG_allow" == '1' ]] && [[ "$BG_allow" == '1' ]]; then  # Custom_text case
     counter+=1
     color_array+=($FG $BG)
