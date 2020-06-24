@@ -12,7 +12,8 @@ _Customize your Zsh Prompt, from what info you want it to display (Username, Hos
 
 </br>
 
-<div>Final prompt adds weird carrots and its a bad pattern</div>
+<div>/Users/kyletimmermans/.zshrc:2: bad pattern: 31m^[[102m%n^[[0m^[[103m</div>
+<div>Add to release and make sure curl install line works</div>
 
 </br>
 
