@@ -139,7 +139,7 @@ for i in $part_array ; do
     color_array+=($FG $BG)
   elif [[ "$i" == '29' ]] && [[ "$BG_allow" == '1' ]]; then  # Spaces case
     color_array+=($BG)
-  elif [[ "$i" != '29' ]] && [[ "$FG_allow" == '1' ]] && [[ "$BG_allow" == '1' ]]; then  # Normal case
+  elif [[ "$i" != '29' ]] && [[ "$i" != '30' ]] && [[ "$FG_allow" == '1' ]] && [[ "$BG_allow" == '1' ]]; then  # Normal case, any choice that's not 29 or 30
     color_array+=($FG $BG)
   fi
 done
