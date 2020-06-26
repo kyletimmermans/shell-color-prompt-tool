@@ -1,22 +1,6 @@
-Reference: https://stackoverflow.com/questions/35281630/how-do-i-change-my-ps1-on-a-macbook-for-oh-my-zsh (maybe don't use this one)
-           <div>https://scriptingosx.com/2019/07/moving-to-zsh-06-customizing-the-zsh-prompt/</div>
-           <div>http://www.nparikh.org/unix/prompt.php (all zsh prompt symbols)</div>
-           <div>https://github.com/mayankk2308/set-egpu/blob/master/set-eGPU.sh (elevate privileges)</div>
-           <div>https://stackoverflow.com/questions/9268836/zsh-change-prompt-input-color (simple export prompt)
-           <div>https://zsh-prompt-generator.site/ (gives more zsh prompt variables)</div>
-           <div>https://stackoverflow.com/questions/16843382/colored-shell-script-output-library (Background Colors)</div>
-
 # <div align="center">Zsh-Color-Prompt-Tool</div>
 
 _Customize your Zsh Prompt, from what info you want it to display (Username, Hostname, Symbols, etc), to its Foreground and Background Colors!_
-
-</br>
-
-<div>Fix: /Users/kyletimmermans/.zshrc:2: bad pattern: 31m^[[102m%n^[[0m^[[103m</div>
-<div>&ensp;&ensp;echo the final_prompt before its saved to .zshrc, to see where the formatting issue begins</div>
-<div>Test program a lot more</div>
-<div>Add to release and make sure curl install line works</div>
-<div>Add screenshot of output and cleanup readme</div>
 
 </br>
 
@@ -28,7 +12,6 @@ curl -q -s -LJO "https://api.github.com/repos/kyletimmermans/zsh-color-prompt-to
 </br>
 
 ### Sample Output
-centered screenshot from resources here
 
 </br>
 
