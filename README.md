@@ -29,5 +29,6 @@ curl -q -s -LJO "https://github.com/kyletimmermans/zsh-color-prompt-tool/release
 |1. In your Terminal type: ```vi ~/.zshrc```|
 |2. Hit 'i' on your keyboard to start editing the file and remove the "export PROMPT=etc" line|
 |3. Hit 'escape (esc)' on your keyboard and then type ```:wq``` and hit enter|
-|4. Restart your Terminal|
+|4. Back in your Terminal now, type ```source ~/.zshrc``` and hit enter|
+|5. Restart your Terminal|
 |Good as new!|
