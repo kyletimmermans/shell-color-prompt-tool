@@ -11,7 +11,15 @@ curl -q -s -LJO "https://github.com/kyletimmermans/zsh-color-prompt-tool/release
 
 </br>
 
-### Sample Output
+### Sample Output and Resulting Prompt
+<p align="center">
+  <img src="https://github.com/kyletimmermans/zsh-color-prompt-tool/blob/master/resources/sample-run.png?raw=true" alt="Sample Program Output"/>
+</p>
+<p align="center">
+  <img src="https://github.com/kyletimmermans/zsh-color-prompt-tool/blob/master/resources/result-prompt.png?raw=true" alt="Resulting Prompt"/>
+</p>
+
+
 
 </br>
 
