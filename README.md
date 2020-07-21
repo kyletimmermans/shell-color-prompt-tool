@@ -1,3 +1,6 @@
+![Version 1.0](http://img.shields.io/badge/version-v1.0-orange.svg)
+[![kyletimmermans Twitter](http://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/kyletimmermans)
+
 # <div align="center">Zsh-Color-Prompt-Tool</div>
 
 _Customize your Zsh Prompt, from what info you want it to display (Username, Hostname, Symbols, etc), to its Foreground and Background Colors! It's highly recommended you use brighter colors for extra pop!_
