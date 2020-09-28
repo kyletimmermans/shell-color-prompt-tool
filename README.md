@@ -1,4 +1,5 @@
 ![Version 1.0](http://img.shields.io/badge/version-v1.0-orange.svg)
+![zsh 5.8](https://img.shields.io/badge/zsh-5.8-red.svg)
 [![kyletimmermans Twitter](http://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/kyletimmermans)
 
 # <div align="center">Zsh-Color-Prompt-Tool</div>
