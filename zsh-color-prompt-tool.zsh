@@ -191,7 +191,7 @@ echo -e "$review_prompt\033[0m"
 
 read "CHOICE?Would you like to make this your prompt? (Y/n): " \n
 if [[ "$CHOICE" =~ ^[Yy]$ ]] ; then    # If choice is 'y' or 'Y' (regex)
-  echo "export PROMPT=$'$final_prompt'" >> ~/.zshrc   # Edit .zshrc file, needs to go into prompt as export PROMPT=$'#final_prompt'
+  echo "export PROMPT=$'$final_prompt'" >> ~/.zshrc   # Edit .zshrc file, needs to go into prompt as export PROMPT=$'#final_prompt' (>> is used to append)
   source ~/.zshrc  # Save file
   echo "Prompt Saved Successfully! Restart your Terminal now!"
 else
