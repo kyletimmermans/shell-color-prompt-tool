@@ -6,7 +6,7 @@
 
 # <div align="center">Zsh-Color-Prompt-Tool</div>
 
-_Customize your Zsh Prompt, from what info you want it to display (Username, Hostname, Symbols, etc), to its Foreground and Background Colors! It's highly recommended you use brighter colors for extra pop!_
+_Customize your Zsh Terminal Prompt, from what info you want it to display (Username, Hostname, Symbols, etc), to its Foreground and Background Colors! It's highly recommended you use brighter colors for extra pop!_
 
 </br>
 
