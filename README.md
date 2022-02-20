@@ -1,4 +1,4 @@
-![Version 1.0](http://img.shields.io/badge/version-v1.0-orange.svg)
+![Version 1.1](http://img.shields.io/badge/version-v1.1-orange.svg)
 ![zsh 5.8](https://img.shields.io/badge/zsh-5.8-red.svg)
 ![Latest commit](https://img.shields.io/github/last-commit/kyletimmermans/zsh-color-prompt-tool?color=lightblue)
 ![Latest Release Date](https://img.shields.io/github/release-date/kyletimmermans/zsh-color-prompt-tool?color=darkgreen)
@@ -38,3 +38,12 @@ curl -q -s -LJO "https://github.com/kyletimmermans/zsh-color-prompt-tool/release
 |4. Back in your Terminal now, type ```source ~/.zshrc``` and hit enter|
 |5. Restart your Terminal|
 |Good as new!|
+
+</br>
+
+### Changelog
+<div>v1.0: Initial-Relase</div>
+<div>v1.1:</div>
+<div>&ensp;&ensp;-Fixed issue where symbols choices misaligned with actual symbol output, found by @christiankuhtz</div>
+<div>&ensp;&ensp;-Added period symbol to list of part choices</div>
+<div>&ensp;&ensp;-Added --version and -v command line flag</div>
