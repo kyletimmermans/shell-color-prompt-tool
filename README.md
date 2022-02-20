@@ -44,6 +44,6 @@ curl -q -s -LJO "https://github.com/kyletimmermans/zsh-color-prompt-tool/release
 ### Changelog
 <div>v1.0: Initial-Relase</div>
 <div>v1.1:</div>
-<div>&ensp;&ensp;-Fixed issue where symbols choices misaligned with actual symbol output, found by @christiankuhtz</div>
+<div>&ensp;&ensp;-Fixed issue where symbol choices misaligned with actual symbol output, found by @christiankuhtz</div>
 <div>&ensp;&ensp;-Added period symbol to list of part choices</div>
 <div>&ensp;&ensp;-Added --version and -v command line flag</div>
