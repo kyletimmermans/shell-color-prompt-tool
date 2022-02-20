@@ -14,9 +14,16 @@ PURPLE='\033[1;35m'
 CYAN='\033[1;36m'
 RC='\033[0m'  # Reset Color
 
+# Version flag
+if [[ "$1" == "--version" ]] || [[ "$1" == "-v" ]]; then
+  echo -e "\nZsh-${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r${RC}-Prompt-Tool v1.1${NORMAL}\n"
+  exit 1
+fi
+
+
 # Welcome Message
-echo -e "${BOLD}\n                ~Welcome to the Zsh ${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r ${RC}${BOLD}Prompt Tool~${NORMAL}"
-echo "                     @KyleTimmermans\n"
+echo -e "${BOLD}\n                ~Welcome to the Zsh ${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r ${RC}${BOLD}Prompt Tool v1.1~${NORMAL}"
+echo "                        @KyleTimmermans\n"
 
 # Parts Menu
 echo "Enter the numbers in order of what you want your prompt to consist of:"
@@ -24,14 +31,14 @@ echo "1. Username     2. Hostname (Short)     3. Hostname (Full)  4. Shell's TTY
 5. isPrivileged?   6. Return Status of Last Command    7. Current Working Directory\n
 8. Current Working Directory from "$"HOME    9. Current History Event Number\n
 10. yy-mm-dd   11. mm-dd-yy   12. day-dd  13. 12-Hour, AM/PM  14. 24-Hour w/ Seconds\n
-15. @  16. #  17. !  18. $  19. %  20. *  21. &  22. -  23. _  24. :  25. ~  26. |  27. /  28. ""\ \n
-29. Space  30. Custom Text\n"
+15. @  16. #  17. !  18. $  19. %  20. *  21. &  22. -  23. _  24. :  25. ~  26. |  \n
+27. /  28. ""\  29. .  30. Space  31. Custom Text\n"
 
 # Parts Dicionary - Each Index has each respective value from menu
 parts_dictionary=('%n' '%m' '%M' '%l' '%#' '%?' '%d'
 '%~' '%h' '%D' '%W' '%w' '%t' '%*'
-'@' '.' '#' '!' '$' '%' '*'
-'&' '-' '_' ':' '~' '|' '/' '\')
+'@' '#' '!' '$' '%' '*' '&' '-' '_' 
+':' '~' '|' '/' '\' '.')
 
 # For User to know what they're coloring
 # Doesn't need custom text choice
@@ -39,7 +46,7 @@ parts_choices=('Username' 'Hostname (Short)' 'Hostname (Full)' 'Shell"s" TTY'
 'isPrivileged?' 'Return Status of Last Command' 'Current Working Directory'
 'Current Working Directory from $HOME' 'Current History Event Number'
 'yy-mm-dd' 'mm-dd-yy' 'day-dd' '12-Hour, AM/PM' '24-Hour w/ Seconds'
-'@' '#' '!' '$' '%' '*' '&' '-' '_' ':' '~' '|' '/' '\' 'Space')
+'@' '#' '!' '$' '%' '*' '&' '-' '_' ':' '~' '|' '/' '\' '.' 'Space')
 
 # Chose Parts
 echo "Type 'n' or 'N' when you're finished"
@@ -52,15 +59,15 @@ while :; do  # No argument for break, keep going until a break is found in the b
   read "CHOICE?Enter a number choice: " \n
   if [[ "$CHOICE" =~ ^[Nn]$ ]] ; then    # If choice is 'n' or 'N' (regex)
     break  # Break while-loop
-  elif [[ "$CHOICE" == '30' ]] ; then  # If custom text
+  elif [[ "$CHOICE" == '31' ]] ; then  # If custom text
     read "CUSTEXT?Enter Custom Text: " \n
     part_array+=($CHOICE)
     custom_text+=($CUSTEXT) # Needed for printing custom text
   else [[ $CHOICE =~ ^[0-9]+$ ]]  # If it's a number
-    if ((CHOICE >= 1 && CHOICE <= 29)); then  # And it's in range (30 already handled)
+    if ((CHOICE >= 1 && CHOICE <= 30)); then  # And it's in range (31 already handled)
       part_array+=($CHOICE)  # Append to array
     else
-      echo "Enter a valid number! (1-30)"
+      echo "Enter a valid number! (1-31)"
     fi
   fi
 done
@@ -98,10 +105,10 @@ color_array=() # Append to this empty array
 declare -i counter=1   # Required for array indexing
 for i in $part_array ; do
   while :; do  # Let it go input prompts, then do check at the end
-    if [[ "$i" == '30' ]] ; then   # If its the custom text, just print it from part_array
+    if [[ "$i" == '31' ]] ; then   # If its the custom text, just print it from part_array
       read "FG?Enter ${UNDERLINE}Foreground${NORMAL} Color Number for "$custom_text[$counter]": " \n  # Holds the actual values of menu, Bash/Zsh arrays start at 1
       read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for "$custom_text[$counter]": " \n
-    elif [[ "$i" == '29' ]] ; then  # If it's a space, no need for a forgeground choice, just a background
+    elif [[ "$i" == '30' ]] ; then  # If it's a space, no need for a forgeground choice, just a background
       read "BG?Enter ${UNDERLINE}Background${NORMAL} Color Number for "$parts_choices[$i]": " \n  # Iterate differently for space choice for final prompt logic
     elif [[ "$i" == '24' ]] ; then  # double ":" issue
       read "FG?Enter ${UNDERLINE}Foreground${NORMAL} Color Number for : : " \n
@@ -134,12 +141,12 @@ for i in $part_array ; do
     fi  # ^^Go back to top of while loop and ask for input again
   done
   # Results of tests - Both must be good before adding, or it messes up color_array
-  if [[ "$i" == '30' ]] && [[ "$FG_allow" == '1' ]] && [[ "$BG_allow" == '1' ]]; then  # Custom_text case
+  if [[ "$i" == '31' ]] && [[ "$FG_allow" == '1' ]] && [[ "$BG_allow" == '1' ]]; then  # Custom_text case
     counter+=1
     color_array+=($FG $BG)
-  elif [[ "$i" == '29' ]] && [[ "$BG_allow" == '1' ]]; then  # Spaces case
+  elif [[ "$i" == '30' ]] && [[ "$BG_allow" == '1' ]]; then  # Spaces case
     color_array+=($BG)
-  elif [[ "$i" != '29' ]] && [[ "$i" != '30' ]] && [[ "$FG_allow" == '1' ]] && [[ "$BG_allow" == '1' ]]; then  # Normal case, any choice that's not 29 or 30
+  elif [[ "$i" != '30' ]] && [[ "$i" != '31' ]] && [[ "$FG_allow" == '1' ]] && [[ "$BG_allow" == '1' ]]; then  # Normal case, any choice that's not 30 or 31
     color_array+=($FG $BG)
   fi
 done
@@ -151,7 +158,7 @@ final_prompt=""
 declare -i counter=1   # Required for array indexing
 declare -i counter2=1   # Required for array indexing of custom text
 for i in $part_array ; do
-  if [[ "$i" == '29' ]] ; then  # If it's a space, no fg needed, first number will act as background
+  if [[ "$i" == '30' ]] ; then  # If it's a space, no fg needed, first number will act as background
     review_prompt+="$color_dictionary[$color_array[$counter]]"  # Just print a space char, don't actually print "Space"
     final_prompt+="$color_dictionary[$color_array[$counter]]"
     counter+=1  # Only need to go up 1, not trying to skip a second number in a pair this time
@@ -163,13 +170,13 @@ for i in $part_array ; do
     final_prompt+="$color_dictionary[$color_array[$next]]"
     counter+=2  # Colors come in two's, don't add bg color twice everytime
   fi
-  if [[ "$i" == '30' ]] ; then  # If it's custom text, use $custom_text array
+  if [[ "$i" == '31' ]] ; then  # If it's custom text, use $custom_text array
     review_prompt+="$custom_text[$counter2]"  # Has its own counter that goes up by 1's
     final_prompt+="$custom_text[$counter2]"
     review_prompt+="\033[0m" # Don't let anything bleed over
     final_prompt+="\033[0m"
     counter2+=1 # Only go up if more custom text found
-  elif [[ "$i" == '29' ]] ; then  # Special case, Add space
+  elif [[ "$i" == '30' ]] ; then  # Special case, Add space
     review_prompt+=' '
     final_prompt+=' '
     review_prompt+="\033[0m" # Don't let anything bleed over
