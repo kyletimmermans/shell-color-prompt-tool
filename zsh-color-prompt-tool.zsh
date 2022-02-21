@@ -78,16 +78,16 @@ if [ ${#part_array[@]} -eq 0 ]; then  # Check if part_array is empty (if size is
 fi
 
 # Color Menu (black text on white bg, white text on black bg)
-echo "\nEnter the color of the number you want, in order of each part of the prompt you chose:"
-echo -e "1. \033[0;30m\e[47mBlack\033[0m  9. \033[1;30m\e[47mDark Grey\033[0m           Backgrounds:  18. \e[40mBlack\033[0m         26. \e[0;100mBright Black\033[0m\n"
-echo -e "2. \033[0;31mRed\033[0m  10. \033[1;31mLight Red\033[0m                          19. \e[41mRed\033[0m           27. \e[0;101mBright Red\033[0m\n"
-echo -e "3. \033[0;32mGreen\033[0m  11. \033[1;32mLight Green\033[0m                      20. \e[42mGreen\033[0m         28. \e[0;102mBright Green\033[0m\n"
-echo -e "4. \033[0;33mBrown/Orange\033[0m  12. \033[1;33mYellow\033[0m                    21. \e[43mYellow\033[0m        29. \e[0;103mBright Yellow\033[0m\n"
-echo -e "5. \033[0;34mBlue\033[0m  13. \033[1;34mLight Blue\033[0m                        22. \e[44mBlue\033[0m          30. \e[0;104mBright Blue\033[0m\n"
-echo -e "6. \033[0;35mPurple\033[0m  14. \033[1;35mLight Purple\033[0m                    23. \e[45mPurple\033[0m        31. \e[0;105mBright Purple\033[0m\n"
-echo -e "7. \033[0;36mCyan\033[0m  15. \033[1;36mLight Cyan\033[0m                        24. \e[46mCyan\033[0m          32. \e[0;106mBright Cyan\033[0m\n"
-echo -e "8. \033[0;37mLight Grey\033[0m  16. \033[1;37mWhite\033[0m                       25. \033[0;30m\e[47mWhite\033[0m         33. \033[0;30m\e[0;107mBright White\033[0m\n"
-echo "17. No Foreground Color / No Change            34. No Background Color / No Change\033[0m\n"
+echo "\nEnter the number of the color you want, in order with each part of the prompt you chose:\n"
+echo -e "Foregrounds:  1. \033[0;30m\e[47mBlack\033[0m  9. \033[1;30m\e[47mDark Grey\033[0m           Backgrounds:  18. \e[40mBlack\033[0m         26. \e[0;100mBright Black\033[0m\n"
+echo -e "              2. \033[0;31mRed\033[0m  10. \033[1;31mLight Red\033[0m                          19. \e[41mRed\033[0m           27. \e[0;101mBright Red\033[0m\n"
+echo -e "              3. \033[0;32mGreen\033[0m  11. \033[1;32mLight Green\033[0m                      20. \e[42mGreen\033[0m         28. \e[0;102mBright Green\033[0m\n"
+echo -e "              4. \033[0;33mBrown/Orange\033[0m  12. \033[1;33mYellow\033[0m                    21. \e[43mYellow\033[0m        29. \e[0;103mBright Yellow\033[0m\n"
+echo -e "              5. \033[0;34mBlue\033[0m  13. \033[1;34mLight Blue\033[0m                        22. \e[44mBlue\033[0m          30. \e[0;104mBright Blue\033[0m\n"
+echo -e "              6. \033[0;35mPurple\033[0m  14. \033[1;35mLight Purple\033[0m                    23. \e[45mPurple\033[0m        31. \e[0;105mBright Purple\033[0m\n"
+echo -e "              7. \033[0;36mCyan\033[0m  15. \033[1;36mLight Cyan\033[0m                        24. \e[46mCyan\033[0m          32. \e[0;106mBright Cyan\033[0m\n"
+echo -e "              8. \033[0;37mLight Grey\033[0m  16. \033[1;37mWhite\033[0m                       25. \033[0;30m\e[47mWhite\033[0m         33. \033[0;30m\e[0;107mBright White\033[0m\n"
+echo "              17. No Foreground Color / No Change            34. No Background Color / No Change\033[0m\n"
 
 # Parts Dicionary - Each Index has each respective value from menu (Foregrounds and backgrounds)
 color_dictionary=('\033[0;30m' '\033[0;31m' '\033[0;32m' '\033[0;33m'   # Fixed the bright color backgrounds by removing the ";0"
