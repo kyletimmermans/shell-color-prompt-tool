@@ -12,7 +12,7 @@ _Customize your Zsh Terminal Prompt, from what info you want it to display (User
 
 ### Install:
 ```bash
-curl -q -s -LJO "https://github.com/kyletimmermans/zsh-color-prompt-tool/releases/download/latest/zsh-color-prompt-tool.zsh" && chmod +x zsh-color-prompt-tool.zsh && ./zsh-color-prompt-tool.zsh
+curl -q -s -LJO "https://github.com/kyletimmermans/zsh-color-prompt-tool/releases/download/latest/zsh-color-prompt-tool.zsh" && chmod +x zsh-color-prompt-tool.zsh
 ```
 
 </br>
