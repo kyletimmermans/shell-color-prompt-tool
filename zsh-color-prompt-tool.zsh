@@ -1,7 +1,6 @@
 #!/usr/bin/env zsh
 
-# In hindsight, this would have been a lot easier if I knew bash/zsh had dictionaries and C-like for loops
-# Good challenge though
+# Zsh Color Prompt Tool v2.1
 
 # Title Colors / Format Vars
 BOLD="$(tput bold)"
