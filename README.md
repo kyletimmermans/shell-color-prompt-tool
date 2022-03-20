@@ -1,7 +1,7 @@
 ![Version 1.1](http://img.shields.io/badge/version-v1.1-orange.svg)
 ![zsh 5.8](https://img.shields.io/badge/zsh-5.8-red.svg)
 ![Latest commit](https://img.shields.io/github/last-commit/kyletimmermans/zsh-color-prompt-tool?color=lightblue)
-![Latest Release Date](https://img.shields.io/github/release-date/kyletimmermans/zsh-color-prompt-tool?color=darkgreen)
+![Latest Release Date](https://img.shields.io/github/release-dat/kyletimmermans/zsh-color-prompt-tool?color=darkgreen)
 [![kyletimmermans Twitter](http://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/kyletimmermans)
 
 # <div align="center">Zsh-Color-Prompt-Tool</div>
