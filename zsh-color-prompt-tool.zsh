@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-# Zsh Color Prompt Tool v2.1
+# Zsh Color Prompt Tool v1.1
 
 # Title Colors / Format Vars
 BOLD="$(tput bold)"
