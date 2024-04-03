@@ -20,7 +20,7 @@ curl -q -s -LJO "https://github.com/kyletimmermans/shell-color-prompt-tool/relea
 
 ### Sample Program Walkthrough
 <p align="center">
-  <img src="https://github.com/kyletimmermans/shell-color-prompt-tool/blob/master/resources/example_walkthrough.png?raw=true" alt="Sample Program Walkthrough"/>
+  <img src="https://github.com/kyletimmermans/shell-color-prompt-tool/blob/master/resources/example_prompt_walkthrough.png?raw=true" alt="Sample Program Walkthrough"/>
 </p>
 
 ### Resulting Prompt
