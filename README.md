@@ -1,6 +1,6 @@
 ![Version 2.0](http://img.shields.io/badge/version-v2.0-orange.svg)
-![zsh 5.8](https://img.shields.io/badge/zsh-5.8-red.svg)
-![bash 5.1.8](https://img.shields.io/badge/bash-5.1.8-red.svg)
+![Zsh 5.8](https://img.shields.io/badge/Zsh-5.8-red.svg)
+![Bash 5.1.8](https://img.shields.io/badge/Bash-5.1.8-red.svg)
 ![Latest commit](https://img.shields.io/github/last-commit/kyletimmermans/shell-color-prompt-tool?color=lightblue)
 ![Latest Release Date](https://img.shields.io/github/release-date/kyletimmermans/shell-color-prompt-tool?color=darkgreen)
 [![kyletimmermans Twitter](http://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/kyletimmermans)
@@ -13,15 +13,17 @@ _Customize your Zsh/Bash terminal prompt, from what info you want it to display 
 
 ### Install:
 ```bash
-curl -q -s -LJO "https://github.com/kyletimmermans/shell-color-prompt-tool/releases/download/latest/shell-color-prompt-tool.zsh" && chmod +x shell-color-prompt-tool.sh
+curl -q -s -LJO "https://github.com/kyletimmermans/shell-color-prompt-tool/releases/download/latest/shell-color-prompt-tool.sh" && chmod +x shell-color-prompt-tool.sh
 ```
 
 </br>
 
-### Sample Program Walkthrough and Resulting Prompt
+### Sample Program Walkthrough
 <p align="center">
   <img src="https://github.com/kyletimmermans/shell-color-prompt-tool/blob/master/resources/example_walkthrough.png?raw=true" alt="Sample Program Walkthrough"/>
 </p>
+
+### Resulting Prompt
 <p align="center">
   <img src="https://github.com/kyletimmermans/shell-color-prompt-tool/blob/master/resources/final_prompt_example.png?raw=true" alt="Resulting Prompt"/>
 </p>
