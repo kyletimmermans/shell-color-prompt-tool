@@ -34,7 +34,7 @@ curl -q -s -LJO "https://github.com/kyletimmermans/shell-color-prompt-tool/relea
 
 | Flag | Explanation |
 | ---- | ----------- |
-| --no-comment | Prevents program from commenting out anything in .zshrc/.bashrc |
+| --comment-out | Comment out older prompt lines in .zshrc/.bashrc e.g. PROMPT= / PS1= to help prevent conflicting prompt definitions |
 | --light-mode | Better color contrast for the color picker menu on white/light-colored terminal backgrounds |
 | --omz | Disables your 'Oh My Zsh' theme if you have one, which could get in the way of applying your new prompt |
 | --no-extras | Don't add automatic newline to start of prompt and space to end of prompt |
