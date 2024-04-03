@@ -309,7 +309,7 @@ for i in "${part_array[@]}"; do
     color_array+=($((FG - 1)) $((BG - 1)))
   elif [[ "$i" == '48' ]] && [[ "$BG_allow" == '1' ]]; then  # Spaces case
     color_array+=($((BG - 1)))
-  elif [[ "$i" != '48' ]] && [[ "$i" != '49' && "$i" != '50' ]] && [[ "$FG_allow" == '1' ]] && [[ "$BG_allow" == '1' ]]; then  # Normal case, any choice that's not 47 or 48
+  elif [[ "$i" != '48' ]] && [[ "$i" != '49' && "$i" != '50' ]] && [[ "$FG_allow" == '1' ]] && [[ "$BG_allow" == '1' ]]; then  # Normal case, any choice that's not 50, 49, or 48
     color_array+=($((FG - 1)) $((BG - 1)))
   fi
 done
@@ -522,7 +522,7 @@ if [[ "$CHOICE" =~ ^[Yy]$ ]] ; then    # If choice is 'y' or 'Y' (regex)
   # Disable Oh My Zsh theme which could prevent our prompt from applying
   if [[ $* == *--omz* ]] ; then
     if [[ $(uname) == *"Darwin"* ]] ; then
-      awk -i inplace '/^([[:space:]].*)?(export[[:space:]])?ZSH_THEME=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?ZSH_THEME=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
+      gawk -i inplace '/^([[:space:]].*)?(export[[:space:]])?ZSH_THEME=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?ZSH_THEME=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
 
       sed -i '' '/^[[:space:]]*\(\(export \)\{0,1\}ZSH\_THEME=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
     else
