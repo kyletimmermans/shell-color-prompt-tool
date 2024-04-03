@@ -28,7 +28,7 @@ fi
 if [[ $* == *-h* ]] || [[ $* == *-u* ]]; then
   echo -e "\nUsage: Run this program and use the interactive prompt to create your shell prompt\n\n"
   echo -e "Flags:\n"
-  echo -e "--comment-out        Will comment out older prompt lines in .zshrc/.bashrc e.g. PROMPT= / PS1="
+  echo -e "--comment-out        Comment out older prompt lines in .zshrc/.bashrc e.g. PROMPT= / PS1="
   echo -e "                     to help prevent conflicting prompt definitions"
   echo -e "--light-mode         Better color contrast for the color picker menu on white/light-colored"
   echo -e "                     terminal backgrounds"
