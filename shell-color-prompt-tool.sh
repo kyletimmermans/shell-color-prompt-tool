@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-# Shell Color Prompt Tool v2.0
+# Shell Color Prompt Tool v2.5
 
 
 # Title Colors / Format Vars
@@ -19,22 +19,23 @@ RC='\e[0m'  # Reset Color
 
 # Version flag
 if [[ $* == *-v* ]]; then
-  echo -e "\nShell-${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r${RC}-Prompt-Tool v2.0${NORMAL}\n"
+  echo -e "\nShell-${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r${RC}-Prompt-Tool v2.5${NORMAL}\n"
   exit 0
 fi
 
 
 # Help/Usage flag
 if [[ $* == *-h* ]] || [[ $* == *-u* ]]; then
-  echo -e "\nUsage: Run this program and use the interactive prompt to create your shell prompt\n\n"
+  echo -e "\nUsage: Run this program and use the interactive prompt to create your Zsh/Bash prompt\n\n"
   echo -e "Flags:\n"
   echo -e "--comment-out        Comment out older prompt lines in .zshrc/.bashrc e.g. PROMPT= / PS1="
-  echo -e "                     to help prevent conflicting prompt definitions"
+  echo -e "                     to help prevent conflicting prompt definitions\n"
   echo -e "--light-mode         Better color contrast for the color picker menu on white/light-colored"
-  echo -e "                     terminal backgrounds"
+  echo -e "                     terminal backgrounds\n"
   echo -e "--omz                Disables your 'Oh My Zsh' theme if you have one, which could get in the"
-  echo -e "                     way of applying your new prompt"
-  echo -e "--no-extras          Don't add automatic newline to start of prompt and space to end of prompt\n\n"
+  echo -e "                     way of applying your new prompt\n"
+  echo -e "--no-extras          Don't add automatic newline to start of prompt and space to end of prompt\n"
+  echo -e "--version            Get program version\n\n"
   echo -e "Usage Notes:\n"
   echo -e "* No need to put a space at the end of your prompt, one will be added automatically."
   echo -e "  Same with a newline at the beginning for proper spacing between actual prompts,"
@@ -43,17 +44,18 @@ if [[ $* == *-h* ]] || [[ $* == *-u* ]]; then
   echo -e "  .zshrc/.bashrc, as some text editors have trouble displaying the ANSI escape sequences\n"
   echo -e "* Fullscreen terminals will be able to fit the spacing and styling"
   echo -e "  of the interactive prompt the best\n"
-  echo -e "* Colors may vary from system to system\n\n"
-  echo -e "github.com/kyletimmermans/shell-color-prompt-tool\n\n"
+  echo -e "* Colors may vary from system to system. When using the Custom RGB option, make sure your"
+  echo -e "  terminal supports TRUECOLOR (See https://github.com/termstandard/colors)\n\n"
+  echo -e "github.com/kyletimmermans/shell-color-prompt-tool\n"
   exit 0
 fi
 
 
 # Welcome Message
 if [[ $* != *--light-mode* ]]; then
-  echo -e "${BOLD}\n                ~Welcome to the Shell ${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r ${RC}${BOLD}Prompt Tool v2.0~${NORMAL}"
+  echo -e "${BOLD}\n                ~Welcome to the Shell ${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r ${RC}${BOLD}Prompt Tool v2.5~${NORMAL}"
 else
-  echo -e "${BLACK}${BOLD}\n                ~Welcome to the Shell ${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r ${RC}${BLACK}${BOLD}Prompt Tool v2.0~${NORMAL}"
+  echo -e "${BLACK}${BOLD}\n                ~Welcome to the Shell ${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r ${RC}${BLACK}${BOLD}Prompt Tool v2.5~${NORMAL}"
 fi
 echo -e "                        @KyleTimmermans\n"
 
@@ -153,7 +155,7 @@ Symbols/Custom Text/Emoji:\n
 fi
 
 # Chose Parts
-echo -e "Type 'n' or 'N' when you're finished\n"
+echo -e "\nType 'n' or 'N' when you're finished\n"
 part_array=() # Append to this empty array
 custom_text=() # Use if custom text is
 declare -i repeat=1
@@ -179,7 +181,7 @@ while :; do  # No argument for break, keep going until a break is found in the b
       echo "Enter a valid number! (1-51)"
     fi
   else
-    echo "Enter a valid number! (1-51)"  
+    echo "Enter a valid number! (1-51)"
   fi
 done
 
@@ -194,36 +196,38 @@ echo -e "\n\nEnter the number of the color you want, in order with each part of 
 echo -e  "----------------------------------------------------------------------------------------\n"
 if [[ $* != *--light-mode* ]]; then
   # Dark mode contrast
-  echo -e "Foregrounds:  1. \e[38;5;15mWhite\e[0m     14. \e[1;30m\e[38;5;15mBold White\e[0m             Backgrounds:  28. \e[0;30m\e[48;5;15mWhite\e[0m         41. \e[0;30m\e[48;5;255mBright White\e[0m\n"
-  echo -e "              2. \e[0;30m\e[48;5;15mBlack\e[0m     15. \e[1;30m\e[48;5;15mBold Black\e[0m                           29. \e[38;5;15m\e[40mBlack\e[0m         42. \e[100mBright Black\e[0m\n"
-  echo -e "              3. \e[0;31mRed\e[0m       16. \e[1;31mBold Red\e[0m                             30. \e[41mRed\e[0m           43. \e[0;30m\e[101mBright Red\e[0m\n"
-  echo -e "              4. \e[0;32mGreen\e[0m     17. \e[1;32mBold Green\e[0m                           31. \e[42mGreen\e[0m         44. \e[0;30m\e[102mBright Green\e[0m\n"
-  echo -e "              5. \e[38;5;22mForest\e[0m    18. \e[1;30m\e[38;5;22mBold Forest\e[0m                          32. \e[48;5;22mForest\e[0m        45. \e[0;30m\e[48;5;28mBright Forest\e[0m\n"
-  echo -e "              6. \e[0;33mYellow\e[0m    19. \e[1;33mBold Yellow\e[0m                          33. \e[43mYellow\e[0m        46. \e[0;30m\e[103mBright Yellow\e[0m\n"
-  echo -e "              7. \e[38;5;202mOrange\e[0m    20. \e[1;30m\e[38;5;202mBold Orange\e[0m                          34. \e[48;5;202mOrange\e[0m        47. \e[0;30m\e[48;5;214mBright Orange\e[0m\n"
-  echo -e "              8. \e[38;5;27mBlue\e[0m      21. \e[1;30m\e[38;5;27mBold Blue\e[0m                            35. \e[44mBlue\e[0m          48. \e[0;30m\e[104mBright Blue\e[0m\n"
-  echo -e "              9. \e[0;36mCyan\e[0m      22. \e[1;36mBold Cyan\e[0m                            36. \e[46mCyan\e[0m          49. \e[0;30m\e[106mBright Cyan\e[0m\n"
-  echo -e "             10. \e[0;35mPurple\e[0m    23. \e[1;35mBold Purple\e[0m                          37. \e[45mPurple\e[0m        50. \e[0;30m\e[105mBright Purple\e[0m\n"
-  echo -e "             11. \e[38;5;93mViolet\e[0m    24. \e[1;30m\e[38;5;93mBold Violet\e[0m                          38. \e[48;5;93mViolet\e[0m        51. \e[0;30m\e[48;5;99mBright Violet\e[0m\n"
-  echo -e "             12. \e[38;5;201mPink\e[0m      25. \e[1;30m\e[38;5;201mBold Pink\e[0m                            39. \e[48;5;201mPink\e[0m          52. \e[0;30m\e[48;5;207mBright Pink\e[0m\n"
-  echo -e "             13. \e[0;37mGray\e[0m      26. \e[1;37mBold Gray\e[0m                            40. \e[0;30m\e[47mGray\e[0m          53. \e[0;30m\e[107mBright Gray\e[0m\n"
-  echo -e "             27. No Foreground Color / No Change                    54. No Background Color / No Change\e[0m\n\n"
+  echo -e "Foregrounds:  1. \e[38;5;15mWhite\e[0m     14. \e[1;30m\e[38;5;15mBold White\e[0m             Backgrounds:  29. \e[0;30m\e[48;5;15mWhite\e[0m         42. \e[0;30m\e[48;5;255mBright White\e[0m\n"
+  echo -e "              2. \e[0;30m\e[48;5;15mBlack\e[0m     15. \e[1;30m\e[48;5;15mBold Black\e[0m                           30. \e[38;5;15m\e[40mBlack\e[0m         43. \e[100mBright Black\e[0m\n"
+  echo -e "              3. \e[0;31mRed\e[0m       16. \e[1;31mBold Red\e[0m                             31. \e[41mRed\e[0m           44. \e[0;30m\e[101mBright Red\e[0m\n"
+  echo -e "              4. \e[0;32mGreen\e[0m     17. \e[1;32mBold Green\e[0m                           32. \e[42mGreen\e[0m         45. \e[0;30m\e[102mBright Green\e[0m\n"
+  echo -e "              5. \e[38;5;22mForest\e[0m    18. \e[1;30m\e[38;5;22mBold Forest\e[0m                          33. \e[48;5;22mForest\e[0m        46. \e[0;30m\e[48;5;28mBright Forest\e[0m\n"
+  echo -e "              6. \e[0;33mYellow\e[0m    19. \e[1;33mBold Yellow\e[0m                          34. \e[43mYellow\e[0m        47. \e[0;30m\e[103mBright Yellow\e[0m\n"
+  echo -e "              7. \e[38;5;202mOrange\e[0m    20. \e[1;30m\e[38;5;202mBold Orange\e[0m                          35. \e[48;5;202mOrange\e[0m        48. \e[0;30m\e[48;5;214mBright Orange\e[0m\n"
+  echo -e "              8. \e[38;5;27mBlue\e[0m      21. \e[1;30m\e[38;5;27mBold Blue\e[0m                            36. \e[44mBlue\e[0m          49. \e[0;30m\e[104mBright Blue\e[0m\n"
+  echo -e "              9. \e[0;36mCyan\e[0m      22. \e[1;36mBold Cyan\e[0m                            37. \e[46mCyan\e[0m          50. \e[0;30m\e[106mBright Cyan\e[0m\n"
+  echo -e "             10. \e[0;35mPurple\e[0m    23. \e[1;35mBold Purple\e[0m                          38. \e[45mPurple\e[0m        51. \e[0;30m\e[105mBright Purple\e[0m\n"
+  echo -e "             11. \e[38;5;93mViolet\e[0m    24. \e[1;30m\e[38;5;93mBold Violet\e[0m                          39. \e[48;5;93mViolet\e[0m        52. \e[0;30m\e[48;5;99mBright Violet\e[0m\n"
+  echo -e "             12. \e[38;5;201mPink\e[0m      25. \e[1;30m\e[38;5;201mBold Pink\e[0m                            40. \e[48;5;201mPink\e[0m          53. \e[0;30m\e[48;5;207mBright Pink\e[0m\n"
+  echo -e "             13. \e[0;37mGray\e[0m      26. \e[1;37mBold Gray\e[0m                            41. \e[0;30m\e[47mGray\e[0m          54. \e[0;30m\e[107mBright Gray\e[0m\n"
+  echo -e "             27. No Foreground Color / No Change                    55. No Background Color / No Change\e[0m\n"
+  echo -e "             28. Custom RGB Foreground                              56. Custom RGB Background\e[0m\n\n"
 else
   # Light mode contrast
-  echo -e "Foregrounds:  1. \e[38;5;15m\e[40mWhite\e[0m     14. \e[1;30m\e[38;5;15m\e[40mBold White\e[0m             Backgrounds:  28. \e[0;30m\e[48;5;15mWhite\e[0m         41. \e[0;30m\e[48;5;255mBright White\e[0m\n"
-  echo -e "              2. \e[0;30mBlack\e[0m     15. \e[1;30mBold Black\e[0m                           29. \e[38;5;15m\e[40mBlack\e[0m         42. \e[38;5;15m\e[100mBright Black\e[0m\n"
-  echo -e "              3. \e[0;31mRed\e[0m       16. \e[1;31mBold Red\e[0m                             30. \e[38;5;15m\e[41mRed\e[0m           43. \e[0;30m\e[101mBright Red\e[0m\n"
-  echo -e "              4. \e[0;32mGreen\e[0m     17. \e[1;32mBold Green\e[0m                           31. \e[38;5;15m\e[42mGreen\e[0m         44. \e[0;30m\e[102mBright Green\e[0m\n"
-  echo -e "              5. \e[38;5;22mForest\e[0m    18. \e[1;30m\e[38;5;22mBold Forest\e[0m                          32. \e[38;5;15m\e[48;5;22mForest\e[0m        45. \e[38;5;15m\e[48;5;28mBright Forest\e[0m\n"
-  echo -e "              6. \e[0;33mYellow\e[0m    19. \e[1;33mBold Yellow\e[0m                          33. \e[38;5;15m\e[43mYellow\e[0m        46. \e[0;30m\e[103mBright Yellow\e[0m\n"
-  echo -e "              7. \e[38;5;202mOrange\e[0m    20. \e[1;30m\e[38;5;202mBold Orange\e[0m                          34. \e[38;5;15m\e[48;5;202mOrange\e[0m        47. \e[0;30m\e[48;5;214mBright Orange\e[0m\n"
-  echo -e "              8. \e[38;5;27mBlue\e[0m      21. \e[1;30m\e[38;5;27mBold Blue\e[0m                            35. \e[38;5;15m\e[44mBlue\e[0m          48. \e[38;5;15m\e[104mBright Blue\e[0m\n"
-  echo -e "              9. \e[0;36mCyan\e[0m      22. \e[1;36mBold Cyan\e[0m                            36. \e[38;5;15m\e[46mCyan\e[0m          49. \e[0;30m\e[106mBright Cyan\e[0m\n"
-  echo -e "             10. \e[0;35mPurple\e[0m    23. \e[1;35mBold Purple\e[0m                          37. \e[38;5;15m\e[45mPurple\e[0m        50. \e[0;30m\e[105mBright Purple\e[0m\n"
-  echo -e "             11. \e[38;5;93mViolet\e[0m    24. \e[1;30m\e[38;5;93mBold Violet\e[0m                          38. \e[38;5;15m\e[48;5;93mViolet\e[0m        51. \e[0;30m\e[48;5;99mBright Violet\e[0m\n"
-  echo -e "             12. \e[38;5;201mPink\e[0m      25. \e[1;30m\e[38;5;201mBold Pink\e[0m                            39. \e[38;5;15m\e[48;5;201mPink\e[0m          52. \e[0;30m\e[48;5;207mBright Pink\e[0m\n"
-  echo -e "             13. \e[0;37mGray\e[0m      26. \e[1;37mBold Gray\e[0m                            40. \e[0;30m\e[47mGray\e[0m          53. \e[0;30m\e[107mBright Gray\e[0m\n"
-  echo -e "             27. No Foreground Color / No Change                    54. No Background Color / No Change\e[0m\n\n"
+  echo -e "Foregrounds:  1. \e[38;5;15m\e[40mWhite\e[0m     14. \e[1;30m\e[38;5;15m\e[40mBold White\e[0m             Backgrounds:  29. \e[0;30m\e[48;5;15mWhite\e[0m         42. \e[0;30m\e[48;5;255mBright White\e[0m\n"
+  echo -e "              2. \e[0;30mBlack\e[0m     15. \e[1;30mBold Black\e[0m                           30. \e[38;5;15m\e[40mBlack\e[0m         43. \e[38;5;15m\e[100mBright Black\e[0m\n"
+  echo -e "              3. \e[0;31mRed\e[0m       16. \e[1;31mBold Red\e[0m                             31. \e[38;5;15m\e[41mRed\e[0m           44. \e[0;30m\e[101mBright Red\e[0m\n"
+  echo -e "              4. \e[0;32mGreen\e[0m     17. \e[1;32mBold Green\e[0m                           32. \e[38;5;15m\e[42mGreen\e[0m         45. \e[0;30m\e[102mBright Green\e[0m\n"
+  echo -e "              5. \e[38;5;22mForest\e[0m    18. \e[1;30m\e[38;5;22mBold Forest\e[0m                          33. \e[38;5;15m\e[48;5;22mForest\e[0m        46. \e[38;5;15m\e[48;5;28mBright Forest\e[0m\n"
+  echo -e "              6. \e[0;33mYellow\e[0m    19. \e[1;33mBold Yellow\e[0m                          34. \e[38;5;15m\e[43mYellow\e[0m        47. \e[0;30m\e[103mBright Yellow\e[0m\n"
+  echo -e "              7. \e[38;5;202mOrange\e[0m    20. \e[1;30m\e[38;5;202mBold Orange\e[0m                          35. \e[38;5;15m\e[48;5;202mOrange\e[0m        48. \e[0;30m\e[48;5;214mBright Orange\e[0m\n"
+  echo -e "              8. \e[38;5;27mBlue\e[0m      21. \e[1;30m\e[38;5;27mBold Blue\e[0m                            36. \e[38;5;15m\e[44mBlue\e[0m          49. \e[38;5;15m\e[104mBright Blue\e[0m\n"
+  echo -e "              9. \e[0;36mCyan\e[0m      22. \e[1;36mBold Cyan\e[0m                            37. \e[38;5;15m\e[46mCyan\e[0m          50. \e[0;30m\e[106mBright Cyan\e[0m\n"
+  echo -e "             10. \e[0;35mPurple\e[0m    23. \e[1;35mBold Purple\e[0m                          38. \e[38;5;15m\e[45mPurple\e[0m        51. \e[0;30m\e[105mBright Purple\e[0m\n"
+  echo -e "             11. \e[38;5;93mViolet\e[0m    24. \e[1;30m\e[38;5;93mBold Violet\e[0m                          39. \e[38;5;15m\e[48;5;93mViolet\e[0m        52. \e[0;30m\e[48;5;99mBright Violet\e[0m\n"
+  echo -e "             12. \e[38;5;201mPink\e[0m      25. \e[1;30m\e[38;5;201mBold Pink\e[0m                            40. \e[38;5;15m\e[48;5;201mPink\e[0m          53. \e[0;30m\e[48;5;207mBright Pink\e[0m\n"
+  echo -e "             13. \e[0;37mGray\e[0m      26. \e[1;37mBold Gray\e[0m                            41. \e[0;30m\e[47mGray\e[0m          54. \e[0;30m\e[107mBright Gray\e[0m\n"
+  echo -e "             27. No Foreground Color / No Change                    55. No Background Color / No Change\e[0m\n"
+  echo -e "             28. Custom RGB Foreground                              56. Custom RGB Background\e[0m\n\n"
 fi
 
 
@@ -234,13 +238,51 @@ color_dictionary=('\e[38;5;15m' '\e[0;30m' '\e[0;31m' '\e[0;32m'
 '\e[0;37m' '\e[1;30m\e[38;5;15m' '\e[1;30m' '\e[1;31m'
 '\e[1;32m' '\e[1;30m\e[38;5;22m' '\e[1;33m' '\e[1;30m\e[38;5;202m'
 '\e[1;30m\e[38;5;27m' '\e[1;36m' '\e[1;35m' '\e[1;30m\e[38;5;93m'
-'\e[1;30m\e[38;5;201m' '\e[1;37m' '' '\e[48;5;15m'
+'\e[1;30m\e[38;5;201m' '\e[1;37m' '' '' '\e[48;5;15m'
 '\e[40m' '\e[41m' '\e[42m' '\e[48;5;22m'
 '\e[43m' '\e[48;5;202m' '\e[44m' '\e[46m'
 '\e[45m' '\e[48;5;93m' '\e[48;5;201m' '\e[47m'
 '\e[48;5;255m' '\e[100m' '\e[101m' '\e[102m'
 '\e[48;5;28m' '\e[103m' '\e[48;5;214m' '\e[104m'
-'\e[106m' '\e[105m' '\e[48;5;99m' '\e[48;5;207m' '\e[107m' '')
+'\e[106m' '\e[105m' '\e[48;5;99m' '\e[48;5;207m' '\e[107m' '' '')
+
+
+# Input 'R' 'G' 'B' values for custom RGB
+custom_rgb() {
+  read -p $'\tPlease chose a R value (0-255): ' R
+  while :; do
+    if [[ -n "$R" && $R =~ ^[0-9]+$ ]] && (( R >= 0 && R <= 255 )) ; then
+      break
+    else
+      read -p $'\tPlease chose a valid R number (0-255): ' R
+    fi
+  done
+
+  read -p $'\tPlease chose a G value (0-255): ' G
+  while :; do
+    if [[ -n "$G" && $G =~ ^[0-9]+$ ]] && (( G >= 0 && G <= 255 )) ; then
+      break
+    else
+      read -p $'\tPlease chose a valid G number (0-255): ' G
+    fi
+  done
+
+  read -p $'\tPlease chose a B value (0-255): ' B
+  while :; do
+    if [[ -n "$B" && $B =~ ^[0-9]+$ ]] && (( B >= 0 && B <= 255 )) ; then
+      break
+    else
+      read -p $'\tPlease chose a valid B number (0-255): ' B
+    fi
+  done
+
+  if [[ $1 == "FG" ]] ; then
+    echo "\e[38;2;${R};${G};${B}m"
+  elif [[ $1 == "BG" ]] ; then
+    echo "\e[48;2;${R};${G};${B}m"
+  fi
+}
+
 
 # Chose Colors
 color_array=() # Append to this empty array
@@ -267,14 +309,19 @@ for i in "${part_array[@]}"; do
     # Filtering each part's color inputs
     declare -i FG_allow=0  # False by default
     if [[ -n "$FG" && $FG =~ ^[0-9]+$ ]] ; then  # Check if fg is a number and used (sometimes not used, like with spaces)
-      if ((FG >= 1 && FG <= 27)); then  # Check if it's between 1-27
+      if ((FG >= 1 && FG <= 28)); then  # Check if it's between 1-27
         FG_allow=1  # Passes FG check
+        if (( FG == 28 )) ; then
+          # Append to end of color dictionary and use that new index as the color
+          color_dictionary+=($(custom_rgb "FG"))
+          FG=${#color_dictionary[@]}
+        fi
         break  # On correct, move onto background
       else  # Never need to break on foreground, still need to check background
-        echo "The Foreground number you entered was invalid. Make sure to use a valid Foreground number this time! (1-17)"
+        echo "The Foreground number you entered was invalid. Make sure to use a valid Foreground number this time! (1-28)"
       fi     # ^^Go back to top of while loop and ask for input again
     else
-      echo "The Foreground number you entered was invalid. Make sure to use a valid Foreground number this time! (1-17)"
+      echo "The Foreground number you entered was invalid. Make sure to use a valid Foreground number this time! (1-28)"
     fi
   done
 
@@ -292,14 +339,18 @@ for i in "${part_array[@]}"; do
 
     declare -i BG_allow=0 # False by default
     if [[ $BG =~ ^[0-9]+$ ]] ; then  # Always need bg, no need to check if its used
-      if ((BG >= 28 && BG <= 54)); then  # Check if it's between 28-54
+      if ((BG >= 29 && BG <= 56)); then  # Check if it's between 28-54
         BG_allow=1  # Passed BG check
+        if (( BG == 56 )) ; then
+          color_dictionary+=($(custom_rgb "BG"))
+          BG=${#color_dictionary[@]}
+        fi
         break  # End this loop, the color input is fine for this part, go to the next for-loop iteration
       else
-        echo "The Background number you entered was invalid. Make sure to use a valid Background number this time! (18-34)"
+        echo "The Background number you entered was invalid. Make sure to use a valid Background number this time! (29-56)"
       fi  # ^^Go back to top of while loop and ask for input again
     else  # If its not even a number
-      echo "The Background number you entered was invalid. Make sure to use a valid Background number this time! (18-34)"
+      echo "The Background number you entered was invalid. Make sure to use a valid Background number this time! (29-56)"
     fi  # ^^Go back to top of while loop and ask for input again
   done
 
@@ -319,12 +370,13 @@ echo -e "\nThis is a preview of how your prompt will look:\n"
 review_prompt=""
 final_prompt=""
 declare -i counter=0   # Required for array indexing
-declare -i counter2=0   # Required for array indexing of custom text
+declare -i counter2=0  # Required for array indexing of custom text
 for i in "${part_array[@]}"; do
 
   # Arrays start from 0
   i=$((i - 1))
 
+  # Add colors to review_prompt & final_prompt
   if [[ "$i" == '48' ]] ; then  # If it's a space, no fg needed, first number will act as background
     review_prompt+=${color_dictionary[color_array[counter]]}  # Just print a space char, don't actually print "Space"
     # Add proper escapes '%{ %}' for Zsh and \[ \] for Bash
@@ -347,6 +399,8 @@ for i in "${part_array[@]}"; do
     fi
     counter+=2  # Colors come in two's, don't add bg color twice everytime
   fi
+
+  # Add parts to review_prompt & final_prompt
   if [[ "$i" == '49' || "$i" == '50' ]] ; then  # If it's custom text, use $custom_text array
     review_prompt+=${custom_text[counter2]}  # Has its own counter that goes up by 1's
     review_prompt+="\e[0m" # Don't let anything bleed over
