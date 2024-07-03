@@ -1,6 +1,6 @@
-![Version 2.5](http://img.shields.io/badge/version-v2.5-orange.svg)
+![Version 2.7](http://img.shields.io/badge/version-v2.7-orange.svg)
 ![Zsh 5.8](https://img.shields.io/badge/Zsh-5.8-red.svg)
-![Bash 5.1.8](https://img.shields.io/badge/Bash-5.1.8-red.svg)
+![Bash 5.1.16](https://img.shields.io/badge/Bash-5.1.16-red.svg)
 ![Latest commit](https://img.shields.io/github/last-commit/kyletimmermans/shell-color-prompt-tool?color=lightblue)
 ![Latest Release Date](https://img.shields.io/github/release-date/kyletimmermans/shell-color-prompt-tool?color=darkgreen)
 [![kyletimmermans Twitter](http://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/kyletimmermans)
@@ -14,6 +14,25 @@ _Customize your Zsh/Bash terminal prompt, from what info you want it to display 
 ### Install:
 ```bash
 curl -q -s -LJO "https://github.com/kyletimmermans/shell-color-prompt-tool/releases/download/latest/shell-color-prompt-tool.sh" && chmod +x shell-color-prompt-tool.sh
+```
+
+<br>
+
+#### Dependencies:
+
+###### Linux
+```bash
+sudo apt install -y gawk
+```
+
+###### MacOS (Homebrew)
+```bash
+brew install gawk gnu-sed
+```
+
+###### MacOS (MacPorts)
+```bash
+sudo port install gawk gsed
 ```
 
 </br>
@@ -37,16 +56,16 @@ curl -q -s -LJO "https://github.com/kyletimmermans/shell-color-prompt-tool/relea
 | --comment-out | Comment out older prompt lines in .zshrc/.bashrc e.g. PROMPT= / PS1= to help prevent conflicting prompt definitions |
 | --light-mode | Better color contrast for the color picker menu on white/light-colored terminal backgrounds |
 | --omz | Disables your 'Oh My Zsh' theme if you have one, which could get in the way of applying your new prompt |
-| --no-extras | Don't add automatic newline to start of prompt and space to end of prompt |
+| --no-extras | Don't automatically add a newline to the start of the prompt and a space to the end of the prompt |
 | -h/--help/-u/--usage | Show usage/help menu |
 | -v/--version | Get program version |
 
 </br>
 
 ### Usage Notes
-* #### You don't need to add a newline character at the beginning of your prompt for spacing between actual prompts, one will be added for you. Same with a space after the prompt so there's space between the prompt and inputted commands, one will automatically be added for you. This feature can be disabled with the --no-extras flag.
-* #### If you’re on Mac and want to use the --comment-out or --omz flags, you must have 'gawk' installed
-* #### For the actual prompt string in the .zshrc/.bashrc file, some text editors like Sublime Text will show the ANSI escape characters like "\e[0;30m" as "<0x1b>". Use a text editor like Vim to show the raw text.
+* #### You don't need to add a newline character at the beginning of your prompt for spacing between actual prompts, one will be added for you. Same with a space after the prompt so there's space between the prompt and inputted commands, one will automatically be added for you. This feature can be disabled with the --no-extras flag
+* #### If you’re on Mac and want to use the --comment-out or --omz flags, you must have 'gawk' and 'gsed' installed. On Linux, you just need 'gawk', as gsed should already be your default sed version
+* #### For the actual prompt string in the .zshrc/.bashrc file, some text editors like Sublime Text will show the ANSI escape characters like "\e[0;30m" as "<0x1b>". Use a text editor like Vim to show the raw text
 * #### Fullscreen terminals will be able to fit the spacing and styling of the interactive prompt the best  
 * #### Colors may vary from system to system. When using the Custom RGB option, make sure your terminal supports TRUECOLOR (See [here](https://github.com/termstandard/colors))
 
@@ -57,7 +76,7 @@ curl -q -s -LJO "https://github.com/kyletimmermans/shell-color-prompt-tool/relea
 |---------------------------------------------------------------------------------|
 |1. In your Terminal type: ```vi ~/.zshrc``` or ```vi ~/.bashrc```|
 |2. Hit 'i' on your keyboard to start editing the file and remove the line(s) at the bottom of the file, "export PROMPT=etc" (Zsh) or "export PS1=etc" (Bash), that has the comment above it "Added by Shell-Color-Prompt-Tool"|
-|3. If you used --comment-out or --omz, uncomment your old prompt lines |
+|3. If you used --comment-out or --omz, uncomment your old prompt lines where the line above it says "Commented out by Shell-Color-Prompt-Tool" |
 |4. Hit 'escape (esc)' on your keyboard and then type ```:wq``` and hit enter|
 |5. Back in your Terminal now, type ```source ~/.zshrc``` or ```source ~/.bashrc``` and hit enter|
 |6. Restart your Terminal|
@@ -86,3 +105,8 @@ curl -q -s -LJO "https://github.com/kyletimmermans/shell-color-prompt-tool/relea
 <div>&ensp;&ensp;-Added Custom RGB color option</div>
 <div>&ensp;&ensp;-Fixed error messsages showing incorrect range of color options</div>
 <div>&ensp;&ensp;-Updated and cleaned up help/usage flag output</div>
+<div>v2.7:</div>
+<div>&ensp;&ensp;-Force gawk usage, even on Linux, as there could be multiple awk types installed</div>
+<div>&ensp;&ensp;-Removed OS-specific commands in --comment-out and --omz functionality</div>
+<div>&ensp;&ensp;&ensp;&ensp;-Everything is using gawk and gsed now</div>
+<div>&ensp;&ensp;-Fixed some wording in the --help menu</div>

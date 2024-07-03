@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-# Shell Color Prompt Tool v2.5
+# Shell Color Prompt Tool v2.7
 
 
 # Title Colors / Format Vars
@@ -19,7 +19,7 @@ RC='\e[0m'  # Reset Color
 
 # Version flag
 if [[ $* == *-v* ]]; then
-  echo -e "\nShell-${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r${RC}-Prompt-Tool v2.5${NORMAL}\n"
+  echo -e "\nShell-${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r${RC}-Prompt-Tool v2.7${NORMAL}\n"
   exit 0
 fi
 
@@ -34,14 +34,16 @@ if [[ $* == *-h* ]] || [[ $* == *-u* ]]; then
   echo -e "                     terminal backgrounds\n"
   echo -e "--omz                Disables your 'Oh My Zsh' theme if you have one, which could get in the"
   echo -e "                     way of applying your new prompt\n"
-  echo -e "--no-extras          Don't add automatic newline to start of prompt and space to end of prompt\n"
+  echo -e "--no-extras          Don't automatically add a newline to the start of the prompt and a space"
+  echo -e "                     to the end of the prompt\n"
   echo -e "--version            Get program version\n\n"
   echo -e "Usage Notes:\n"
   echo -e "* No need to put a space at the end of your prompt, one will be added automatically."
   echo -e "  Same with a newline at the beginning for proper spacing between actual prompts,"
   echo -e "  one will automatically be added. Disable this feature w/ --no-extras\n"
   echo -e "* If you’re on Mac and want to use the --comment-out or --omz flags,"
-  echo -e "  you must have 'gawk' installed\n"
+  echo -e "  you must have 'gawk' and 'gsed' installed. On Linux, you just need 'gawk',"
+  echo -e "  as gsed should already be your default sed version\n"
   echo -e "* Use a text editor such as Vim to view the raw components of the prompt definition in"
   echo -e "  .zshrc/.bashrc, as some text editors have trouble displaying the ANSI escape sequences\n"
   echo -e "* Fullscreen terminals will be able to fit the spacing and styling"
@@ -55,9 +57,9 @@ fi
 
 # Welcome Message
 if [[ $* != *--light-mode* ]]; then
-  echo -e "${BOLD}\n                ~Welcome to the Shell ${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r ${RC}${BOLD}Prompt Tool v2.5~${NORMAL}"
+  echo -e "${BOLD}\n                ~Welcome to the Shell ${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r ${RC}${BOLD}Prompt Tool v2.7~${NORMAL}"
 else
-  echo -e "${BLACK}${BOLD}\n                ~Welcome to the Shell ${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r ${RC}${BLACK}${BOLD}Prompt Tool v2.5~${NORMAL}"
+  echo -e "${BLACK}${BOLD}\n                ~Welcome to the Shell ${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r ${RC}${BLACK}${BOLD}Prompt Tool v2.7~${NORMAL}"
 fi
 echo -e "                        @KyleTimmermans\n"
 
@@ -362,7 +364,8 @@ for i in "${part_array[@]}"; do
     color_array+=($((FG - 1)) $((BG - 1)))
   elif [[ "$i" == '48' ]] && [[ "$BG_allow" == '1' ]]; then  # Spaces case
     color_array+=($((BG - 1)))
-  elif [[ "$i" != '48' ]] && [[ "$i" != '49' && "$i" != '50' ]] && [[ "$FG_allow" == '1' ]] && [[ "$BG_allow" == '1' ]]; then  # Normal case, any choice that's not 50, 49, or 48
+  # Normal case, any choice that's not 50, 49, or 48
+  elif [[ "$i" != '48' ]] && [[ "$i" != '49' && "$i" != '50' ]] && [[ "$FG_allow" == '1' ]] && [[ "$BG_allow" == '1' ]]; then
     color_array+=($((FG - 1)) $((BG - 1)))
   fi
 done
@@ -466,64 +469,37 @@ done
 echo -e "$review_prompt\e[0m\n"
 
 
+# For --comment-out and --omz - On Mac use gnu-sed and not bsd-sed
+if [[ $(uname) == *"Darwin"* ]]; then
+  sed() { gsed "$@"; }
+fi
+
 # Comment out old prompt definitions to avoid conflicts
 comment_out() {
-  # sed on Mac requires extra '' parameter
-  if [[ $(uname) == *"Darwin"* ]]; then
-    if [[ "$TYPESHELL" =~ ^[Zz]$ ]]; then
-      if [[ "$TYPEPROMPT" =~ ^[Pp]$ ]]; then
-        # Add comments above line
-        gawk -i inplace '/^([[:space:]].*)?(export[[:space:]])?PROMPT=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?PROMPT=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
-        gawk -i inplace '/^([[:space:]].*)?(export[[:space:]])?PS1=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?PS1=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
-        
-        # Comment out actual line
-        sed -i '' '/^[[:space:]]*\(\(export \)\{0,1\}PROMPT=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
-        sed -i '' '/^[[:space:]]*\(\(export \)\{0,1\}PS1=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
-      elif [[ "$TYPEPROMPT" =~ ^[Rr]$ ]] ; then
-        gawk -i inplace '/^([[:space:]].*)?(export[[:space:]])?RPROMPT=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?RPROMPT=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
+  if [[ "$TYPESHELL" =~ ^[Zz]$ ]]; then
+    if [[ "$TYPEPROMPT" =~ ^[Pp]$ ]] ; then
+      gawk -i inplace '/^([[:space:]].*)?(export[[:space:]])?PROMPT=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?PROMPT=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
+      gawk -i inplace '/^([[:space:]].*)?(export[[:space:]])?PS1=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?PS1=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
 
-        sed -i '' '/^[[:space:]]*\(\(export \)\{0,1\}RPROMPT=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
-      elif [[ "$TYPEPROMPT" =~ ^[Bb]$ ]] ; then
-        gawk -i inplace '/^([[:space:]].*)?(export[[:space:]])?PROMPT=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?PROMPT=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
-        gawk -i inplace '/^([[:space:]].*)?(export[[:space:]])?PS1=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?PS1=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
-        gawk -i inplace '/^([[:space:]].*)?(export[[:space:]])?RPROMPT=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?RPROMPT=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc        
+      sed -i '/^[[:space:]]*\(\(export \)\{0,1\}PROMPT=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
+      sed -i '/^[[:space:]]*\(\(export \)\{0,1\}PS1=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
+    elif [[ "$TYPEPROMPT" =~ ^[Rr]$ ]] ; then
+      gawk -i inplace '/^([[:space:]].*)?(export[[:space:]])?RPROMPT=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?RPROMPT=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
 
-        sed -i '' '/^[[:space:]]*\(\(export \)\{0,1\}PROMPT=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
-        sed -i '' '/^[[:space:]]*\(\(export \)\{0,1\}PS1=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
-        sed -i '' '/^[[:space:]]*\(\(export \)\{0,1\}RPROMPT=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
-      fi
-    elif [[ "$TYPESHELL" =~ ^[Bb]$ ]] ; then
-        gawk -i inplace '/^([[:space:]].*)?(export[[:space:]])?PS1=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?PS1=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.bashrc
+      sed -i '/^[[:space:]]*\(\(export \)\{0,1\}RPROMPT=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
+    elif [[ "$TYPEPROMPT" =~ ^[Bb]$ ]] ; then
+      gawk -i inplace '/^([[:space:]].*)?(export[[:space:]])?PROMPT=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?PROMPT=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
+      gawk -i inplace '/^([[:space:]].*)?(export[[:space:]])?PS1=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?PS1=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
+      gawk -i inplace '/^([[:space:]].*)?(export[[:space:]])?RPROMPT=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?RPROMPT=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc        
 
-        sed -i '' '/^[[:space:]]*\(\(export \)\{0,1\}PS1=\)/s/^\([[:space:]]*\)/\1#/' ~/.bashrc
+      sed -i '/^[[:space:]]*\(\(export \)\{0,1\}PROMPT=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
+      sed -i '/^[[:space:]]*\(\(export \)\{0,1\}PS1=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
+      sed -i '/^[[:space:]]*\(\(export \)\{0,1\}RPROMPT=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
     fi
-  # Linux - Not Mac
-  else
-    if [[ "$TYPESHELL" =~ ^[Zz]$ ]]; then
-      if [[ "$TYPEPROMPT" =~ ^[Pp]$ ]] ; then
-        awk -i inplace '/^([[:space:]].*)?(export[[:space:]])?PROMPT=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?PROMPT=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
-        awk -i inplace '/^([[:space:]].*)?(export[[:space:]])?PS1=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?PS1=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
+  elif [[ "$TYPESHELL" =~ ^[Bb]$ ]] ; then
+      gawk -i inplace '/^([[:space:]].*)?(export[[:space:]])?PS1=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?PS1=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.bashrc
 
-        sed -i '/^[[:space:]]*\(\(export \)\{0,1\}PROMPT=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
-        sed -i '/^[[:space:]]*\(\(export \)\{0,1\}PS1=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
-      elif [[ "$TYPEPROMPT" =~ ^[Rr]$ ]] ; then
-        awk -i inplace '/^([[:space:]].*)?(export[[:space:]])?RPROMPT=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?RPROMPT=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
-
-        sed -i '/^[[:space:]]*\(\(export \)\{0,1\}RPROMPT=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
-      elif [[ "$TYPEPROMPT" =~ ^[Bb]$ ]] ; then
-        awk -i inplace '/^([[:space:]].*)?(export[[:space:]])?PROMPT=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?PROMPT=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
-        awk -i inplace '/^([[:space:]].*)?(export[[:space:]])?PS1=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?PS1=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
-        awk -i inplace '/^([[:space:]].*)?(export[[:space:]])?RPROMPT=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?RPROMPT=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc        
-
-        sed -i '/^[[:space:]]*\(\(export \)\{0,1\}PROMPT=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
-        sed -i '/^[[:space:]]*\(\(export \)\{0,1\}PS1=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
-        sed -i '/^[[:space:]]*\(\(export \)\{0,1\}RPROMPT=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
-      fi
-    elif [[ "$TYPESHELL" =~ ^[Bb]$ ]] ; then
-        awk -i inplace '/^([[:space:]].*)?(export[[:space:]])?PS1=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?PS1=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.bashrc
-
-        sed -i '/^[[:space:]]*\(\(export \)\{0,1\}PS1=\)/s/^\([[:space:]]*\)/\1#/' ~/.bashrc
-    fi
+      sed -i '/^[[:space:]]*\(\(export \)\{0,1\}PS1=\)/s/^\([[:space:]]*\)/\1#/' ~/.bashrc
   fi
 }
 
@@ -577,15 +553,8 @@ if [[ "$CHOICE" =~ ^[Yy]$ ]] ; then    # If choice is 'y' or 'Y' (regex)
 
   # Disable Oh My Zsh theme which could prevent our prompt from applying
   if [[ $* == *--omz* ]] ; then
-    if [[ $(uname) == *"Darwin"* ]] ; then
-      gawk -i inplace '/^([[:space:]].*)?(export[[:space:]])?ZSH_THEME=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?ZSH_THEME=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
-
-      sed -i '' '/^[[:space:]]*\(\(export \)\{0,1\}ZSH\_THEME=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
-    else
-      awk -i inplace '/^([[:space:]].*)?(export[[:space:]])?ZSH_THEME=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?ZSH_THEME=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
-
-      sed -i '/^[[:space:]]*\(\(export \)\{0,1\}ZSH\_THEME=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
-    fi
+    gawk -i inplace '/^([[:space:]].*)?(export[[:space:]])?ZSH_THEME=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?ZSH_THEME=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
+    sed -i '/^[[:space:]]*\(\(export \)\{0,1\}ZSH\_THEME=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
   fi
 
   echo -e "\nPrompt Saved Successfully! Restart your Terminal now!"
