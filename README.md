@@ -18,7 +18,7 @@ curl -q -s -LJO "https://github.com/kyletimmermans/shell-color-prompt-tool/relea
 
 <br>
 
-#### Dependencies:
+#### Dependencies (For the --comment-out and --omz flags to work, if you choose to use them):
 
 ###### Linux
 ```bash
