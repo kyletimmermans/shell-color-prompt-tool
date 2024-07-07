@@ -20,7 +20,7 @@ curl -q -s -LJO "https://github.com/kyletimmermans/shell-color-prompt-tool/relea
 
 #### Dependencies (For the --comment-out and --omz flags to work, if you choose to use them):
 
-###### Linux
+###### Linux (Debian-based)
 ```bash
 sudo apt install -y gawk
 ```
