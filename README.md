@@ -63,11 +63,12 @@ sudo port install gawk gsed
 </br>
 
 ### Usage Notes
-* #### You don't need to add a newline character at the beginning of your prompt for spacing between actual prompts, one will be added for you. Same with a space after the prompt so there's space between the prompt and inputted commands, one will automatically be added for you. This feature can be disabled with the --no-extras flag
-* #### If you’re on Mac and want to use the --comment-out or --omz flags, you must have 'gawk' and 'gsed' installed. On Linux, you just need 'gawk', as gsed should already be your default sed version
-* #### For the actual prompt string in the .zshrc/.bashrc file, some text editors like Sublime Text will show the ANSI escape characters like "\e[0;30m" as "<0x1b>". Use a text editor like Vim to show the raw text
-* #### Fullscreen terminals will be able to fit the spacing and styling of the interactive prompt the best  
-* #### Colors may vary from system to system. When using the Custom RGB option, make sure your terminal supports TRUECOLOR (See [here](https://github.com/termstandard/colors))
+> [!NOTE]
+> * #### You don't need to add a newline character at the beginning of your prompt for spacing between actual prompts, one will be added for you. Same with a space after the prompt so there's space between the prompt and inputted commands, one will automatically be added for you. This feature can be disabled with the --no-extras flag
+> * #### If you’re on Mac and want to use the --comment-out or --omz flags, you must have 'gawk' and 'gsed' installed. On Linux, you just need 'gawk', as gsed should already be your default sed version
+> * #### For the actual prompt string in the .zshrc/.bashrc file, some text editors like Sublime Text will show the ANSI escape characters like "\e[0;30m" as "<0x1b>". Use a text editor like Vim to show the raw text
+> * #### Fullscreen terminals will be able to fit the spacing and styling of the interactive prompt the best  
+> * #### Colors may vary from system to system. When using the Custom RGB option, make sure your terminal supports TRUECOLOR (See [here](https://github.com/termstandard/colors))
 
 </br>
 
