@@ -1,4 +1,4 @@
-![Version 2.7](http://img.shields.io/badge/version-v2.7-orange.svg)
+![Version 3.0](http://img.shields.io/badge/version-v3.0-orange.svg)
 ![Zsh 5.8](https://img.shields.io/badge/Zsh-5.8-red.svg)
 ![Bash 5.1.16](https://img.shields.io/badge/Bash-5.1.16-red.svg)
 ![Latest commit](https://img.shields.io/github/last-commit/kyletimmermans/shell-color-prompt-tool?color=lightblue)
@@ -7,11 +7,18 @@
 
 # <div align="center">Shell-Color-Prompt-Tool</div>
 
-_Customize your Zsh/Bash terminal prompt, from what info you want it to display (Username, Hostname, Symbols, etc), to its Foreground and Background Colors! It's highly recommended you use brighter colors for extra pop!_
+Customize your Zsh/Bash terminal prompt, from what info you want it to display (Username, Hostname, Symbols, etc), to its Foreground and Background Colors! All from the command line. Use brighter colors for extra pop!
 
 </br>
 
-### Install:
+### Install as a Command - "scpt":
+```bash
+curl -q -s -LJO "https://github.com/kyletimmermans/shell-color-prompt-tool/releases/download/latest/shell-color-prompt-tool.sh" && chmod +x shell-color-prompt-tool.sh && sudo mv shell-color-prompt-tool.sh /usr/local/bin/scpt
+```
+
+</br>
+
+### Temporary Use in Current Directory:
 ```bash
 curl -q -s -LJO "https://github.com/kyletimmermans/shell-color-prompt-tool/releases/download/latest/shell-color-prompt-tool.sh" && chmod +x shell-color-prompt-tool.sh
 ```
@@ -39,12 +46,12 @@ sudo port install gawk gsed
 
 ### Sample Program Walkthrough
 <p align="center">
-  <img src="https://github.com/kyletimmermans/shell-color-prompt-tool/blob/master/resources/prompt_walkthrough_v2.7.png?raw=true" alt="Sample Program Walkthrough"/>
+  <img src="https://github.com/kyletimmermans/shell-color-prompt-tool/blob/master/media/prompt_walkthrough_v3.0.png?raw=true" alt="Sample Program Walkthrough"/>
 </p>
 
 ### Resulting Prompt
 <p align="center">
-  <img src="https://github.com/kyletimmermans/shell-color-prompt-tool/blob/master/resources/final_prompt_example.png?raw=true" alt="Resulting Prompt"/>
+  <img src="https://github.com/kyletimmermans/shell-color-prompt-tool/blob/master/media/final_prompt_example.png?raw=true" alt="Resulting Prompt"/>
 </p>
 
 </br>
@@ -58,14 +65,14 @@ sudo port install gawk gsed
 | --omz | Disables your 'Oh My Zsh' theme if you have one, which could get in the way of applying your new prompt |
 | --no-extras | Don't automatically add a newline to the start of the prompt and a space to the end of the prompt |
 | -h/--help/-u/--usage | Show usage/help menu |
-| -v/--version | Get program version |
+| -v/--version | Get program version. Reveal if a newer version is available on GitHub |
 
 </br>
 
 ### Usage Notes
 > [!NOTE]
 > * #### You don't need to add a newline character at the beginning of your prompt for spacing between actual prompts, one will be added for you. Same with a space after the prompt so there's space between the prompt and inputted commands, one will automatically be added for you. This feature can be disabled with the --no-extras flag
-> * #### If you’re on Mac and want to use the --comment-out or --omz flags, you must have 'gawk' and 'gsed' installed. On Linux, you just need 'gawk', as gsed should already be your default sed version
+> * #### If you want to use the --comment-out or --omz flags, you must have 'gawk' and 'gsed' installed. On Mac, you'll need to install both. On Linux, you just need gawk, as gsed should already be your default sed version
 > * #### For the actual prompt string in the .zshrc/.bashrc file, some text editors like Sublime Text will show the ANSI escape characters like "\e[0;30m" as "<0x1b>". Use a text editor like Vim to show the raw text
 > * #### Fullscreen terminals will be able to fit the spacing and styling of the interactive prompt the best  
 > * #### Colors may vary from system to system. When using the Custom RGB option, make sure your terminal supports TRUECOLOR (See [here](https://github.com/termstandard/colors))
@@ -111,3 +118,6 @@ sudo port install gawk gsed
 <div>&ensp;&ensp;-Removed OS-specific commands in --comment-out and --omz functionality</div>
 <div>&ensp;&ensp;&ensp;&ensp;-Everything is using gawk and gsed now</div>
 <div>&ensp;&ensp;-Fixed some wording in the --help menu</div>
+<div>v3.0:</div>
+<div>&ensp;&ensp;-Better logic for ensuring gawk & gsed usage when using --comment-out or --omz flags</div>
+<div>&ensp;&ensp;-The version flag will show reveal whether an updated version of the tool is available</div>

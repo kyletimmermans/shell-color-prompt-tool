@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
 
-# Shell Color Prompt Tool v2.7
+# Shell-Color-Prompt-Tool v3.0
+
+
+version="3.0"
 
 
 # Title Colors / Format Vars
@@ -19,7 +22,15 @@ RC='\e[0m'  # Reset Color
 
 # Version flag
 if [[ $* == *-v* ]]; then
-  echo -e "\nShell-${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r${RC}-Prompt-Tool v2.7${NORMAL}\n"
+  echo -e "\nShell-${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r${RC}-Prompt-Tool v${version}${NORMAL}\n"
+
+  newest_version=$(curl -s https://api.github.com/repos/kyletimmermans/shell-color-prompt-tool/releases/latest | grep '"name": "v' | awk -F '"name": "v' '{print $2}' | awk -F '"' '{print $1}')
+
+  if [[ "$version" != "$newest_version" ]]; then
+    echo -e "\nNewer version available on GitHub - v${newest_version}!\n"
+    echo -e "github.com/kyletimmermans/shell-color-prompt-tool\n"
+  fi
+
   exit 0
 fi
 
@@ -36,14 +47,14 @@ if [[ $* == *-h* ]] || [[ $* == *-u* ]]; then
   echo -e "                     way of applying your new prompt\n"
   echo -e "--no-extras          Don't automatically add a newline to the start of the prompt and a space"
   echo -e "                     to the end of the prompt\n"
-  echo -e "--version            Get program version\n\n"
+  echo -e "--version            Get program version. Reveal if a newer version is available on GitHub\n\n"
   echo -e "Usage Notes:\n"
   echo -e "* No need to put a space at the end of your prompt, one will be added automatically."
   echo -e "  Same with a newline at the beginning for proper spacing between actual prompts,"
   echo -e "  one will automatically be added. Disable this feature w/ --no-extras\n"
-  echo -e "* If you’re on Mac and want to use the --comment-out or --omz flags,"
-  echo -e "  you must have 'gawk' and 'gsed' installed. On Linux, you just need 'gawk',"
-  echo -e "  as gsed should already be your default sed version\n"
+  echo -e "* If you want to use the --comment-out or --omz flags, you must have 'gawk' and 'gsed'"
+  echo -e "  installed. On Mac, you'll need to install both. On Linux, you just need gawk, as"
+  echo -e "  gsed should already be your default sed version\n"
   echo -e "* Use a text editor such as Vim to view the raw components of the prompt definition in"
   echo -e "  .zshrc/.bashrc, as some text editors have trouble displaying the ANSI escape sequences\n"
   echo -e "* Fullscreen terminals will be able to fit the spacing and styling"
@@ -57,9 +68,9 @@ fi
 
 # Welcome Message
 if [[ $* != *--light-mode* ]]; then
-  echo -e "${BOLD}\n                ~Welcome to the Shell ${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r ${RC}${BOLD}Prompt Tool v2.7~${NORMAL}"
+  echo -e "${BOLD}\n                ~Welcome to the Shell ${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r ${RC}${BOLD}Prompt Tool v${version}~${NORMAL}"
 else
-  echo -e "${BLACK}${BOLD}\n                ~Welcome to the Shell ${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r ${RC}${BLACK}${BOLD}Prompt Tool v2.7~${NORMAL}"
+  echo -e "${BLACK}${BOLD}\n                ~Welcome to the Shell ${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r ${RC}${BLACK}${BOLD}Prompt Tool v${version}~${NORMAL}"
 fi
 echo -e "                        @KyleTimmermans\n"
 
@@ -83,7 +94,7 @@ if [[ "$TYPESHELL" =~ ^[Zz]$ ]]; then
   read -p "Enter 'P' for normal user prompt, 'R' for root user prompt, or 'B' for both: " TYPEPROMPT
 
   while :; do
-    if [[ "$TYPEPROMPT" =~ ^[Pp]$ ]] || [[ "$TYPEPROMPT" =~ ^[Rr]$ ]] || [[ "$TYPEPROMPT" =~ ^[Bb]$ ]] ; then
+    if [[ "$TYPEPROMPT" =~ ^[Pp]$ ]] || [[ "$TYPEPROMPT" =~ ^[Rr]$ ]] || [[ "$TYPEPROMPT" =~ ^[Bb]$ ]]; then
       break
     else
       read -p "Please chose a valid prompt type ('P' or 'R' or 'B'): " TYPEPROMPT
@@ -95,7 +106,7 @@ fi
 # Parts Menu
 parts_dictionary=()
 parts_choices=()
-if [[ "$TYPESHELL" =~ ^[Zz]$ ]] ; then
+if [[ "$TYPESHELL" =~ ^[Zz]$ ]]; then
   echo -e "\nEnter the numbers in order of what you want your prompt to consist of:"
   echo -e "----------------------------------------------------------------------\n"
   echo -e "Variables:\n
@@ -167,18 +178,18 @@ declare -i repeat=1
 # Keep entering options until 'n' or 'N' also has error handling
 while :; do  # No argument for break, keep going until a break is found in the body
   read -p "Enter a number choice: " CHOICE
-  if [[ "$CHOICE" =~ ^[Nn]$ ]] ; then    # If choice is 'n' or 'N' (regex)
+  if [[ "$CHOICE" =~ ^[Nn]$ ]]; then    # If choice is 'n' or 'N' (regex)
     break  # Break while-loop
-  elif [[ "$CHOICE" == '51' ]] ; then  # If emoji
+  elif [[ "$CHOICE" == '51' ]]; then  # If emoji
     read -p "Enter Emoji: " CUSTEXT
     part_array+=($CHOICE)
     custom_text+=("$CUSTEXT")
-  elif [[ "$CHOICE" == '50' ]] ; then  # If custom text
+  elif [[ "$CHOICE" == '50' ]]; then  # If custom text
     read -p "Enter Custom Text: " CUSTEXT
     part_array+=($CHOICE)
     # Escape quotes & backslashes
     custom_text+=$(printf "%q" "$CUSTEXT") # Needed for printing custom text
-  elif [[ $CHOICE =~ ^[0-9]+$ ]] ; then  # If it's a number
+  elif [[ $CHOICE =~ ^[0-9]+$ ]]; then  # If it's a number
     if ((CHOICE >= 1 && CHOICE <= 49)); then  # And it's in range (50 & 51 already handled)
       part_array+=($CHOICE)  # Append to array
     else
@@ -255,7 +266,7 @@ color_dictionary=('\e[38;5;15m' '\e[0;30m' '\e[0;31m' '\e[0;32m'
 custom_rgb() {
   read -p $'\tPlease chose a R value (0-255): ' R
   while :; do
-    if [[ -n "$R" && $R =~ ^[0-9]+$ ]] && (( R >= 0 && R <= 255 )) ; then
+    if [[ -n "$R" && $R =~ ^[0-9]+$ ]] && (( R >= 0 && R <= 255 )); then
       break
     else
       read -p $'\tPlease chose a valid R number (0-255): ' R
@@ -264,7 +275,7 @@ custom_rgb() {
 
   read -p $'\tPlease chose a G value (0-255): ' G
   while :; do
-    if [[ -n "$G" && $G =~ ^[0-9]+$ ]] && (( G >= 0 && G <= 255 )) ; then
+    if [[ -n "$G" && $G =~ ^[0-9]+$ ]] && (( G >= 0 && G <= 255 )); then
       break
     else
       read -p $'\tPlease chose a valid G number (0-255): ' G
@@ -273,16 +284,16 @@ custom_rgb() {
 
   read -p $'\tPlease chose a B value (0-255): ' B
   while :; do
-    if [[ -n "$B" && $B =~ ^[0-9]+$ ]] && (( B >= 0 && B <= 255 )) ; then
+    if [[ -n "$B" && $B =~ ^[0-9]+$ ]] && (( B >= 0 && B <= 255 )); then
       break
     else
       read -p $'\tPlease chose a valid B number (0-255): ' B
     fi
   done
 
-  if [[ $1 == "FG" ]] ; then
+  if [[ $1 == "FG" ]]; then
     echo "\e[38;2;${R};${G};${B}m"
-  elif [[ $1 == "BG" ]] ; then
+  elif [[ $1 == "BG" ]]; then
     echo "\e[48;2;${R};${G};${B}m"
   fi
 }
@@ -302,9 +313,9 @@ for i in "${part_array[@]}"; do
 
     if [[ "$i" == '49' || "$i" == '50' ]]; then   # If its the custom text, just print it from part_array
       read -p "Enter ${UNDERLINE}Foreground${NORMAL} Color Number for ${custom_text[counter]}: " FG  # Holds the actual values of menu, Bash/Zsh arrays start at 1
-    elif [[ "$i" == '48' ]] ; then  # No FG for space char
+    elif [[ "$i" == '48' ]]; then  # No FG for space char
       break
-    elif [[ "$i" == '26' ]] ; then  # double ":" issue
+    elif [[ "$i" == '26' ]]; then  # double ":" issue
       read -p "Enter ${UNDERLINE}Foreground${NORMAL} Color Number for : : " FG
     else
       read -p "Enter ${UNDERLINE}Foreground${NORMAL} Color Number for ${parts_choices[i]}: " FG
@@ -312,10 +323,10 @@ for i in "${part_array[@]}"; do
 
     # Filtering each part's color inputs
     declare -i FG_allow=0  # False by default
-    if [[ -n "$FG" && $FG =~ ^[0-9]+$ ]] ; then  # Check if fg is a number and used (sometimes not used, like with spaces)
+    if [[ -n "$FG" && $FG =~ ^[0-9]+$ ]]; then  # Check if fg is a number and used (sometimes not used, like with spaces)
       if ((FG >= 1 && FG <= 28)); then  # Check if it's between 1-27
         FG_allow=1  # Passes FG check
-        if (( FG == 28 )) ; then
+        if (( FG == 28 )); then
           # Append to end of color dictionary and use that new index as the color
           color_dictionary+=($(custom_rgb "FG"))
           FG=${#color_dictionary[@]}
@@ -331,7 +342,7 @@ for i in "${part_array[@]}"; do
 
   # Add BG for item after having done FG
   while :; do
-    if [[ "$i" == '49' || "$i" == '50' ]] ; then   # If its the custom text, just print it from part_array
+    if [[ "$i" == '49' || "$i" == '50' ]]; then   # If its the custom text, just print it from part_array
       read -p "Enter ${UNDERLINE}Background${NORMAL} Color Number for ${custom_text[counter]}: " BG
     elif [[ "$i" == '48' ]] ; then  # If it's a space, no need for a forgeground choice, just a background
       read -p "Enter ${UNDERLINE}Background${NORMAL} Color Number for ${parts_choices[i]}: " BG  # Iterate differently for space choice for final prompt logic
@@ -342,7 +353,7 @@ for i in "${part_array[@]}"; do
     fi
 
     declare -i BG_allow=0 # False by default
-    if [[ $BG =~ ^[0-9]+$ ]] ; then  # Always need bg, no need to check if its used
+    if [[ $BG =~ ^[0-9]+$ ]]; then  # Always need bg, no need to check if its used
       if ((BG >= 29 && BG <= 56)); then  # Check if it's between 28-54
         BG_allow=1  # Passed BG check
         if (( BG == 56 )) ; then
@@ -382,10 +393,10 @@ for i in "${part_array[@]}"; do
   i=$((i - 1))
 
   # Add colors to review_prompt & final_prompt
-  if [[ "$i" == '48' ]] ; then  # If it's a space, no fg needed, first number will act as background
+  if [[ "$i" == '48' ]]; then  # If it's a space, no fg needed, first number will act as background
     review_prompt+=${color_dictionary[color_array[counter]]}  # Just print a space char, don't actually print "Space"
     # Add proper escapes '%{ %}' for Zsh and \[ \] for Bash
-    if [[ "$TYPESHELL" =~ ^[Zz]$ ]] ; then
+    if [[ "$TYPESHELL" =~ ^[Zz]$ ]]; then
       final_prompt+="%{${color_dictionary[color_array[counter]]}%}"
     else
       final_prompt+="\\[${color_dictionary[color_array[counter]]}\\]"
@@ -395,7 +406,7 @@ for i in "${part_array[@]}"; do
     next=$(($counter+1))  # +1 to print both fg and bg pair
     review_prompt+=${color_dictionary[color_array[counter]]}
     review_prompt+=${color_dictionary[color_array[next]]}
-    if [[ "$TYPESHELL" =~ ^[Zz]$ ]] ; then
+    if [[ "$TYPESHELL" =~ ^[Zz]$ ]]; then
       final_prompt+="%{${color_dictionary[color_array[counter]]}%}"
       final_prompt+="%{${color_dictionary[color_array[next]]}%}"
     else
@@ -406,44 +417,44 @@ for i in "${part_array[@]}"; do
   fi
 
   # Add parts to review_prompt & final_prompt
-  if [[ "$i" == '49' || "$i" == '50' ]] ; then  # If it's custom text, use $custom_text array
+  if [[ "$i" == '49' || "$i" == '50' ]]; then  # If it's custom text, use $custom_text array
     review_prompt+=${custom_text[counter2]}  # Has its own counter that goes up by 1's
     review_prompt+="\e[0m" # Don't let anything bleed over
     final_prompt+=${custom_text[counter2]}
-    if [[ "$TYPESHELL" =~ ^[Zz]$ ]] ; then
+    if [[ "$TYPESHELL" =~ ^[Zz]$ ]]; then
       final_prompt+="%{\e[0m%}"
     else
       final_prompt+="\\[\e[0m\\]"
     fi
     counter2+=1 # Only go up if more custom text found
-  elif [[ "$i" == '48' ]] ; then  # Special case, Add space
+  elif [[ "$i" == '48' ]]; then  # Special case, Add space
     review_prompt+=' '
     review_prompt+="\e[0m" # Don't let anything bleed over
     final_prompt+=' '
-    if [[ "$TYPESHELL" =~ ^[Zz]$ ]] ; then
+    if [[ "$TYPESHELL" =~ ^[Zz]$ ]]; then
       final_prompt+="%{\e[0m%}"
     else
       final_prompt+="\\[\e[0m\\]"
     fi
-  elif [[ "$i" == '39' ]] ; then  # Special case for '
+  elif [[ "$i" == '39' ]]; then  # Special case for '
     review_prompt+="'"
     review_prompt+="\e[0m"
     final_prompt+="\'"
-    if [[ "$TYPESHELL" =~ ^[Zz]$ ]] ; then
+    if [[ "$TYPESHELL" =~ ^[Zz]$ ]]; then
       final_prompt+="%{\e[0m%}"
     else
       final_prompt+="\\[\e[0m\\]"
     fi
-  elif [[ "$i" == '37' ]] ; then  # Special case, Add backslash (escape sequence logic)
+  elif [[ "$i" == '37' ]]; then  # Special case, Add backslash (escape sequence logic)
     review_prompt+='\\'
     review_prompt+="\e[0m"
     final_prompt+='\\\\'  # Two escape \\'s for two \\ to create literal '\\'
-    if [[ "$TYPESHELL" =~ ^[Zz]$ ]] ; then
+    if [[ "$TYPESHELL" =~ ^[Zz]$ ]]; then
       final_prompt+="%{\e[0m%}"
     else
       final_prompt+="\\[\e[0m\\]"
     fi
-  elif [[ "$i" == '21' ]] ; then  # Special case for percent, dont make it a zsh variable
+  elif [[ "$i" == '21' ]]; then  # Special case for percent, dont make it a zsh variable
     review_prompt+='%'
     review_prompt+="\e[0m"
     if [[ "$TYPESHELL" =~ ^[Zz]$ ]] ; then
@@ -469,92 +480,117 @@ done
 echo -e "$review_prompt\e[0m\n"
 
 
-# For --comment-out and --omz - On Mac use gnu-sed and not bsd-sed
-if [[ $(uname) == *"Darwin"* ]]; then
-  sed() { gsed "$@"; }
+# Ensure gawk & gsed usage when using --comment-out or --omz flags
+if [[ $* == *--comment-out* ]] || [[ $* == *--omz* ]]; then
+  gawk_needed=false
+  gsed_needed=false
+
+  if gawk --version 2>/dev/null | grep -q "GNU"; then
+    : # Do nothing - All set
+  elif awk --version 2>/dev/null | grep -q "GNU"; then
+    gawk() { awk "$@"; }
+  else
+    echo -e "\ngawk is required for the --comment-out and --omz flags to work\n"
+    gawk_needed=true
+  fi
+
+  if gsed --version 2>/dev/null | grep -q "GNU"; then
+    :
+  elif sed --version 2>/dev/null | grep -q "GNU"; then
+    gsed() { sed "$@"; }
+  else
+    echo -e "\ngsed is required for the --comment-out and --omz flags to work\n"
+    gsed_needed=true
+  fi
+
+  if [[ $gawk_needed == "true" ]] || [[ $gsed_needed == "true" ]]; then
+    exit 1
+  fi
 fi
+
 
 # Comment out old prompt definitions to avoid conflicts
 comment_out() {
   if [[ "$TYPESHELL" =~ ^[Zz]$ ]]; then
-    if [[ "$TYPEPROMPT" =~ ^[Pp]$ ]] ; then
+    if [[ "$TYPEPROMPT" =~ ^[Pp]$ ]]; then
       gawk -i inplace '/^([[:space:]].*)?(export[[:space:]])?PROMPT=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?PROMPT=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
       gawk -i inplace '/^([[:space:]].*)?(export[[:space:]])?PS1=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?PS1=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
 
-      sed -i '/^[[:space:]]*\(\(export \)\{0,1\}PROMPT=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
-      sed -i '/^[[:space:]]*\(\(export \)\{0,1\}PS1=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
-    elif [[ "$TYPEPROMPT" =~ ^[Rr]$ ]] ; then
+      gsed -i '/^[[:space:]]*\(\(export \)\{0,1\}PROMPT=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
+      gsed -i '/^[[:space:]]*\(\(export \)\{0,1\}PS1=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
+    elif [[ "$TYPEPROMPT" =~ ^[Rr]$ ]]; then
       gawk -i inplace '/^([[:space:]].*)?(export[[:space:]])?RPROMPT=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?RPROMPT=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
 
-      sed -i '/^[[:space:]]*\(\(export \)\{0,1\}RPROMPT=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
-    elif [[ "$TYPEPROMPT" =~ ^[Bb]$ ]] ; then
+      gsed -i '/^[[:space:]]*\(\(export \)\{0,1\}RPROMPT=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
+    elif [[ "$TYPEPROMPT" =~ ^[Bb]$ ]]; then
       gawk -i inplace '/^([[:space:]].*)?(export[[:space:]])?PROMPT=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?PROMPT=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
       gawk -i inplace '/^([[:space:]].*)?(export[[:space:]])?PS1=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?PS1=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
       gawk -i inplace '/^([[:space:]].*)?(export[[:space:]])?RPROMPT=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?RPROMPT=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc        
 
-      sed -i '/^[[:space:]]*\(\(export \)\{0,1\}PROMPT=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
-      sed -i '/^[[:space:]]*\(\(export \)\{0,1\}PS1=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
-      sed -i '/^[[:space:]]*\(\(export \)\{0,1\}RPROMPT=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
+      gsed -i '/^[[:space:]]*\(\(export \)\{0,1\}PROMPT=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
+      gsed -i '/^[[:space:]]*\(\(export \)\{0,1\}PS1=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
+      gsed -i '/^[[:space:]]*\(\(export \)\{0,1\}RPROMPT=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
     fi
-  elif [[ "$TYPESHELL" =~ ^[Bb]$ ]] ; then
+  elif [[ "$TYPESHELL" =~ ^[Bb]$ ]]; then
       gawk -i inplace '/^([[:space:]].*)?(export[[:space:]])?PS1=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?PS1=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.bashrc
 
-      sed -i '/^[[:space:]]*\(\(export \)\{0,1\}PS1=\)/s/^\([[:space:]]*\)/\1#/' ~/.bashrc
+      gsed -i '/^[[:space:]]*\(\(export \)\{0,1\}PS1=\)/s/^\([[:space:]]*\)/\1#/' ~/.bashrc
   fi
 }
 
+
 read -p "Would you like to make this your prompt? (Y/n): " CHOICE
 
-if [[ "$CHOICE" =~ ^[Yy]$ ]] ; then    # If choice is 'y' or 'Y' (regex)
+if [[ "$CHOICE" =~ ^[Yy]$ ]]; then    # If choice is 'y' or 'Y' (regex)
   
   if [[ $* == *--comment-out* ]]; then
     comment_out
   fi
 
+  # Disable Oh My Zsh theme which could prevent our prompt from applying
+  if [[ $* == *--omz* ]]; then
+    gawk -i inplace '/^([[:space:]].*)?(export[[:space:]])?ZSH_THEME=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?ZSH_THEME=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
+    gsed -i '/^[[:space:]]*\(\(export \)\{0,1\}ZSH\_THEME=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
+  fi
+
   if [[ $* == *--no-extras* ]]; then
-    if [[ "$TYPESHELL" =~ ^[Zz]$ ]] ; then
+    if [[ "$TYPESHELL" =~ ^[Zz]$ ]]; then
       echo -e "\n\n# Added by Shell-Color-Prompt-Tool" >> ~/.zshrc
 
-      if [[ "$TYPEPROMPT" =~ ^[Pp]$ ]] ; then
+      if [[ "$TYPEPROMPT" =~ ^[Pp]$ ]]; then
         # We need an newline here so each new prompt has spacing from the last one
         # And then a space at the end as a buffer between the prompt and the commands
         echo -e "export PROMPT=$'$final_prompt'" >> ~/.zshrc
-      elif [[ "$TYPEPROMPT" =~ ^[Rr]$ ]] ; then
+      elif [[ "$TYPEPROMPT" =~ ^[Rr]$ ]]; then
         echo -e "export RPROMPT=$'$final_prompt'" >> ~/.zshrc
-      elif [[ "$TYPEPROMPT" =~ ^[Bb]$ ]] ; then
+      elif [[ "$TYPEPROMPT" =~ ^[Bb]$ ]]; then
         echo -e "export PROMPT=$'$final_prompt'" >> ~/.zshrc
         echo -e "export RPROMPT=$'$final_prompt'" >> ~/.zshrc
       fi
-    elif [[ "$TYPESHELL" =~ ^[Bb]$ ]] ; then
+    elif [[ "$TYPESHELL" =~ ^[Bb]$ ]]; then
       echo -e "\n\n# Added by Shell-Color-Prompt-Tool" >> ~/.bashrc
 
       echo -e "export PS1=$'$final_prompt'" >> ~/.bashrc
     fi
   else
-    if [[ "$TYPESHELL" =~ ^[Zz]$ ]] ; then
+    if [[ "$TYPESHELL" =~ ^[Zz]$ ]]; then
       echo -e "\n\n# Added by Shell-Color-Prompt-Tool" >> ~/.zshrc
 
-      if [[ "$TYPEPROMPT" =~ ^[Pp]$ ]] ; then
+      if [[ "$TYPEPROMPT" =~ ^[Pp]$ ]]; then
         # We need an newline here so each new prompt has spacing from the last one
         # And then a space at the end as a buffer between the prompt and the commands
         echo -e "export PROMPT=$'\\\n$final_prompt '" >> ~/.zshrc
-      elif [[ "$TYPEPROMPT" =~ ^[Rr]$ ]] ; then
+      elif [[ "$TYPEPROMPT" =~ ^[Rr]$ ]]; then
         echo -e "export RPROMPT=$'\\\n$final_prompt '" >> ~/.zshrc
-      elif [[ "$TYPEPROMPT" =~ ^[Bb]$ ]] ; then
+      elif [[ "$TYPEPROMPT" =~ ^[Bb]$ ]]; then
         echo -e "export PROMPT=$'\\\n$final_prompt '" >> ~/.zshrc
         echo -e "export RPROMPT=$'\\\n$final_prompt '" >> ~/.zshrc
       fi
-    elif [[ "$TYPESHELL" =~ ^[Bb]$ ]] ; then
+    elif [[ "$TYPESHELL" =~ ^[Bb]$ ]]; then
       echo -e "\n\n# Added by Shell-Color-Prompt-Tool" >> ~/.bashrc
 
       echo -e "export PS1=$'\\\n$final_prompt '" >> ~/.bashrc
     fi
-  fi
-
-  # Disable Oh My Zsh theme which could prevent our prompt from applying
-  if [[ $* == *--omz* ]] ; then
-    gawk -i inplace '/^([[:space:]].*)?(export[[:space:]])?ZSH_THEME=/{ if(prev !~ /^([[:space:]].*)?# Commented out by Shell-Color-Prompt-Tool/) { split($0,parts,"(export[[:space:]])?ZSH_THEME=");NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
-    sed -i '/^[[:space:]]*\(\(export \)\{0,1\}ZSH\_THEME=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
   fi
 
   echo -e "\nPrompt Saved Successfully! Restart your Terminal now!"
