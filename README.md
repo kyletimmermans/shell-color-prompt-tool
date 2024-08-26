@@ -1,4 +1,4 @@
-![Version 3.0](http://img.shields.io/badge/version-v3.0-orange.svg)
+![Version 3.1](http://img.shields.io/badge/version-v3.1-orange.svg)
 ![Zsh 5.8](https://img.shields.io/badge/Zsh-5.8-red.svg)
 ![Bash 5.1.16](https://img.shields.io/badge/Bash-5.1.16-red.svg)
 ![Latest commit](https://img.shields.io/github/last-commit/kyletimmermans/shell-color-prompt-tool?color=lightblue)
@@ -121,3 +121,5 @@ sudo port install gawk gsed
 <div>v3.0:</div>
 <div>&ensp;&ensp;-Better logic for ensuring gawk & gsed usage when using --comment-out or --omz flags</div>
 <div>&ensp;&ensp;-The version flag will show reveal whether an updated version of the tool is available</div>
+<div>v3.1:</div>
+<div>&ensp;&ensp;-Added error handling for version update check</div>

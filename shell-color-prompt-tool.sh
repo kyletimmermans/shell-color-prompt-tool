@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 
-# Shell-Color-Prompt-Tool v3.0
+# Shell-Color-Prompt-Tool v3.1
 
 
-version="3.0"
+version="3.1"
 
 
 # Title Colors / Format Vars
@@ -26,9 +26,15 @@ if [[ $* == *-v* ]]; then
 
   newest_version=$(curl -s https://api.github.com/repos/kyletimmermans/shell-color-prompt-tool/releases/latest | grep '"name": "v' | awk -F '"name": "v' '{print $2}' | awk -F '"' '{print $1}')
 
-  if [[ "$version" != "$newest_version" ]]; then
-    echo -e "\nNewer version available on GitHub - v${newest_version}!\n"
-    echo -e "github.com/kyletimmermans/shell-color-prompt-tool\n"
+  # If not empty string - Not error
+  if [[ $newest_version != "" ]]; then
+    # If local version not the same as latest GitHub release, then notify
+    if [[ "$version" != "$newest_version" ]]; then
+      echo -e "\nNewer version available on GitHub - v${newest_version}!\n"
+      echo -e "github.com/kyletimmermans/shell-color-prompt-tool\n"
+    fi
+  else
+      echo -e "\nError: Could not connect to GitHub to check for updates\n"
   fi
 
   exit 0
