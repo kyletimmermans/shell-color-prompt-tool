@@ -46,7 +46,7 @@ sudo port install gawk gsed
 
 ### Sample Program Walkthrough
 <p align="center">
-  <img src="https://github.com/kyletimmermans/shell-color-prompt-tool/blob/master/media/prompt_walkthrough_v3.0.png?raw=true" alt="Sample Program Walkthrough"/>
+  <img src="https://github.com/kyletimmermans/shell-color-prompt-tool/blob/master/media/prompt_walkthrough_v3.1.png?raw=true" alt="Sample Program Walkthrough"/>
 </p>
 
 ### Resulting Prompt
