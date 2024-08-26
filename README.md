@@ -1,8 +1,8 @@
-![Version 3.1](http://img.shields.io/badge/version-v3.1-orange.svg)
+![Version 3.1](http://img.shields.io/badge/Version-v3.1-orange.svg)
 ![Zsh 5.8](https://img.shields.io/badge/Zsh-5.8-red.svg)
 ![Bash 5.1.16](https://img.shields.io/badge/Bash-5.1.16-red.svg)
-![Latest commit](https://img.shields.io/github/last-commit/kyletimmermans/shell-color-prompt-tool?color=lightblue)
-![Latest Release Date](https://img.shields.io/github/release-date/kyletimmermans/shell-color-prompt-tool?color=darkgreen)
+![Latest Commit](https://img.shields.io/github/last-commit/kyletimmermans/shell-color-prompt-tool?color=lightblue&label=Latest%20Commit)
+![Latest Release](https://img.shields.io/github/release-date/kyletimmermans/shell-color-prompt-tool?display_date=published_at&label=Latest%20Release&color=darkgreen)
 [![kyletimmermans Twitter](http://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/kyletimmermans)
 
 # <div align="center">Shell-Color-Prompt-Tool</div>
