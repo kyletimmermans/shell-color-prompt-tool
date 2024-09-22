@@ -54,7 +54,7 @@ version() {
 
 # Usage/Help Flag
 usage() {
-  echo -e "\n${UNDERLINE}Usage${NORMAL}: Run this program and use the interactive prompt to create your Zsh/Bash prompt\n\n"
+  echo -e "\n${UNDERLINE}Usage${NORMAL}: Run this program and use the interactive prompt to create your custom Zsh/Bash prompt\n\n"
   echo -e "${UNDERLINE}Flags${NORMAL}:\n"
   echo -e "${BOLD}--usage${NORMAL}              Pulls up this menu\n"
   echo -e "${BOLD}--version${NORMAL}            Get program version. Reveal if a newer version is available on GitHub\n"
