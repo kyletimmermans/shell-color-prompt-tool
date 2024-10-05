@@ -1,0 +1,27 @@
+- Prompt Walkthrough Screenshot
+
+	- Comment out ZSH_THEME= in .zshrc
+	- Temp RGB fix if TRUECOLOR not available
+	- Full screen
+	- Full brightness
+	- cd ~
+	- cls
+	- Make font bigger - (CMD +) 3x
+	- View --> Hide Marks & Hide Tab Bar
+	- scpt
+	- choices.py
+	- CleanShot X - Scrolling Capture
+	- Scroll very slowly to prevent scrollbar from appearing
+	- Crop to show the top calling line and prompt
+	- Crop to not show the last prompt line to prevent confusion
+	- Cover up upper scroll bar parts w/ black
+	- Was 2878x8353 in v4.0 photo
+
+
+- Resulting Prompt Screenshot
+	- Make font bigger - (CMD +) 3x
+	- Small-medium size not full screen
+	- cd Downloads/projects
+	- In other window, between nothing prompt and "ls -la | grep 'test'" prompt
+	  run a command to make last part go up +1
+	- Get minute time change

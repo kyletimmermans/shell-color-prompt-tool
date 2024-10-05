@@ -1,0 +1,72 @@
+.TH scpt 1 "October 4, 2024" "SCPT v4.1" "Shell-Color-Prompt-Tool"
+.SH NAME
+scpt \- Create your own Zsh/Bash terminal prompt from scratch, and then give it some color, all from the command line
+.SH SYNOPSIS
+.B scpt
+[\-\-options]
+.SH DESCRIPTION
+Customize your Zsh/Bash terminal prompt with a menu-style selection guide. Choose what info you want the prompt to display (Username, Hostname, Symbols, etc), and their foreground and background colors! All from the command line. Use brighter colors for extra pop!
+.SH OPTIONS
+.TP
+.B \-u, \-\-usage, \-h, \-\-help
+Show usage/help menu
+.TP
+.B \-v, \-\-version
+Get program version. Reveal if a newer version is available on GitHub
+.TP
+.B \-\-uninstall
+Undoes the "Install as a Command" installation option. It will delete /usr/local/bin/scpt (program) and the associated man page
+.TP
+.B \-\-comment\-out
+Comment out older prompt lines in .zshrc / .bashrc e.g. PROMPT= / PS1= to help prevent conflicting prompt definitions
+.TP
+.B \-\-omz
+.br
+Disables your 'Oh My Zsh' theme if you have one, which could get in the way of applying your new prompt
+.TP
+.B \-\-light\-mode
+Better color contrast for the color picker menu on white / light-colored terminal backgrounds
+.TP
+.B \-\-no\-extras
+Don't automatically add a newline to the start of the prompt and a space to the end of the prompt
+.TP
+.B \-\-separate\-fill
+Place the prompt string in a separate file instead of putting it in .zshrc / .bashrc E.g. --separate-file "~/test.txt"
+.TP
+.B \-\-no\-watermarks
+Don't add the "# Added by Shell-Color-Prompt-Tool" comment to .zshrc / .bashrc when adding the prompt string and don't add the "# Commented out by Shell-Color-Prompt-Tool" comment when using --comment-out or --omz
+.SH EXAMPLES
+.TP
+.B scpt \-\-comment\-out \-\-omz \-\-no\-watermarks
+Comment out all previous PS1= / PROMPT= / RPROMPT= lines in .zshrc / .bashrc, as well as the ZSH_THEME= line (Oh My Zsh theme). All while not adding any extra comments above any commented lines or above any added prompt lines.
+.TP
+.B scpt \-\-separate-file """~/test.txt"" \-\-no\-extras
+Write the prompt into a file called ~/test.txt and have it so the prompt definition doesn't have a newline at the beginning and a space at the end.
+.SH USAGE NOTES
+.TP
+No need to put a space at the end of your prompt, one will be added automatically. Same with a newline at the beginning for proper spacing between actual prompts, one will automatically be added. Disable this feature w/ \fI--no-extras\fP
+.TP
+If you want to use the \fI--comment-out\fP or \fI--omz\fP flags, you must have 'gawk' and 'gsed' installed. On Mac, you'll need to install both. On Linux, you just need gawk, as gsed should already be your default sed version
+.TP
+\fI--comment-out\fP and \fI--omz\fP can break the config if the variables that are getting commented out, are defined within things like if\-statements or case\-statements
+.TP
+Use a text editor such as Vim to view the raw components of the prompt definition in .zshrc / .bashrc, as some text editors have trouble displaying the ANSI escape sequences
+.TP
+Fullscreen terminals will be able to fit the spacing and styling of the interactive prompt the best
+.TP
+Colors may vary from system to system. When using the Custom RGB option, make sure your terminal supports TRUECOLOR (See github.com/termstandard/colors)
+.TP
+If your command is too long, $RPROMPT will visually be temporarily overwritten
+.TP
+$RPROMPT cannot contain newlines (\\n)
+.TP
+For more prompt expansion variables not listed in this program:
+\t Zsh: \fIzsh.sourceforge.io/Doc/Release/Prompt-Expansion.html\fP
+.br
+\tBash: \fIwww.gnu.org/software/bash/manual/html_node/Controlling-the-Prompt.html\fP
+.SH WWW
+https://github.com/kyletimmermans/shell-color-prompt-tool
+.SH SEE ALSO
+bash(1), zsh(1)
+.SH AUTHOR
+Kyle Timmermans <kyle@kyles.world>

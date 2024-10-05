@@ -1,4 +1,4 @@
-![Version 4.0](http://img.shields.io/badge/Version-4.0-orange.svg)
+![Version 4.1](http://img.shields.io/badge/Version-4.1-orange.svg)
 ![Zsh 5.8](https://img.shields.io/badge/Zsh-5.8-red.svg)
 ![Bash 5.1.16](https://img.shields.io/badge/Bash-5.1.16-red.svg)
 ![Latest Commit](https://img.shields.io/github/last-commit/kyletimmermans/shell-color-prompt-tool?color=lightblue&label=Latest%20Commit)
@@ -13,7 +13,7 @@ Customize your Zsh/Bash terminal prompt with a menu-style selection guide. Choos
 
 ### Install as a Command - "scpt":
 ```bash
-curl -q -s -LJO "https://github.com/kyletimmermans/shell-color-prompt-tool/releases/download/latest/shell-color-prompt-tool.sh" && chmod +x shell-color-prompt-tool.sh && sudo mv shell-color-prompt-tool.sh /usr/local/bin/scpt
+URL="https://github.com/kyletimmermans/shell-color-prompt-tool/releases/download/latest"; curl -q -s -LJO "$URL/shell-color-prompt-tool.sh" && chmod a+x shell-color-prompt-tool.sh && sudo mv shell-color-prompt-tool.sh /usr/local/bin/scpt && curl -q -s -LJO "$URL/scpt.1" && sudo mv scpt.1 /usr/local/share/man/man1/
 ```
 
 <div>&#8203;</div>
@@ -46,12 +46,12 @@ sudo port install gawk gsed
 
 ### Sample Program Walkthrough
 <p align="center">
-  <img src="/media/prompt_walkthrough_v4.0.png?raw=true" alt="Sample Program Walkthrough"/>
+  <img src="/media/visuals/prompt_walkthrough_v4.1.png?raw=true" alt="Sample Program Walkthrough"/>
 </p>
 
 ### Resulting Prompt
 <p align="center">
-  <img src="/media/prompt_walkthrough_result_v4.0.png?raw=true" alt="Resulting Prompt"/>
+  <img src="/media/visuals/prompt_walkthrough_result_v4.1.png?raw=true" alt="Resulting Prompt"/>
 </p>
 
 <div align="center"><b>Note: I don't think anyone would create a prompt setup as chaotic as this one,
@@ -62,12 +62,12 @@ how they're handled</b></div>
 
 ### Demo Video
 
-![Demo Video](/media/vhs_demo.gif)
+![Demo Video](/media/visuals/vhs_demo_v4.1.gif)
 
 ### Demo Resulting Prompt
 
 <p align="center">
-  <img src="/media/gif_walkthrough_result.png?raw=true" alt="Demo Resulting Prompt"/>
+  <img src="/media/visuals/gif_walkthrough_result_v4.1.png?raw=true" alt="Demo Resulting Prompt"/>
 </p>
 
 <div>&#8203;</div>
@@ -79,23 +79,26 @@ how they're handled</b></div>
 
 -v, --version                Get program version. Reveal if a newer version is available on GitHub
 
---comment-out                Comment out older prompt lines in .zshrc/.bashrc e.g. PROMPT= / PS1=
+--uninstall                  Undoes the "Install as a Command" installation option. It will delete
+                             /usr/local/bin/scpt (program) and the associated man page
+
+--comment-out                Comment out older prompt lines in .zshrc / .bashrc e.g. PROMPT= / PS1=
                              to help prevent conflicting prompt definitions
 
---omz                        Disables your 'Oh My Zsh' theme if you have one, which could get
-                             in the way of applying your new prompt
+--omz                        Disables your 'Oh My Zsh' theme if you have one, which could get in
+                             the way of applying your new prompt
 
---light-mode                 Better color contrast for the color picker menu on white/light-colored
+--light-mode                 Better color contrast for the color picker menu on white / light-colored
                              terminal backgrounds
 
 --no-extras                  Don't automatically add a newline to the start of the prompt
                              and a space to the end of the prompt
 
 --separate-file              Place the prompt string in a separate file instead of putting it in
-                             .zshrc/.bashrc for any reason E.g. --separate-file "test.txt"
+                             .zshrc / .bashrc for any reason E.g. --separate-file "~/test.txt"
 
 --no-watermarks              Don't add the "# Added by Shell-Color-Prompt-Tool" comment to
-                             .zshrc/.bashrc when adding the prompt string and don't add the
+                             .zshrc / .bashrc when adding the prompt string and don't add the
                              "# Commented out by Shell-Color-Prompt-Tool" comment when
                              using --comment-out or --omz
 ```
@@ -106,8 +109,8 @@ how they're handled</b></div>
 > [!NOTE]
 > * #### You don't need to add a newline character at the beginning of your prompt for spacing between actual prompts, one will be added for you. Same with a space after the prompt so there's space between the prompt and inputted commands, one will automatically be added for you. This feature can be disabled with the --no-extras flag
 > * #### If you want to use the --comment-out or --omz flags, you must have 'gawk' and 'gsed' installed. On Mac, you'll need to install both. On Linux, you just need gawk, as gsed should already be your default sed version
-> * #### --comment-out and --omz can break the config if the variables that are getting commented out, are defined within things like if-statements
-> * #### For the actual prompt string in the .zshrc/.bashrc file, some text editors like Sublime Text will show the ANSI escape characters like "\e[0;30m" as "<0x1b>". Use a text editor like Vim to show the raw text
+> * #### --comment-out and --omz can break the config if the variables that are getting commented out, are defined within things like if-statements or case-statements
+> * #### For the actual prompt string in the .zshrc / .bashrc file, some text editors like Sublime Text will show the ANSI escape characters like "\e[0;30m" as "<0x1b>". Use a text editor like Vim to show the raw text
 > * #### Fullscreen terminals will be able to fit the spacing and styling of the interactive prompt the best  
 > * #### Colors may vary from system to system. When using the Custom RGB option, make sure your terminal supports TRUECOLOR (See [here](https://github.com/termstandard/colors))
 > * #### If your command is too long, $RPROMPT will visually be temporarily overwritten
@@ -125,7 +128,7 @@ how they're handled</b></div>
 |4. Hit 'escape (esc)' on your keyboard and then type ```:wq``` and hit enter|
 |5. Back in your Terminal now, type ```source ~/.zshrc``` or ```source ~/.bashrc``` and hit enter|
 |6. Restart your Terminal|
-|Good as new!|
+|7. Good as new!|
 
 <div>&#8203;</div>
 
@@ -200,6 +203,12 @@ graph TD;
 <div>&ensp;&ensp;-General code cleanup: Removed redundant or unncessary code, wrapped code in functions</div>
 <div>&ensp;&ensp;-Better prompt preview now that RPROMPT is printed on the right side of the terminal</div>
 <div>&ensp;&ensp;-Log levels and coloring added to log statements</div>
+<div>v4.1:</div>
+<div>&ensp;&ensp;-Added: Traps to handle SIGINT/SIGTERM signals while program is running</div>
+<div>&ensp;&ensp;-Added: --uninstall flag (Deletes scpt & man page)</div>
+<div>&ensp;&ensp;-Refactor: Used [shellcheck.net](https://www.shellcheck.net/) linter - applied minor fixes</div>
+<div>&ensp;&ensp;-Repo: Created man page</div>
+<div>&ensp;&ensp;-Repo: Added screenshot automation / helper files to /media</div>
 
 <div>&#8203;</div>
 
@@ -244,3 +253,7 @@ the $RPROMPT variable, it just appears to be with some clever programming. [romk
 who created Powerlevel10k, has a code snippet [here](https://gist.github.com/romkatv/2a107ef9314f0d5f76563725b42f7cab)
 that explains how its done.
 
+<div>&#8203;</div>
+
+#### <ins>Does this project have anything to do with AppleScript and its .scpt files?</ins>
+Nope! I realized too late after naming this project that .scpt files existed.

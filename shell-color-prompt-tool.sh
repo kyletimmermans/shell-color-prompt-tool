@@ -2,15 +2,17 @@
 
 
 
-# Shell-Color-Prompt-Tool v4.0
+# Shell-Color-Prompt-Tool v4.1
 
 
 
-### Global Variables ###
+# Handle SIGINT/SIGTERM before saving prompt
+trap 'echo -e "\n\n\e[1;33mWARN\e[0m: SIGINT/SIGTERM signal receieved, prompt not saved!\n" > /dev/stderr; exit 1' SIGINT SIGTERM
 
 
+# Global Variables
 
-version="4.0"
+version="4.1"
 
 # Title Colors / Format Vars
 BOLD="$(tput bold)"
@@ -27,7 +29,9 @@ RC='\e[0m'  # Reset Color
 
 
 
-### Functions ###
+###################################
+###          Functions          ###
+###################################
 
 
 
@@ -35,6 +39,7 @@ RC='\e[0m'  # Reset Color
 version() {
   echo -e "\nShell-${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r${RC}-Prompt-Tool v${version}${NORMAL}\n"
 
+  local newest_version
   newest_version=$(curl -s https://api.github.com/repos/kyletimmermans/shell-color-prompt-tool/releases/latest | grep '"name": "v' | awk -F '"name": "v' '{print $2}' | awk -F '"' '{print $1}')
 
   # If not empty string - Not error
@@ -58,18 +63,20 @@ usage() {
   echo -e "${UNDERLINE}Flags${NORMAL}:\n"
   echo -e "${BOLD}--usage${NORMAL}              Pulls up this menu\n"
   echo -e "${BOLD}--version${NORMAL}            Get program version. Reveal if a newer version is available on GitHub\n"
-  echo -e "${BOLD}--comment-out${NORMAL}        Comment out older prompt lines in .zshrc/.bashrc e.g. PROMPT= / PS1="
+  echo -e "${BOLD}--uninstall${NORMAL}          Undoes the \"Install as a Command\" installation option. It will delete"
+  echo -e "                     /usr/local/bin/scpt (program) and the associated man page\n"
+  echo -e "${BOLD}--comment-out${NORMAL}        Comment out older prompt lines in .zshrc / .bashrc e.g. PROMPT= / PS1="
   echo -e "                     to help prevent conflicting prompt definitions\n"
   echo -e "${BOLD}--omz${NORMAL}                Disables your 'Oh My Zsh' theme if you have one, which could get in the"
   echo -e "                     way of applying your new prompt\n"
-  echo -e "${BOLD}--light-mode${NORMAL}         Better color contrast for the color picker menu on white/light-colored"
+  echo -e "${BOLD}--light-mode${NORMAL}         Better color contrast for the color picker menu on white / light-colored"
   echo -e "                     terminal backgrounds\n"
   echo -e "${BOLD}--no-extras${NORMAL}          Don't automatically add a newline to the start of the prompt and a space"
   echo -e "                     to the end of the prompt\n"
   echo -e "${BOLD}--separate-file${NORMAL}      Place the prompt string in a separate file instead of putting it in"
-  echo -e "                     .zshrc/.bashrc for any reason E.g. --separate-file \"test.txt\"\n"
+  echo -e "                     .zshrc / .bashrc E.g. --separate-file \"~/test.txt\"\n"
   echo -e "${BOLD}--no-watermarks${NORMAL}      Don't add the \"# Added by Shell-Color-Prompt-Tool\" comment to"
-  echo -e "                     .zshrc/.bashrc when adding the prompt string and don't add the"
+  echo -e "                     .zshrc / .bashrc when adding the prompt string and don't add the"
   echo -e "                     \"# Commented out by Shell-Color-Prompt-Tool\" comment when using"
   echo -e "                     --comment-out or --omz\n\n"
   echo -e "${UNDERLINE}Usage Notes${NORMAL}:\n"
@@ -80,17 +87,17 @@ usage() {
   echo -e "  installed. On Mac, you'll need to install both. On Linux, you just need gawk, as"
   echo -e "  gsed should already be your default sed version\n"
   echo -e "* --comment-out and --omz can break the config if the variables that are getting"
-  echo -e "  commented out, are defined within things like if-statements\n"
+  echo -e "  commented out, are defined within things like if-statements or case-statements\n"
   echo -e "* Use a text editor such as Vim to view the raw components of the prompt definition in"
-  echo -e "  .zshrc/.bashrc, as some text editors have trouble displaying the ANSI escape sequences\n"
-  echo -e "* Fullscreen terminals will be able to fit the spacing and styling"
-  echo -e "  of the interactive prompt the best\n"
+  echo -e "  .zshrc / .bashrc, as some text editors have trouble displaying the ANSI escape sequences\n"
+  echo -e "* Fullscreen terminals will be able to fit the spacing and styling of the interactive"
+  echo -e "  prompt the best\n"
   echo -e "* Colors may vary from system to system. When using the Custom RGB option, make sure your"
   echo -e "  terminal supports TRUECOLOR (See github.com/termstandard/colors)\n"
   echo -e "* If your command is too long, \$RPROMPT will visually be temporarily overwritten\n"
   echo -e "* \$RPROMPT cannot contain newlines (\\\n)\n"
   echo -e "* For more prompt expansion variables not listed in this program:"
-  echo -e "     Zsh: zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html"
+  echo -e "      Zsh: zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html"
   echo -e "     Bash: www.gnu.org/software/bash/manual/html_node/Controlling-the-Prompt.html\n\n"
   echo -e "${BOLD}github.com/kyletimmermans/shell-color-prompt-tool${NORMAL}\n"
 
@@ -98,10 +105,29 @@ usage() {
 }
 
 
+# Remove scpt file and man page
+uninstall() {
+  trap 'echo -e "\n\n${RED}ERR${RC}: SIGINT/SIGTERM signal receieved, scpt not uninstalled!\n" > /dev/stderr; exit 1' SIGINT SIGTERM
+
+  echo ""
+  read -p "Did you install this program with \"Install as a Command\"? (Y/n): " yn
+
+  if [[ "$yn" =~ ^[Yy]$ ]]; then
+    sudo rm /usr/local/bin/scpt
+    sudo rm /usr/local/share/man/man1/scpt.1
+    echo -e "\n${GREEN}INFO${RC}: Successfully Uninstalled - Deleted scpt and man page!\n"
+    exit 0
+  else
+    echo -e "\n${RED}ERR${RC}: Nothing to uninstall - Simply delete the downloaded file\n" > /dev/stderr
+    exit 1
+  fi
+}
+
+
 # Ensure gawk & gsed usage when using --comment-out or --omz flags
 command_check() {
-  gawk_needed=false
-  gsed_needed=false
+  local gawk_needed=false
+  local gsed_needed=false
 
   if gawk --version 2>/dev/null | grep -q "GNU"; then
     : # Do nothing - All set
@@ -157,9 +183,9 @@ custom_rgb() {
   done
 
   if [[ $1 == "FG" ]]; then
-    echo "\e[38;2;${R};${G};${B}m"
+    printf "\e[38;2;%d;%d;%dm" "$R" "$G" "$B"
   elif [[ $1 == "BG" ]]; then
-    echo "\e[48;2;${R};${G};${B}m"
+    printf "\e[48;2;%d;%d;%dm" "$R" "$G" "$B"
   fi
 }
 
@@ -220,7 +246,7 @@ preview_print() {
       else
         clean_part_l=$(echo -e "${lprompt_parts[$i]}" | tr -d '\033' | sed -E 's/\[[0-9]{1,3}(;[0-9]{1,3})?(;[0-9]{1,3})?m//g')
         clean_part_r=$(echo -e "${rprompt_string}" | tr -d '\033' | sed -E 's/\[[0-9]{1,3}(;[0-9]{1,3})?(;[0-9]{1,3})?m//g')
-        buffer=$(printf "%*s" $((COLUMNS - ${#clean_part_l} - ${#clean_part_r})))
+        buffer=$(printf "%*s" $((COLUMNS - ${#clean_part_l} - ${#clean_part_r})) "")
         echo -e "${lprompt_parts[$i]}${buffer}${rprompt_string}\e[0m"
       fi
     done
@@ -232,7 +258,7 @@ preview_print() {
     COLUMNS=$(tput cols)
 
     clean_part_r=$(echo -e "${rprompt_string}" | tr -d '\033' | sed -E 's/\[[0-9]{1,3}(;[0-9]{1,3})?(;[0-9]{1,3})?m//g')
-    buffer=$(printf "%*s" $((COLUMNS  - ${#clean_part_r})))
+    buffer=$(printf "%*s" $((COLUMNS  - ${#clean_part_r})) "")
     echo -e "${buffer}${rprompt_string}\e[0m"
 
   elif [[ "$TYPEPROMPT" =~ ^[Ll]$ ]] || [[ "$TYPESHELL" =~ ^[Bb]$ ]]; then
@@ -338,8 +364,7 @@ parts_picker() {
   # Choose Parts
   echo -e "\nType 'n' or 'N' when you're finished\n"
   part_array=() # Append to this empty array
-  custom_array=() # Use if custom text is
-  declare -i repeat=1
+  custom_array=() # Use if custom text/element is chosen
 
   # Keep entering options until 'n' or 'N' also has error handling
   while :; do  # No argument for break, keep going until a break is found in the body
@@ -348,23 +373,23 @@ parts_picker() {
       break  # Break while-loop
     elif [[ "$CHOICE" == '18' ]]; then  # If custom variable
       read -r -p $'\tEnter Custom Variable: ' CUSTVAR  # -r flag so we keep '\' for Bash prompt vars
-      part_array+=($CHOICE)
+      part_array+=("$CHOICE")
       custom_array+=("$CUSTVAR")
     # If newline chosen during $RPROMPT
-    elif [[ "$CHOICE" == '73' ]] && ([[ "$TYPEPROMPT" =~ ^[Rr]$ ]] || [[ "$rprompt_turn" ]]); then
+    elif [[ "$CHOICE" == '73' ]] && { [[ "$TYPEPROMPT" =~ ^[Rr]$ ]] || [[ "$rprompt_turn" == true ]]; }; then
       echo "RPROMPT cannot contain newlines!"
     elif [[ "$CHOICE" == '74' ]]; then  # If emoji
       read -p $'\tEnter Emoji: ' EMOJI
-      part_array+=($CHOICE)
+      part_array+=("$CHOICE")
       custom_array+=("$EMOJI")
     elif [[ "$CHOICE" == '75' ]]; then  # If custom text
       read -p $'\tEnter Custom Text: ' CUSTEXT
-      part_array+=($CHOICE)
+      part_array+=("$CHOICE")
       # Escape quotes & backslashes
-      custom_array+=($(printf "%q" "$CUSTEXT")) # Needed for printing custom text
+      custom_array+=("$(printf "%q" "$CUSTEXT")") # Needed for printing custom text
     elif [[ $CHOICE =~ ^[0-9]+$ ]]; then  # If it's a number
       if ((CHOICE >= 1 && CHOICE <= 73)); then  # And it's in range (74, 75 already handled)
-        part_array+=($CHOICE)  # Append to array
+        part_array+=("$CHOICE")  # Append to array
       else
         echo "Enter a valid number! (1-75)"
       fi
@@ -390,8 +415,8 @@ parts_picker() {
         return
       # If nothing added to lprompt or rprompt, exit
       elif [[ "$rprompt_turn" == true ]] && [[ "$l_parts" == "" ]]; then
-         echo -e "\n${RED}ERR${RC}: Nothing added to either prompt, exiting!\n" > /dev/stderr
-         exit 1
+        echo -e "\n${RED}ERR${RC}: Nothing added to either prompt, exiting!\n" > /dev/stderr
+        exit 1
       fi
     # If only one type of prompt, nothing means program over
     else
@@ -497,7 +522,7 @@ colors_picker() {
         if ((FG >= 1 && FG <= 28)); then  # Check if it's between 1-27
           if (( FG == 28 )); then
             # Append to end of color dictionary and use that new index as the color
-            color_dictionary+=($(custom_rgb "FG"))
+            color_dictionary+=("$(custom_rgb 'FG')")
             FG=${#color_dictionary[@]}
           fi
           break  # On correct, move onto background
@@ -530,7 +555,7 @@ colors_picker() {
       if [[ $BG =~ ^[0-9]+$ ]]; then  # Always need bg, no need to check if its used
         if ((BG >= 29 && BG <= 56)); then  # Check if it's between 28-54
           if (( BG == 56 )) ; then
-            color_dictionary+=($(custom_rgb "BG"))
+            color_dictionary+=("$(custom_rgb 'BG')")
             BG=${#color_dictionary[@]}
           fi
           break  # End this loop, the color input is fine for this part, go to the next for-loop iteration
@@ -585,7 +610,7 @@ merge() {
     elif [[ "$i" == '72' ]]; then # Newline just skip colors altogether
       counter+=0  # Do nothing, don't use 'continue' as it skips the rest of the for-loop
     else
-      next=$(($counter+1))  # +1 to print both fg and bg pair
+      next=$((counter+1))  # +1 to print both fg and bg pair
       review_prompt+=${color_dictionary[local_color_array[counter]]}
       review_prompt+=${color_dictionary[local_color_array[next]]}
       if [[ "$TYPESHELL" =~ ^[Zz]$ ]]; then
@@ -627,7 +652,9 @@ merge() {
 
 
 
-### Main ###
+##############################
+###          Main          ###
+##############################
 
 
 
@@ -645,11 +672,12 @@ while [[ "$#" -gt 0 ]]; do
     case $1 in
         -v|--version)
             version
-            shift
             ;;
         -u|--usage|-h|--help)
             usage
-            shift
+            ;;
+        --uninstall)
+            uninstall
             ;;
         --comment-out)
             command_check
@@ -674,15 +702,15 @@ while [[ "$#" -gt 0 ]]; do
             shift
             ;;
         --separate-file)
-            filename="$2"
-            separatefile=true
-            # Substitute "~" with $HOME, since it won't be expanded automatically
-            filename="${filename/#\~/$HOME}"
-            if [[ "$filename" == "" ]] ; then
-              echo -e "\n${RED}ERR${RC}: A valid filename must be used when using --separate-file\n"
+            shift
+            if [[ -z "$1" ]] || [[ "$1" == --* ]]; then
+              echo -e "\n${RED}ERR${RC}: A valid filename must be used when using --separate-file. Use the -h flag to see proper usage.\n"
               exit 1
             fi
-            shift 2
+            separatefile=true
+            # Substitute "~" with $HOME, since it won't be expanded automatically
+            filename="${1/#\~/$HOME}"
+            shift
             ;;
         *)
             shift
@@ -713,6 +741,18 @@ while :; do
     read -p "Please choose a valid shell type ('Z' or 'B'): " TYPESHELL
   fi
 done
+
+if [[ "$TYPESHELL" =~ ^[Bb]$ ]] && [[ "$omz" == true ]]; then
+  if [[ "$isError" == true  ]]; then
+    echo ""
+  fi
+
+  echo -e "${YELLOW}WARN${RC}: The --omz flag is not applicable to Bash, only Zsh" > /dev/stderr
+
+  if [[ "$isError" != true  ]]; then
+    echo ""
+  fi
+fi
 
 if [[ "$TYPESHELL" =~ ^[Zz]$ ]]; then
   if [[ "$isError" == true  ]]; then
@@ -841,9 +881,9 @@ if [[ "$CHOICE" =~ ^[Yy]$ ]]; then
   fi
 
   if [[ "$nowatermarks" == false ]]; then
-    echo -e "\n# Added by Shell-Color-Prompt-Tool" >> "$filename"
+    echo -e "\n\n# Added by Shell-Color-Prompt-Tool" >> "$filename"
   else
-    echo -e "\n" >> "$filename"
+    echo -e "\n\n" >> "$filename"
   fi
 
   # Add newline literal and space-ending unless told otherwise
@@ -865,6 +905,9 @@ if [[ "$CHOICE" =~ ^[Yy]$ ]]; then
   elif [[ "$TYPEPROMPT" == "" ]]; then
     echo -e "export PS1=$'$final_prompt'" >> "$filename"
   fi
+
+  # Handle SIGINT/SIGTERM after saving prompt
+  trap 'echo -e "\n\n${RED}ERR${RC}: SIGINT/SIGTERM signal receieved, but prompt was already saved!\n" > /dev/stderr; exit 1' SIGINT SIGTERM
 
   # Dont print this if we are using the --separate-file flag
   if [[ "$separatefile" == true ]]; then
