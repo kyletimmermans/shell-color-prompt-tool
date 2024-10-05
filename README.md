@@ -132,6 +132,17 @@ how they're handled</b></div>
 
 <div>&#8203;</div>
 
+### Security Warning
+
+> [!CAUTION]
+> Exercise caution when copy and pasting code from someone else and / or code that you do not understand, into the custom parts options (Custom Text, Emoji, Other Prompt Expansion Variable).
+> 
+> Shell prompts are fully capable of running commands and entire command pipelines.
+> 
+> Bad code can break your host (e.g. rm -rf something), and malicious code (e.g. reverse shell), can harm your host.
+
+<div>&#8203;</div>
+
 ### Program Workflow
 
 ```mermaid
