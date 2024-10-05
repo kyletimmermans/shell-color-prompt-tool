@@ -206,7 +206,7 @@ graph TD;
 <div>v4.1:</div>
 <div>&ensp;&ensp;-Added: Traps to handle SIGINT/SIGTERM signals while program is running</div>
 <div>&ensp;&ensp;-Added: --uninstall flag (Deletes scpt & man page)</div>
-<div>&ensp;&ensp;-Refactor: Used [shellcheck.net](https://www.shellcheck.net/) linter - applied minor fixes</div>
+<div>&ensp;&ensp;-Refactor: Used <a href="https://www.shellcheck.net/">ShellCheck</a> linter - applied minor fixes</div>
 <div>&ensp;&ensp;-Repo: Created man page</div>
 <div>&ensp;&ensp;-Repo: Added screenshot automation / helper files to /media</div>
 
