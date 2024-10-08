@@ -251,7 +251,7 @@ on the command line. I wanted it to be all in one place. There's a few other fea
 program as well:
 - [x] Show the user all of the options they have for customizing their prompt, which includes all of the terminal variables (username, hostname, etc) and many of the colors available
 - [x] Simple menu-style system for choosing which components and colors you'd like to be in the prompt
-- [x] No additional software required - most Unix-based systems (Linux, macOS) already have Bash pre-installed, so there’s no need to install any additional interpreters or libraries
+- [x] No additional software required (besides for 2 flags, potentially) - Most Unix-based systems (Linux, macOS) already have Bash pre-installed, so there’s no need to install any additional interpreters or libraries
 - [x] No need to edit the .bashrc / .zshrc file at all, no need to copy and paste the variable in there. The program will put it in there for you
 
 <div>&#8203;</div>
