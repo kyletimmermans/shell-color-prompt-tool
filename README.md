@@ -1,4 +1,4 @@
-![Version 4.1](http://img.shields.io/badge/Version-4.1-orange.svg)
+![Version 4.2](http://img.shields.io/badge/Version-4.2-orange.svg)
 ![Zsh 5.8](https://img.shields.io/badge/Zsh-5.8-red.svg)
 ![Bash 5.1.16](https://img.shields.io/badge/Bash-5.1.16-red.svg)
 ![Latest Commit](https://img.shields.io/github/last-commit/kyletimmermans/shell-color-prompt-tool?color=lightblue&label=Latest%20Commit)
@@ -46,12 +46,12 @@ sudo port install gawk gsed
 
 ### Sample Program Walkthrough
 <p align="center">
-  <img src="/media/visuals/prompt_walkthrough_v4.1.png?raw=true" alt="Sample Program Walkthrough"/>
+  <img src="/media/visuals/prompt_walkthrough_v4.2.png?raw=true" alt="Sample Program Walkthrough"/>
 </p>
 
 ### Resulting Prompt
 <p align="center">
-  <img src="/media/visuals/prompt_walkthrough_result_v4.1.png?raw=true" alt="Resulting Prompt"/>
+  <img src="/media/visuals/prompt_walkthrough_result_v4.2.png?raw=true" alt="Resulting Prompt"/>
 </p>
 
 <div align="center"><b>Note: I don't think anyone would create a prompt setup as chaotic as this one,
@@ -62,12 +62,12 @@ how they're handled</b></div>
 
 ### Demo Video
 
-![Demo Video](/media/visuals/vhs_demo_v4.1.gif)
+![Demo Video](/media/visuals/vhs_demo_v4.2.gif)
 
 ### Demo Resulting Prompt
 
 <p align="center">
-  <img src="/media/visuals/gif_walkthrough_result_v4.1.png?raw=true" alt="Demo Resulting Prompt"/>
+  <img src="/media/visuals/gif_walkthrough_result_v4.2.png?raw=true" alt="Demo Resulting Prompt"/>
 </p>
 
 <div>&#8203;</div>
@@ -95,7 +95,7 @@ how they're handled</b></div>
                              and a space to the end of the prompt
 
 --separate-file              Place the prompt string in a separate file instead of putting it in
-                             .zshrc / .bashrc for any reason E.g. --separate-file "~/test.txt"
+                             .zshrc / .bashrc for any reason E.g. --separate-file="~/test.txt"
 
 --no-watermarks              Don't add the "# Added by Shell-Color-Prompt-Tool" comment to
                              .zshrc / .bashrc when adding the prompt string and don't add the
@@ -220,6 +220,10 @@ graph TD;
 <div>&ensp;&ensp;-Refactor: Used <a href="https://www.shellcheck.net/">ShellCheck</a> linter - applied minor fixes</div>
 <div>&ensp;&ensp;-Repo: Created man page</div>
 <div>&ensp;&ensp;-Repo: Added screenshot automation / helper files to /media</div>
+<div>v4.2:</div>
+<div>&ensp;&ensp;-Fixed: Further improved filename arg parsing for the —separate-file flag</div>
+<div>&ensp;&ensp;-Fixed: Handle unknown flags / options properly</div>
+<div>&ensp;&ensp;-Fixed: For error logging, swapped "> /dev/stderr" to ">&2" for better portability</div>
 
 <div>&#8203;</div>
 
@@ -247,6 +251,7 @@ on the command line. I wanted it to be all in one place. There's a few other fea
 program as well:
 - [x] Show the user all of the options they have for customizing their prompt, which includes all of the terminal variables (username, hostname, etc) and many of the colors available
 - [x] Simple menu-style system for choosing which components and colors you'd like to be in the prompt
+- [x] No additional software required - most Unix-based systems (Linux, macOS) already have Bash pre-installed, so there’s no need to install any additional interpreters or libraries
 - [x] No need to edit the .bashrc / .zshrc file at all, no need to copy and paste the variable in there. The program will put it in there for you
 
 <div>&#8203;</div>

@@ -2,17 +2,17 @@
 
 
 
-# Shell-Color-Prompt-Tool v4.1
+# Shell-Color-Prompt-Tool v4.2
 
 
 
 # Handle SIGINT/SIGTERM before saving prompt
-trap 'echo -e "\n\n\e[1;33mWARN\e[0m: SIGINT/SIGTERM signal receieved, prompt not saved!\n" > /dev/stderr; exit 1' SIGINT SIGTERM
+trap 'echo -e "\n\n\e[1;33mWARN\e[0m: SIGINT/SIGTERM signal receieved, prompt not saved!\n" >&2; exit 1' SIGINT SIGTERM
 
 
 # Global Variables
 
-version="4.1"
+version="4.2"
 
 # Title Colors / Format Vars
 BOLD="$(tput bold)"
@@ -50,7 +50,7 @@ version() {
       echo -e "github.com/kyletimmermans/shell-color-prompt-tool\n"
     fi
   else
-      echo -e "\n${RED}ERR${RC}: Could not connect to GitHub to check for updates\n" > /dev/stderr
+      echo -e "\n${RED}ERR${RC}: Could not connect to GitHub to check for updates\n" >&2
   fi
 
   exit 0
@@ -74,7 +74,7 @@ usage() {
   echo -e "${BOLD}--no-extras${NORMAL}          Don't automatically add a newline to the start of the prompt and a space"
   echo -e "                     to the end of the prompt\n"
   echo -e "${BOLD}--separate-file${NORMAL}      Place the prompt string in a separate file instead of putting it in"
-  echo -e "                     .zshrc / .bashrc E.g. --separate-file \"~/test.txt\"\n"
+  echo -e "                     .zshrc / .bashrc E.g. --separate-file=\"~/test.txt\"\n"
   echo -e "${BOLD}--no-watermarks${NORMAL}      Don't add the \"# Added by Shell-Color-Prompt-Tool\" comment to"
   echo -e "                     .zshrc / .bashrc when adding the prompt string and don't add the"
   echo -e "                     \"# Commented out by Shell-Color-Prompt-Tool\" comment when using"
@@ -107,7 +107,7 @@ usage() {
 
 # Remove scpt file and man page
 uninstall() {
-  trap 'echo -e "\n\n${RED}ERR${RC}: SIGINT/SIGTERM signal receieved, scpt not uninstalled!\n" > /dev/stderr; exit 1' SIGINT SIGTERM
+  trap 'echo -e "\n\n${RED}ERR${RC}: SIGINT/SIGTERM signal receieved, scpt not uninstalled!\n" >&2; exit 1' SIGINT SIGTERM
 
   echo ""
   read -p "Did you install this program with \"Install as a Command\"? (Y/n): " yn
@@ -118,7 +118,7 @@ uninstall() {
     echo -e "\n${GREEN}INFO${RC}: Successfully Uninstalled - Deleted scpt and man page!\n"
     exit 0
   else
-    echo -e "\n${RED}ERR${RC}: Nothing to uninstall - Simply delete the downloaded file\n" > /dev/stderr
+    echo -e "\n${RED}ERR${RC}: Nothing to uninstall - Simply delete the downloaded file\n" >&2
     exit 1
   fi
 }
@@ -134,7 +134,7 @@ command_check() {
   elif awk --version 2>/dev/null | grep -q "GNU"; then
     gawk() { awk "$@"; }
   else
-    echo -e "\n${RED}ERR${RC}: gawk is required for the --comment-out and --omz flags to work\n" > /dev/stderr
+    echo -e "\n${RED}ERR${RC}: gawk is required for the --comment-out and --omz flags to work\n" >&2
     gawk_needed=true
   fi
 
@@ -143,7 +143,7 @@ command_check() {
   elif sed --version 2>/dev/null | grep -q "GNU"; then
     gsed() { sed "$@"; }
   else
-    echo -e "\n${RED}ERR${RC}: gsed is required for the --comment-out and --omz flags to work\n" > /dev/stderr
+    echo -e "\n${RED}ERR${RC}: gsed is required for the --comment-out and --omz flags to work\n" >&2
     gsed_needed=true
   fi
 
@@ -407,20 +407,20 @@ parts_picker() {
     if [[ "$TYPEPROMPT" =~ ^[Bb]$ ]]; then
       # If lprompt has nothing, warn and move on to rprompt
       if [[ "$lprompt_turn" == true ]]; then
-        echo -e "\n\n${YELLOW}WARN${RC}: Nothing added to LPROMPT!" > /dev/stderr
+        echo -e "\n\n${YELLOW}WARN${RC}: Nothing added to LPROMPT!" >&2
         return  # Don't move onto color picking
       # If rprompt has nothing but lprompt does, warn and move on
       elif [[ "$rprompt_turn" == true ]] && [[ "$l_parts" != "" ]]; then
-        echo -e "\n\n${YELLOW}WARN${RC}: Nothing added to RPROMPT!" > /dev/stderr
+        echo -e "\n\n${YELLOW}WARN${RC}: Nothing added to RPROMPT!" >&2
         return
       # If nothing added to lprompt or rprompt, exit
       elif [[ "$rprompt_turn" == true ]] && [[ "$l_parts" == "" ]]; then
-        echo -e "\n${RED}ERR${RC}: Nothing added to either prompt, exiting!\n" > /dev/stderr
+        echo -e "\n${RED}ERR${RC}: Nothing added to either prompt, exiting!\n" >&2
         exit 1
       fi
     # If only one type of prompt, nothing means program over
     else
-      echo -e "\n${RED}ERR${RC}: Nothing added to prompt, exiting!\n" > /dev/stderr # If empty, exit.
+      echo -e "\n${RED}ERR${RC}: Nothing added to prompt, exiting!\n" >&2  # If empty, exit.
       exit 1
     fi
   fi
@@ -702,18 +702,23 @@ while [[ "$#" -gt 0 ]]; do
             shift
             ;;
         --separate-file)
-            shift
-            if [[ -z "$1" ]] || [[ "$1" == --* ]]; then
-              echo -e "\n${RED}ERR${RC}: A valid filename must be used when using --separate-file. Use the -h flag to see proper usage.\n"
+            # Handle --separate-file used with no filename arg
+            echo -e "\n${RED}ERR${RC}: A valid filename must be used when using --separate-file. Use the -h flag to see proper usage\n" >&2
+            exit 1
+            ;;
+        --separate-file=*)
+            # Get everything after '=' and then substitute "~" with $HOME, since it won't be expanded automatically
+            filename="${1#*=}"; filename="${filename/#\~/$HOME}"
+            if [[ -z "$filename" ]]; then  # If empty filename arg
+              echo -e "\n${RED}ERR${RC}: A valid filename must be used when using --separate-file. Use the -h flag to see proper usage\n" >&2
               exit 1
             fi
             separatefile=true
-            # Substitute "~" with $HOME, since it won't be expanded automatically
-            filename="${1/#\~/$HOME}"
             shift
             ;;
         *)
-            shift
+            echo -e "\n${RED}ERR${RC}: Unknown flag / option: $1\n" >&2
+            exit 1
             ;;
     esac
 done
@@ -747,7 +752,7 @@ if [[ "$TYPESHELL" =~ ^[Bb]$ ]] && [[ "$omz" == true ]]; then
     echo ""
   fi
 
-  echo -e "${YELLOW}WARN${RC}: The --omz flag is not applicable to Bash, only Zsh" > /dev/stderr
+  echo -e "${YELLOW}WARN${RC}: The --omz flag is not applicable to Bash, only Zsh" >&2
 
   if [[ "$isError" != true  ]]; then
     echo ""
@@ -907,7 +912,7 @@ if [[ "$CHOICE" =~ ^[Yy]$ ]]; then
   fi
 
   # Handle SIGINT/SIGTERM after saving prompt
-  trap 'echo -e "\n\n${RED}ERR${RC}: SIGINT/SIGTERM signal receieved, but prompt was already saved!\n" > /dev/stderr; exit 1' SIGINT SIGTERM
+  trap 'echo -e "\n\n${RED}ERR${RC}: SIGINT/SIGTERM signal receieved, but prompt was already saved!\n" >&2; exit 1' SIGINT SIGTERM
 
   # Dont print this if we are using the --separate-file flag
   if [[ "$separatefile" == true ]]; then
@@ -917,5 +922,5 @@ if [[ "$CHOICE" =~ ^[Yy]$ ]]; then
   fi
 
 else
-  echo -e "\n${YELLOW}WARN${RC}: Prompt not saved, exiting!\n" > /dev/stderr
+  echo -e "\n${YELLOW}WARN${RC}: Prompt not saved, exiting!\n" >&2
 fi

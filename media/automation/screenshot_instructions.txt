@@ -1,6 +1,6 @@
 - Prompt Walkthrough Screenshot
 
-	- Comment out ZSH_THEME= in .zshrc
+	- Comment out ZSH_THEME= in .zshrc & restart terminal
 	- Temp RGB fix if TRUECOLOR not available
 	- Full screen
 	- Full brightness
@@ -15,7 +15,7 @@
 	- Crop to show the top calling line and prompt
 	- Crop to not show the last prompt line to prevent confusion
 	- Cover up upper scroll bar parts w/ black
-	- Was 2878x8353 in v4.0 photo
+	- Was 2878x8453 in v4.1 photo
 
 
 - Resulting Prompt Screenshot
