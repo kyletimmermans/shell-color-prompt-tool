@@ -221,7 +221,7 @@ graph TD;
 <div>&ensp;&ensp;-Repo: Created man page</div>
 <div>&ensp;&ensp;-Repo: Added screenshot automation / helper files to /media</div>
 <div>v4.2:</div>
-<div>&ensp;&ensp;-Fixed: Further improved filename arg parsing for the —separate-file flag</div>
+<div>&ensp;&ensp;-Fixed: Further improved filename arg parsing for the --separate-file flag</div>
 <div>&ensp;&ensp;-Fixed: Handle unknown flags / options properly</div>
 <div>&ensp;&ensp;-Fixed: For error logging, swapped "> /dev/stderr" to ">&2" for better portability</div>
 
