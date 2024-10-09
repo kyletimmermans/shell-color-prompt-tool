@@ -211,7 +211,7 @@ graph TD;
 <div>&ensp;&ensp;-Refactored and simplified file output logic section</div>
 <div>&ensp;&ensp;-Refactored flag parsing - Now all parsing done in case statement</div>
 <div>&ensp;&ensp;-Added more info and formatting to usage/help output</div>
-<div>&ensp;&ensp;-General code cleanup: Removed redundant or unncessary code, wrapped code in functions</div>
+<div>&ensp;&ensp;-General code cleanup: Removed redundant or unnecessary code, wrapped code in functions</div>
 <div>&ensp;&ensp;-Better prompt preview now that RPROMPT is printed on the right side of the terminal</div>
 <div>&ensp;&ensp;-Log levels and coloring added to log statements</div>
 <div>v4.1:</div>
