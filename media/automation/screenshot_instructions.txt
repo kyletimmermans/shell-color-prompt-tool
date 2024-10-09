@@ -11,11 +11,11 @@
 	- scpt
 	- choices.py
 	- CleanShot X - Scrolling Capture
-	- Scroll very slowly to prevent scrollbar from appearing
+	- Scroll very slowly to prevent scrollbar from appearing and prevent glitches
 	- Crop to show the top calling line and prompt
 	- Crop to not show the last prompt line to prevent confusion
 	- Cover up upper scroll bar parts w/ black
-	- Was 2878x8453 in v4.1 photo
+	- Was 2878x8440 in v4.2 photo
 
 
 - Resulting Prompt Screenshot
