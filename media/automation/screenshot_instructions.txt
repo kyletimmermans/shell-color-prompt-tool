@@ -10,12 +10,11 @@
 	- View --> Hide Marks & Hide Tab Bar
 	- scpt
 	- choices.py
-	- CleanShot X - Scrolling Capture
-	- Scroll very slowly to prevent scrollbar from appearing and prevent glitches
+	- CleanShot X - Scrolling Capture - Auto-Scroll
 	- Crop to show the top calling line and prompt
 	- Crop to not show the last prompt line to prevent confusion
 	- Cover up upper scroll bar parts w/ black
-	- Was 2878x8440 in v4.2 photo
+	- 4.2 Image Dimensions: 2878x8352
 
 
 - Resulting Prompt Screenshot
