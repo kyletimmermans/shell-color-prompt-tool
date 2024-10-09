@@ -1,4 +1,4 @@
-![Version 4.2](http://img.shields.io/badge/Version-4.2-orange.svg)
+![Version 4.3](http://img.shields.io/badge/Version-4.3-orange.svg)
 ![Zsh 5.8](https://img.shields.io/badge/Zsh-5.8-red.svg)
 ![Bash 5.1.16](https://img.shields.io/badge/Bash-5.1.16-red.svg)
 ![Latest Commit](https://img.shields.io/github/last-commit/kyletimmermans/shell-color-prompt-tool?color=lightblue&label=Latest%20Commit)
@@ -46,12 +46,12 @@ sudo port install gawk gsed
 
 ### Sample Program Walkthrough
 <p align="center">
-  <img src="/media/visuals/prompt_walkthrough_v4.2.png?raw=true" alt="Sample Program Walkthrough"/>
+  <img src="/media/visuals/prompt_walkthrough_v4.3.png?raw=true" alt="Sample Program Walkthrough"/>
 </p>
 
 ### Resulting Prompt
 <p align="center">
-  <img src="/media/visuals/prompt_walkthrough_result_v4.2.png?raw=true" alt="Resulting Prompt"/>
+  <img src="/media/visuals/prompt_walkthrough_result_v4.3.png?raw=true" alt="Resulting Prompt"/>
 </p>
 
 <div align="center"><b>Note: I don't think anyone would create a prompt setup as chaotic as this one,
@@ -62,12 +62,12 @@ how they're handled</b></div>
 
 ### Demo Video
 
-![Demo Video](/media/visuals/vhs_demo_v4.2.gif)
+![Demo Video](/media/visuals/vhs_demo_v4.3.gif)
 
 ### Demo Resulting Prompt
 
 <p align="center">
-  <img src="/media/visuals/gif_walkthrough_result_v4.2.png?raw=true" alt="Demo Resulting Prompt"/>
+  <img src="/media/visuals/gif_walkthrough_result_v4.3.png?raw=true" alt="Demo Resulting Prompt"/>
 </p>
 
 <div>&#8203;</div>
@@ -224,6 +224,9 @@ graph TD;
 <div>&ensp;&ensp;-Fixed: Further improved filename arg parsing for the --separate-file flag</div>
 <div>&ensp;&ensp;-Fixed: Handle unknown flags / options properly</div>
 <div>&ensp;&ensp;-Fixed: For error logging, swapped "> /dev/stderr" to ">&2" for better portability</div>
+<div>v4.3:</div>
+<div>&ensp;&ensp;-Added: Better formatting for prompt preview section</div>
+<div>&ensp;&ensp;-Added: When displaying preview of prompt, the RPROMPT preview will now have a space at the end, just like the actual $RPROMPT does</div>
 
 <div>&#8203;</div>
 

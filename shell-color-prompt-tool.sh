@@ -2,7 +2,7 @@
 
 
 
-# Shell-Color-Prompt-Tool v4.2
+# Shell-Color-Prompt-Tool v4.3
 
 
 
@@ -12,7 +12,7 @@ trap 'echo -e "\n\n\e[1;33mWARN\e[0m: SIGINT/SIGTERM signal receieved, prompt no
 
 # Global Variables
 
-version="4.2"
+version="4.3"
 
 # Title Colors / Format Vars
 BOLD="$(tput bold)"
@@ -229,7 +229,8 @@ comment_out() {
 # Needed for when RPROMPT must be printed to the right side of the terminal
 preview_print() {
 
-  echo -e "\nThis is a preview of how your prompt will look:\n"
+  echo -e "\n\nThis is a preview of how your prompt will look:"
+  echo -e "-----------------------------------------------\n"
 
   # Both
   if [[ "$TYPEPROMPT" =~ ^[Bb]$ ]]; then
@@ -245,7 +246,9 @@ preview_print() {
         echo -e "${lprompt_parts[$i]}\e[0m"
       else
         clean_part_l=$(echo -e "${lprompt_parts[$i]}" | tr -d '\033' | sed -E 's/\[[0-9]{1,3}(;[0-9]{1,3})?(;[0-9]{1,3})?m//g')
-        clean_part_r=$(echo -e "${rprompt_string}" | tr -d '\033' | sed -E 's/\[[0-9]{1,3}(;[0-9]{1,3})?(;[0-9]{1,3})?m//g')
+        # Added space at end of RPROMPT to simulate actual $RPROMPT behavior
+        #                                        v
+        clean_part_r=$(echo -e "${rprompt_string} " | tr -d '\033' | sed -E 's/\[[0-9]{1,3}(;[0-9]{1,3})?(;[0-9]{1,3})?m//g')
         buffer=$(printf "%*s" $((COLUMNS - ${#clean_part_l} - ${#clean_part_r})) "")
         echo -e "${lprompt_parts[$i]}${buffer}${rprompt_string}\e[0m"
       fi
@@ -257,7 +260,8 @@ preview_print() {
 
     COLUMNS=$(tput cols)
 
-    clean_part_r=$(echo -e "${rprompt_string}" | tr -d '\033' | sed -E 's/\[[0-9]{1,3}(;[0-9]{1,3})?(;[0-9]{1,3})?m//g')
+    # Added space at end of RPROMPT to simulate actual $RPROMPT behavior
+    clean_part_r=$(echo -e "${rprompt_string} " | tr -d '\033' | sed -E 's/\[[0-9]{1,3}(;[0-9]{1,3})?(;[0-9]{1,3})?m//g')
     buffer=$(printf "%*s" $((COLUMNS  - ${#clean_part_r})) "")
     echo -e "${buffer}${rprompt_string}\e[0m"
 
