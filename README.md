@@ -1,4 +1,4 @@
-![Version 4.3](http://img.shields.io/badge/Version-4.3-orange.svg)
+![Version 4.4](http://img.shields.io/badge/Version-4.4-orange.svg)
 ![Zsh 5.8](https://img.shields.io/badge/Zsh-5.8-red.svg)
 ![Bash 5.1.16](https://img.shields.io/badge/Bash-5.1.16-red.svg)
 ![Latest Commit](https://img.shields.io/github/last-commit/kyletimmermans/shell-color-prompt-tool?color=lightblue&label=Latest%20Commit)
@@ -46,12 +46,12 @@ sudo port install gawk gsed
 
 ### Sample Program Walkthrough
 <p align="center">
-  <img src="/media/visuals/prompt_walkthrough_v4.3.png?raw=true" alt="Sample Program Walkthrough"/>
+  <img src="/media/visuals/prompt_walkthrough_v4.4.png?raw=true" alt="Sample Program Walkthrough"/>
 </p>
 
 ### Resulting Prompt
 <p align="center">
-  <img src="/media/visuals/prompt_walkthrough_result_v4.3.png?raw=true" alt="Resulting Prompt"/>
+  <img src="/media/visuals/prompt_walkthrough_result_v4.4.png?raw=true" alt="Resulting Prompt"/>
 </p>
 
 <div align="center"><b>Note: I don't think anyone would create a prompt setup as chaotic as this one,
@@ -62,12 +62,12 @@ how they're handled</b></div>
 
 ### Demo Video
 
-![Demo Video](/media/visuals/vhs_demo_v4.3.gif)
+![Demo Video](/media/visuals/vhs_demo_v4.4.gif)
 
 ### Demo Resulting Prompt
 
 <p align="center">
-  <img src="/media/visuals/gif_walkthrough_result_v4.3.png?raw=true" alt="Demo Resulting Prompt"/>
+  <img src="/media/visuals/gif_walkthrough_result_v4.4.png?raw=true" alt="Demo Resulting Prompt"/>
 </p>
 
 <div>&#8203;</div>
@@ -111,7 +111,7 @@ how they're handled</b></div>
 > * #### If you want to use the --comment-out or --omz flags, you must have 'gawk' and 'gsed' installed. On Mac, you'll need to install both. On Linux, you just need gawk, as gsed should already be your default sed version
 > * #### --comment-out and --omz can break the config if the variables that are getting commented out, are defined within things like if-statements or case-statements
 > * #### For the actual prompt string in the .zshrc / .bashrc file, some text editors like Sublime Text will show the ANSI escape characters like "\e[0;30m" as "<0x1b>". Use a text editor like Vim to show the raw text
-> * #### Fullscreen terminals will be able to fit the spacing and styling of the interactive prompt the best  
+> * #### Fullscreen terminals will be able to fit the spacing and styling of the interactive prompt the best
 > * #### Colors may vary from system to system. When using the Custom RGB option, make sure your terminal supports TRUECOLOR (See [here](https://github.com/termstandard/colors))
 > * #### If your command is too long, $RPROMPT will visually be temporarily overwritten
 > * #### $RPROMPT cannot contain newlines (\n)
@@ -136,9 +136,9 @@ how they're handled</b></div>
 
 > [!CAUTION]
 > Exercise caution when copy and pasting code from someone else and / or code that you do not understand, into the custom parts options (Custom Text, Emoji, Other Prompt Expansion Variable).
-> 
+>
 > Shell prompts are fully capable of running commands and entire command pipelines.
-> 
+>
 > Bad code can break your host (e.g. rm -rf something), and malicious code (e.g. reverse shell), can harm your host.
 
 <div>&#8203;</div>
@@ -227,6 +227,10 @@ graph TD;
 <div>v4.3:</div>
 <div>&ensp;&ensp;-Added: Better formatting for prompt preview section</div>
 <div>&ensp;&ensp;-Added: When displaying preview of prompt, the RPROMPT preview will now have a space at the end, just like the actual $RPROMPT does</div>
+<div>v4.4:</div>
+<div>&ensp;&ensp;-Added: More arg parsing and error handling for --separate-flag and moved all its logic into separate_file()</div>
+<div>&ensp;&ensp;-Added: 'read' now using -r flag to avoid backslash issues for inputs</div>
+<div>&ensp;&ensp;-Refactor: Removed redundant code, de-nested several if-statements</div>
 
 <div>&#8203;</div>
 

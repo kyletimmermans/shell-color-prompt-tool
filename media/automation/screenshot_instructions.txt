@@ -13,7 +13,7 @@
 	- CleanShot X - Scrolling Capture - Auto-Scroll
 	- Crop to show the top calling line and prompt
 	- Crop to not show the last prompt line to prevent confusion
-	- 4.3 Image Dimensions: 2878x8440
+	- 4.4 Image Dimensions: 2878x8440
 	- Cover up upper scroll bar parts w/ black
 
 

@@ -2,7 +2,7 @@
 
 
 
-# Shell-Color-Prompt-Tool v4.3
+# Shell-Color-Prompt-Tool v4.4
 
 
 
@@ -12,7 +12,7 @@ trap 'echo -e "\n\n\e[1;33mWARN\e[0m: SIGINT/SIGTERM signal receieved, prompt no
 
 # Global Variables
 
-version="4.3"
+version="4.4"
 
 # Title Colors / Format Vars
 BOLD="$(tput bold)"
@@ -46,11 +46,12 @@ version() {
   if [[ $newest_version != "" ]]; then
     # If local version not the same as latest GitHub release, then notify
     if [[ "$version" != "$newest_version" ]]; then
-      echo -e "\nNewer version available on GitHub - v${newest_version}!\n"
+      echo -e "\n${GREEN}INFO${RC}: Newer version available on GitHub - v${newest_version}!\n"
       echo -e "github.com/kyletimmermans/shell-color-prompt-tool\n"
     fi
   else
       echo -e "\n${RED}ERR${RC}: Could not connect to GitHub to check for updates\n" >&2
+      exit 1
   fi
 
   exit 0
@@ -59,7 +60,7 @@ version() {
 
 # Usage/Help Flag
 usage() {
-  echo -e "\n${UNDERLINE}Usage${NORMAL}: Run this program and use the interactive prompt to create your custom Zsh/Bash prompt\n\n"
+  echo -e "\n${UNDERLINE}Usage${NORMAL}: Run this program and use the interactive prompt to create your custom Zsh / Bash prompt\n\n"
   echo -e "${UNDERLINE}Flags${NORMAL}:\n"
   echo -e "${BOLD}--usage${NORMAL}              Pulls up this menu\n"
   echo -e "${BOLD}--version${NORMAL}            Get program version. Reveal if a newer version is available on GitHub\n"
@@ -110,7 +111,7 @@ uninstall() {
   trap 'echo -e "\n\n${RED}ERR${RC}: SIGINT/SIGTERM signal receieved, scpt not uninstalled!\n" >&2; exit 1' SIGINT SIGTERM
 
   echo ""
-  read -p "Did you install this program with \"Install as a Command\"? (Y/n): " yn
+  read -r -p "Did you install this program with \"Install as a Command\"? (Y/n): " yn
 
   if [[ "$yn" =~ ^[Yy]$ ]]; then
     sudo rm /usr/local/bin/scpt
@@ -155,30 +156,30 @@ command_check() {
 
 # Input 'R' 'G' 'B' values for custom RGB
 custom_rgb() {
-  read -p $'\tChoose R value (0-255): ' R
+  read -r -p $'\tChoose R value (0-255): ' R
   while :; do
-    if [[ -n "$R" && $R =~ ^[0-9]+$ ]] && (( R >= 0 && R <= 255 )); then
+    if [[ $R =~ ^[0-9]+$ ]] && (( R >= 0 && R <= 255 )); then
       break
     else
-      read -p $'\tPlease choose a valid R number (0-255): ' R
+      read -r -p $'\tPlease choose a valid R number (0-255): ' R
     fi
   done
 
-  read -p $'\tChoose G value (0-255): ' G
+  read -r -p $'\tChoose G value (0-255): ' G
   while :; do
-    if [[ -n "$G" && $G =~ ^[0-9]+$ ]] && (( G >= 0 && G <= 255 )); then
+    if [[ $G =~ ^[0-9]+$ ]] && (( G >= 0 && G <= 255 )); then
       break
     else
-      read -p $'\tPlease choose a valid G number (0-255): ' G
+      read -r -p $'\tPlease choose a valid G number (0-255): ' G
     fi
   done
 
-  read -p $'\tChoose B value (0-255): ' B
+  read -r -p $'\tChoose B value (0-255): ' B
   while :; do
-    if [[ -n "$B" && $B =~ ^[0-9]+$ ]] && (( B >= 0 && B <= 255 )); then
+    if [[ $B =~ ^[0-9]+$ ]] && (( B >= 0 && B <= 255 )); then
       break
     else
-      read -p $'\tPlease choose a valid B number (0-255): ' B
+      read -r -p $'\tPlease choose a valid B number (0-255): ' B
     fi
   done
 
@@ -222,6 +223,32 @@ comment_out() {
     fi
 
     gsed -i '/^[[:space:]]*\(\(export \)\{0,1\}PS1=\)/s/^\([[:space:]]*\)/\1#/' ~/.bashrc
+  fi
+}
+
+
+# Handle --separate-file flag and its args
+separate_file() {
+  # Get everything after '=' and then substitute '~' with $HOME, since it won't be expanded automatically
+  filename="${1#*=}"; filename="${filename/#\~/$HOME}"
+
+  if [[ -z "$filename" ]]; then  # If empty filename arg
+    echo -e "\n${RED}ERR${RC}: A valid filename must be used when using --separate-file. Use the -h flag to see proper usage\n" >&2
+    exit 1
+  fi
+
+  if [[ -e "$filename" ]]; then  # If file already exists
+
+    echo ""
+    read -r -p "File already exists, write in it anyway? (Y/n): " WRITEANYWAY
+
+    if [[ "$WRITEANYWAY" =~ ^[Yy]$ ]]; then
+      return
+    else
+      echo -e "\n${RED}ERR${RC}: Exiting, file will not be edited\n" >&2
+      exit 1
+    fi
+
   fi
 }
 
@@ -322,7 +349,7 @@ ${UNDERLINE}Special / Custom${NORMAL}:\n"
     '^' '+' '=' '/' '\\' '"' "'" '(' ')' '[' ']' '{' '}' '<' '>' '←'
     '↑' '→' '↓' '↖' '↗' '↘' '↙' '↔' '↕' '─' '│' '├' '┤' '┌' '┐' '└'
     '┘' '╭' '╮' '╰' '╯' ' ' '\n')
-  elif [[ "$TYPESHELL" =~ ^[Bb]$ ]] ; then
+  elif [[ "$TYPESHELL" =~ ^[Bb]$ ]]; then
     echo -e "Enter the numbers in order of what you want your prompt to consist of:"
     echo -e "----------------------------------------------------------------------\n"
     echo -e "${UNDERLINE}Prompt Expansion Variables${NORMAL}:\n
@@ -372,9 +399,11 @@ parts_picker() {
 
   # Keep entering options until 'n' or 'N' also has error handling
   while :; do  # No argument for break, keep going until a break is found in the body
-    read -p "Enter a number choice: " CHOICE
+    read -r -p "Enter a number choice: " CHOICE
     if [[ "$CHOICE" =~ ^[Nn]$ ]]; then    # If choice is 'n' or 'N' (regex)
       break  # Break while-loop
+    elif ! [[ $CHOICE =~ ^[0-9]+$ ]]; then  # If it's not a number and not '[Nn]' like above ^
+      echo "Enter a valid number! (1-75)"
     elif [[ "$CHOICE" == '18' ]]; then  # If custom variable
       read -r -p $'\tEnter Custom Variable: ' CUSTVAR  # -r flag so we keep '\' for Bash prompt vars
       part_array+=("$CHOICE")
@@ -383,20 +412,16 @@ parts_picker() {
     elif [[ "$CHOICE" == '73' ]] && { [[ "$TYPEPROMPT" =~ ^[Rr]$ ]] || [[ "$rprompt_turn" == true ]]; }; then
       echo "RPROMPT cannot contain newlines!"
     elif [[ "$CHOICE" == '74' ]]; then  # If emoji
-      read -p $'\tEnter Emoji: ' EMOJI
+      read -r -p $'\tEnter Emoji: ' EMOJI
       part_array+=("$CHOICE")
       custom_array+=("$EMOJI")
     elif [[ "$CHOICE" == '75' ]]; then  # If custom text
-      read -p $'\tEnter Custom Text: ' CUSTEXT
+      read -r -p $'\tEnter Custom Text: ' CUSTEXT
       part_array+=("$CHOICE")
       # Escape quotes & backslashes
       custom_array+=("$(printf "%q" "$CUSTEXT")") # Needed for printing custom text
-    elif [[ $CHOICE =~ ^[0-9]+$ ]]; then  # If it's a number
-      if ((CHOICE >= 1 && CHOICE <= 73)); then  # And it's in range (74, 75 already handled)
-        part_array+=("$CHOICE")  # Append to array
-      else
-        echo "Enter a valid number! (1-75)"
-      fi
+    elif ((CHOICE >= 1 && CHOICE <= 73)); then  # And it's in range (74, 75 already handled)
+      part_array+=("$CHOICE")  # Append to array
     else
       echo "Enter a valid number! (1-75)"
     fi
@@ -508,67 +533,72 @@ colors_picker() {
 
       # Keep in mind, this is just the selection menu number choices - 1 bc arrays start from 0
       if [[ "$i" == '73' || "$i" == '74' ]]; then   # If its the custom text, just print it from part_array
-        read -p "Enter ${UNDERLINE}Foreground${NORMAL} Color Number for ${local_custom_array[counter]}: " FG  # Holds the actual values of menu, Bash/Zsh arrays start at 1
+        read -r -p "Enter ${UNDERLINE}Foreground${NORMAL} Color Number for ${local_custom_array[counter]}: " FG  # Holds the actual values of menu, Bash/Zsh arrays start at 1
       elif [[ "$i" == '71' ]] || [[ "$i" == '72' ]]; then  # No FG for space char or newline
         break
       elif [[ "$i" == '38' ]]; then  # Prevent double \\ - Don't change parts dictionary, need the double for preview print
-        read -p "Enter ${UNDERLINE}Foreground${NORMAL} Color Number for \\: " FG
+        read -r -p "Enter ${UNDERLINE}Foreground${NORMAL} Color Number for \\: " FG
       elif [[ "$i" == '27' ]]; then  # double ":" issue
-        read -p "Enter ${UNDERLINE}Foreground${NORMAL} Color Number for : : " FG
+        read -r -p "Enter ${UNDERLINE}Foreground${NORMAL} Color Number for : : " FG
       elif [[ "$i" == '17' ]]; then  # Custom Variable
-        read -p "Enter ${UNDERLINE}Foreground${NORMAL} Color Number for Custom Variable (${local_custom_array[counter]}): " FG
+        read -r -p "Enter ${UNDERLINE}Foreground${NORMAL} Color Number for Custom Variable (${local_custom_array[counter]}): " FG
       else
-        read -p "Enter ${UNDERLINE}Foreground${NORMAL} Color Number for ${parts_choices[i]}: " FG
+        read -r -p "Enter ${UNDERLINE}Foreground${NORMAL} Color Number for ${parts_choices[i]}: " FG
       fi
 
-      # Filtering each part's color inputs
-      if [[ -n "$FG" && $FG =~ ^[0-9]+$ ]]; then  # Check if fg is a number and used (sometimes not used, like with spaces)
-        if ((FG >= 1 && FG <= 28)); then  # Check if it's between 1-27
-          if (( FG == 28 )); then
-            # Append to end of color dictionary and use that new index as the color
-            color_dictionary+=("$(custom_rgb 'FG')")
-            FG=${#color_dictionary[@]}
-          fi
-          break  # On correct, move onto background
-        else  # Never need to break on foreground, still need to check background
-          echo "The Foreground number you entered was invalid. Make sure to use a valid Foreground number this time! (1-28)"
-        fi     # ^^Go back to top of while loop and ask for input again
-      else
-        echo "The Foreground number you entered was invalid. Make sure to use a valid Foreground number this time! (1-28)"
+      if ! [[ $FG =~ ^[0-9]+$ ]]; then  # Check if fg is a number
+        echo "The foreground number you entered was invalid. Make sure to use a valid foreground number this time! (1-28)"
+        continue  # Back to top of loop - try again
       fi
+
+      if ((FG >= 1 && FG <= 28)); then
+        if (( FG == 28 )); then
+          # Append to end of color dictionary and use that new index as the color
+          color_dictionary+=("$(custom_rgb 'FG')")
+          FG=${#color_dictionary[@]}
+        fi
+
+        break  # On correct, move onto background
+      else  # Never need to break on foreground, still need to check background
+        echo "The foreground number you entered was invalid. Make sure to use a valid foreground number this time! (1-28)"
+      fi  # Go back to top of while loop and ask for input again
+
     done
 
     # Add BG for item after having done FG
     while :; do
       if [[ "$i" == '73' || "$i" == '74' ]]; then   # If its the custom text, just print it from part_array
-        read -p "Enter ${UNDERLINE}Background${NORMAL} Color Number for ${local_custom_array[counter]}: " BG
+        read -r -p "Enter ${UNDERLINE}Background${NORMAL} Color Number for ${local_custom_array[counter]}: " BG
       elif [[ "$i" == '72' ]]; then  # If it's a newline, no need for background color either
         break
       elif [[ "$i" == '71' ]]; then  # 'Space' for color picker but ' ' later for prompt preview
-        read -p "Enter ${UNDERLINE}Background${NORMAL} Color Number for Space: " BG
+        read -r -p "Enter ${UNDERLINE}Background${NORMAL} Color Number for Space: " BG
       elif [[ "$i" == '38' ]]; then  # Prevent double \\
-        read -p "Enter ${UNDERLINE}Background${NORMAL} Color Number for \\: " BG
+        read -r -p "Enter ${UNDERLINE}Background${NORMAL} Color Number for \\: " BG
       elif [[ "$i" == '27' ]]; then  # double ":" issue
-        read -p "Enter ${UNDERLINE}Background${NORMAL} Color Number for : : " BG
+        read -r -p "Enter ${UNDERLINE}Background${NORMAL} Color Number for : : " BG
       elif [[ "$i" == '17' ]]; then  # Custom Variable
-        read -p "Enter ${UNDERLINE}Background${NORMAL} Color Number for Custom Variable (${local_custom_array[counter]}): " BG
+        read -r -p "Enter ${UNDERLINE}Background${NORMAL} Color Number for Custom Variable (${local_custom_array[counter]}): " BG
       else
-        read -p "Enter ${UNDERLINE}Background${NORMAL} Color Number for ${parts_choices[i]}: " BG
+        read -r -p "Enter ${UNDERLINE}Background${NORMAL} Color Number for ${parts_choices[i]}: " BG
       fi
 
-      if [[ $BG =~ ^[0-9]+$ ]]; then  # Always need bg, no need to check if its used
-        if ((BG >= 29 && BG <= 56)); then  # Check if it's between 28-54
-          if (( BG == 56 )) ; then
-            color_dictionary+=("$(custom_rgb 'BG')")
-            BG=${#color_dictionary[@]}
-          fi
-          break  # End this loop, the color input is fine for this part, go to the next for-loop iteration
-        else
-          echo "The Background number you entered was invalid. Make sure to use a valid Background number this time! (29-56)"
-        fi  # ^^Go back to top of while loop and ask for input again
-      else  # If its not even a number
-        echo "The Background number you entered was invalid. Make sure to use a valid Background number this time! (29-56)"
-      fi  # ^^Go back to top of while loop and ask for input again
+      if ! [[ $BG =~ ^[0-9]+$ ]]; then  # Always need bg, no need to check if its used
+        echo "The background number you entered was invalid. Make sure to use a valid background number this time! (29-56)"
+        continue  # Back to top of loop - try again
+      fi
+
+      if ((BG >= 29 && BG <= 56)); then
+        if (( BG == 56 )); then
+          color_dictionary+=("$(custom_rgb 'BG')")
+          BG=${#color_dictionary[@]}
+        fi
+
+        break  # End this loop, the color input is fine for this part, go to the next for-loop iteration
+      else
+        echo "The background number you entered was invalid. Make sure to use a valid background number this time! (29-56)"
+      fi  # Go back to top of while loop and ask for input again
+
     done
 
     # Results of tests - Both must be good before adding, or it messes up color_array
@@ -711,12 +741,7 @@ while [[ "$#" -gt 0 ]]; do
             exit 1
             ;;
         --separate-file=*)
-            # Get everything after '=' and then substitute "~" with $HOME, since it won't be expanded automatically
-            filename="${1#*=}"; filename="${filename/#\~/$HOME}"
-            if [[ -z "$filename" ]]; then  # If empty filename arg
-              echo -e "\n${RED}ERR${RC}: A valid filename must be used when using --separate-file. Use the -h flag to see proper usage\n" >&2
-              exit 1
-            fi
+            separate_file "$1"
             separatefile=true
             shift
             ;;
@@ -737,7 +762,7 @@ fi
 echo -e "                        @KyleTimmermans\n\n"
 
 
-read -p "Will this be a Zsh or a Bash prompt? Enter 'Z' for Zsh or 'B' for Bash: " TYPESHELL
+read -r -p "Will this be a Zsh or a Bash prompt? Enter 'Z' for Zsh or 'B' for Bash: " TYPESHELL
 echo ""
 
 # For choosing the prompt / prompttype, if error, 2 new line buffers. If no error, only need 1 line buffer
@@ -747,7 +772,7 @@ while :; do
     break
   else
     isError=true
-    read -p "Please choose a valid shell type ('Z' or 'B'): " TYPESHELL
+    read -r -p "Please choose a valid shell type ('Z' or 'B'): " TYPESHELL
   fi
 done
 
@@ -770,7 +795,7 @@ if [[ "$TYPESHELL" =~ ^[Zz]$ ]]; then
 
   isError=false
   echo -e "Will this be a left-sided prompt (\$PROMPT), a right-sided prompt (\$RPROMPT), or both?\n"
-  read -p "Enter 'L' for left-sided prompt, 'R' for right-sided prompt, or 'B' for both: " TYPEPROMPT
+  read -r -p "Enter 'L' for left-sided prompt, 'R' for right-sided prompt, or 'B' for both: " TYPEPROMPT
   echo ""
 
   while :; do
@@ -778,7 +803,7 @@ if [[ "$TYPESHELL" =~ ^[Zz]$ ]]; then
       break
     else
       isError=true
-      read -p "Please choose a valid prompt type ('L' or 'R' or 'B'): " TYPEPROMPT
+      read -r -p "Please choose a valid prompt type ('L' or 'R' or 'B'): " TYPEPROMPT
     fi
   done
 fi
@@ -860,7 +885,7 @@ else
 fi
 
 
-read -p "Would you like to make this your prompt? (Y/n): " CHOICE
+read -r -p "Would you like to make this your prompt? (Y/n): " CHOICE
 
 
 # After accepting prompt
@@ -920,9 +945,9 @@ if [[ "$CHOICE" =~ ^[Yy]$ ]]; then
 
   # Dont print this if we are using the --separate-file flag
   if [[ "$separatefile" == true ]]; then
-    echo -e "\n${GREEN}INFO${RC}: Prompt Placed in Separate File!\n"
+    echo -e "\n${GREEN}INFO${RC}: Prompt placed in separate file!\n"
   else
-    echo -e "\n${GREEN}INFO${RC}: Prompt Saved Successfully! Restart your Terminal now!\n"
+    echo -e "\n${GREEN}INFO${RC}: Prompt saved successfully! Restart your terminal now!\n"
   fi
 
 else

@@ -4,6 +4,7 @@ Require scpt
 
 Set Shell zsh
 Set PlaybackSpeed 0.15  # Fix sped-up video bug
+Set Theme { "name": "Mac Terminal", "black": "#000000", "red": "#990001", "green": "#03a504", "yellow": "#999900", "blue": "#1500b2", "purple": "#b300b3", "cyan": "#05a5b2", "white": "#ffffff", "brightBlack": "#646464", "brightRed": "#e00000", "brightGreen": "#04d506", "brightYellow": "#e5e501", "brightBlue": "#0300ff", "brightPurple": "#e600e5", "brightCyan": "#08e5e6", "brightWhite": "#ffffff", "background": "#1f1e1e", "foreground": "#ffffff", "selectionBackground": "#5d7554", "cursorAccent": "#9b9b9b", "cursor": "#9b9b9b" }
 Set Framerate 60
 Set FontSize 24
 Set Width 1700
