@@ -7,7 +7,7 @@
 
 # <div align="center">Shell-Color-Prompt-Tool</div>
 
-Customize your Zsh/Bash terminal prompt with a menu-style selection guide. Choose what info you want the prompt to display (Username, Hostname, Symbols, etc), and their foreground and background colors! All from the command line. Use brighter colors for extra pop!
+Customize your Zsh / Bash terminal prompt with a menu-style selection guide. Choose what info you want the prompt to display (username, hostname, symbols, etc.) and customize their foreground and background colors—all from the command line. Use brighter colors for extra pop!
 
 <div>&#8203;</div>
 
