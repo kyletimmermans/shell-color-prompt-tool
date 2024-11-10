@@ -2,7 +2,7 @@
 
 
 
-# Shell-Color-Prompt-Tool v4.4
+# Shell-Color-Prompt-Tool v5.0
 
 
 
@@ -12,19 +12,18 @@ trap 'echo -e "\n\n\e[1;33mWARN\e[0m: SIGINT/SIGTERM signal receieved, prompt no
 
 # Global Variables
 
-version="4.4"
+version="5.0"
 
-# Title Colors / Format Vars
+# Title Colors/Format Vars
 BOLD="$(tput bold)"
 UNDERLINE="$(tput smul)"
-NORMAL="$(tput sgr0)"
-GREEN='\e[1;32m'
+RS="$(tput sgr0)"  # Reset Style
 RED='\e[1;31m'
+GREEN='\e[1;32m'
+YELLOW='\e[1;33m'
 BLUE='\e[1;34m'
 PURPLE='\e[1;35m'
 CYAN='\e[1;36m'
-YELLOW='\e[1;33m'
-BLACK='\e[0;30m'
 RC='\e[0m'  # Reset Color
 
 
@@ -37,7 +36,7 @@ RC='\e[0m'  # Reset Color
 
 # Version Flag
 version() {
-  echo -e "\nShell-${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r${RC}-Prompt-Tool v${version}${NORMAL}\n"
+  echo -e "\nShell-${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r${RC}-Prompt-Tool v${version}${RS}\n"
 
   local newest_version
   newest_version=$(curl -s https://api.github.com/repos/kyletimmermans/shell-color-prompt-tool/releases/latest | grep '"name": "v' | awk -F '"name": "v' '{print $2}' | awk -F '"' '{print $1}')
@@ -60,27 +59,34 @@ version() {
 
 # Usage/Help Flag
 usage() {
-  echo -e "\n${UNDERLINE}Usage${NORMAL}: Run this program and use the interactive prompt to create your custom Zsh / Bash prompt\n\n"
-  echo -e "${UNDERLINE}Flags${NORMAL}:\n"
-  echo -e "${BOLD}--usage${NORMAL}              Pulls up this menu\n"
-  echo -e "${BOLD}--version${NORMAL}            Get program version. Reveal if a newer version is available on GitHub\n"
-  echo -e "${BOLD}--uninstall${NORMAL}          Undoes the \"Install as a Command\" installation option. It will delete"
+  echo -e "\n${LM}${BOLD}${UNDERLINE}Usage${RS}: Run this program and use the interactive prompt to create your custom Zsh/Bash prompt\n\n"
+  echo -e "${LM}${BOLD}${UNDERLINE}Flags${RS}:\n"
+  echo -e "${LM}${BOLD}--usage${RS}              Pulls up this menu\n"
+  echo -e "${LM}${BOLD}--version${RS}            Get program version. Reveal if a newer version is available on GitHub\n"
+  echo -e "${LM}${BOLD}--uninstall${RS}          Undoes the \"Install as a Command\" installation option. It will delete"
   echo -e "                     /usr/local/bin/scpt (program) and the associated man page\n"
-  echo -e "${BOLD}--comment-out${NORMAL}        Comment out older prompt lines in .zshrc / .bashrc e.g. PROMPT= / PS1="
+  echo -e "${LM}${BOLD}--comment-out${RS}        Comment out older prompt lines in .zshrc / .bashrc e.g. PROMPT= / PS1="
   echo -e "                     to help prevent conflicting prompt definitions\n"
-  echo -e "${BOLD}--omz${NORMAL}                Disables your 'Oh My Zsh' theme if you have one, which could get in the"
+  echo -e "${LM}${BOLD}--omz${RS}                Disables your 'Oh My Zsh' theme if you have one, which could get in the"
   echo -e "                     way of applying your new prompt\n"
-  echo -e "${BOLD}--light-mode${NORMAL}         Better color contrast for the color picker menu on white / light-colored"
-  echo -e "                     terminal backgrounds\n"
-  echo -e "${BOLD}--no-extras${NORMAL}          Don't automatically add a newline to the start of the prompt and a space"
+  echo -e "${LM}${BOLD}--light-mode${RS}         Better color contrast for the color picker menu and other various portions"
+  echo -e "                     on white/light-colored terminal backgrounds. If you plan on using this flag,"
+  echo -e "                     always put it first, before all other flags/args\n"
+  echo -e "${LM}${BOLD}--no-extras${RS}          Don't automatically add a newline to the start of the prompt and a space"
   echo -e "                     to the end of the prompt\n"
-  echo -e "${BOLD}--separate-file${NORMAL}      Place the prompt string in a separate file instead of putting it in"
+  echo -e "${LM}${BOLD}--separate-file${RS}      Place the prompt string in a separate file instead of putting it in"
   echo -e "                     .zshrc / .bashrc E.g. --separate-file=\"~/test.txt\"\n"
-  echo -e "${BOLD}--no-watermarks${NORMAL}      Don't add the \"# Added by Shell-Color-Prompt-Tool\" comment to"
+  echo -e "${LM}${BOLD}--no-watermarks${RS}      Don't add the \"# Added by Shell-Color-Prompt-Tool\" comment to"
   echo -e "                     .zshrc / .bashrc when adding the prompt string and don't add the"
   echo -e "                     \"# Commented out by Shell-Color-Prompt-Tool\" comment when using"
-  echo -e "                     --comment-out or --omz\n\n"
-  echo -e "${UNDERLINE}Usage Notes${NORMAL}:\n"
+  echo -e "                     --comment-out or --omz\n"
+  echo -e "${LM}${BOLD}--char-table${RS}         Display a table of cool UTF-8 characters for copy-and-pasting into"
+  echo -e "                     prompt part choices. If you can't see the characters or if they show"
+  echo -e "                     up incorrectly, ensure that your terminal supports the UTF-8 charset\n\n"
+  echo -e "${LM}${BOLD}${UNDERLINE}Usage Notes${RS}:\n"
+  echo -e "* To add a number as a raw string and to not get it recognized as a menu-number choice, or"
+  echo -e "  to add 'n'/'N' and not exit the parts selector, add a '!' before the number or 'n'/'N'"
+  echo -e "  e.g. '!14' yields '14' and '!n' yields 'n' and won't exit the parts selector\n"
   echo -e "* No need to put a space at the end of your prompt, one will be added automatically."
   echo -e "  Same with a newline at the beginning for proper spacing between actual prompts,"
   echo -e "  one will automatically be added. Disable this feature w/ --no-extras\n"
@@ -97,10 +103,13 @@ usage() {
   echo -e "  terminal supports TRUECOLOR (See github.com/termstandard/colors)\n"
   echo -e "* If your command is too long, \$RPROMPT will visually be temporarily overwritten\n"
   echo -e "* \$RPROMPT cannot contain newlines (\\\n)\n"
+  echo -e "* For part option \"Custom Datetime\", the datetime string is formatted using the 'strftime'"
+  echo -e "  function. See strftime(3) for more details. E.g.'%Y-%m-%d %k:%M:%S' would become:"
+  echo -e "  '2024-11-09 14:37:34'\n"
   echo -e "* For more prompt expansion variables not listed in this program:"
-  echo -e "      Zsh: zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html"
-  echo -e "     Bash: www.gnu.org/software/bash/manual/html_node/Controlling-the-Prompt.html\n\n"
-  echo -e "${BOLD}github.com/kyletimmermans/shell-color-prompt-tool${NORMAL}\n"
+  echo -e "      Zsh: ${UNDERLINE}zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html${RS}"
+  echo -e "     Bash: ${UNDERLINE}www.gnu.org/software/bash/manual/html_node/Controlling-the-Prompt.html${RS}\n\n"
+  echo -e "${LM}${BOLD}github.com/kyletimmermans/shell-color-prompt-tool${RS}\n"
 
   exit 0
 }
@@ -227,6 +236,15 @@ comment_out() {
 }
 
 
+omz_comment_out() {
+  if [[ "$nowatermarks" == false ]]; then
+    gawk -i inplace '/^([[:space:]]*)?(export[[:space:]])?ZSH_THEME=/{ if(prev !~ /^([[:space:]]*)?# Commented out by Shell-Color-Prompt-Tool/) { match($0,/^([[:space:]]*)/,parts);NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
+  fi
+
+  gsed -i '/^[[:space:]]*\(\(export \)\{0,1\}ZSH\_THEME=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
+}
+
+
 # Handle --separate-file flag and its args
 separate_file() {
   # Get everything after '=' and then substitute '~' with $HOME, since it won't be expanded automatically
@@ -253,6 +271,85 @@ separate_file() {
 }
 
 
+# - Certain characters within Zsh & Bash have their own necessary escape logic
+#   and when we user does custom, there is no array like part_dictionary that
+#   has the pre-escaped characters ready, so we need to do it here
+# - Note: This is for final_prompt only, not review_prompt
+escape_chars() {
+  local input_string="$1"
+  local result_string=""
+
+  # Loop through each character in the input string
+  for (( i=0; i < ${#input_string}; i++ )); do
+
+      char="${input_string:i:1}"  # Get the current character
+
+      # Either Zsh or Bash
+      case "$char" in
+        '$') result_string+='\$' ; continue ;;
+        "'") result_string+="\'" ; continue ;;
+        '"') result_string+='\\"' ; continue ;;
+        '`') result_string+='\\\`' ; continue ;;
+      esac
+
+      # Necessary Zsh replacements
+      if [[ "$TYPESHELL" =~ ^[Zz]$ ]]; then
+        case "$char" in
+          '%') result_string+='%%' ; continue ;;
+          '{') result_string+='\{' ; continue ;;
+          '}') result_string+='\}' ; continue ;;
+          '[') result_string+='\[' ; continue ;;
+          ']') result_string+='\]' ; continue ;;
+          '(') result_string+='\(' ; continue ;;
+          ')') result_string+='\)' ; continue ;;
+          '^') result_string+='\^' ; continue ;;
+          '\') result_string+='\\\\' ; continue ;;
+        esac
+      fi
+
+      # Necessary Bash replacements
+      if [[ "$TYPESHELL" =~ ^[Bb]$ ]]; then
+        case "$char" in
+            '\') result_string+='\\\\\\\\' ; continue ;;
+        esac
+      fi
+
+      result_string+="${char}"  # If unhandled above, add without escape
+
+  done
+
+  echo "$result_string"
+}
+
+
+# --char-table table for copy-and-pasting into prompt part choices
+char_table() {
+  echo -e "\n${LM}${BOLD}${UNDERLINE}Cool UTF-8 Characters${RS}\n
+  ${UNDERLINE}Arrows${RS}:\n
+    ←    ↑    →    ↓    ↔    ↕    ↖    ↗    ↘    ↙\n
+    «    »    ❮    ❯    ⇦    ⇨    ➠    ➤    ➳    ⮂\n
+    ⮃    ⮐     ⮑\n
+  ${UNDERLINE}Geometric Shapes${RS}:\n
+    ◆    ◇    ■    □    ▲    △    ▼    ▽    ★    ☆\n
+    ⬢    ⬡    ▬    ▭    ▮    ▯    ▰    ▱    ⬟    ⬠\n
+    ⬬    ⬭    ⬮    ⬯\n
+  ${UNDERLINE}Playing Card Suites${RS}:\n
+    ♠    ♤    ♣    ♧    ♥    ♡    ♦    ♢\n
+  ${UNDERLINE}Chess Pieces${RS}:\n
+    ♚    ♛    ♜    ♝    ♞    ♟\n
+    ♔    ♕    ♖    ♗    ♘    ♙\n
+  ${UNDERLINE}Circled Numbers${RS}:\n
+    ➊    ➋    ➌    ➍    ➎    ➏    ➐    ➑    ➒    ➓\n
+    ➀    ➁    ➂    ➃    ➄    ➅    ➆    ➇    ➈    ➉\n
+  ${UNDERLINE}Miscellaneous${RS}:\n
+    ✖    ✚    ✢    ✹    ❖    ∞    Ω    ✦    ✧    ◉\n
+    ⚑    ⚐    ✓    ❄    ✈    ✏    ✉    ✇    ☂    ☻\n
+    ☺    ☹    ⚙    ⚛    ⚠    ♪    ☀    ⏾    ⎈    ⌖\n"
+
+  exit 0
+}
+
+
 # Needed for when RPROMPT must be printed to the right side of the terminal
 preview_print() {
 
@@ -270,18 +367,18 @@ preview_print() {
 
       # If not the last element
       if [[ $i -ne $((${#lprompt_parts[@]} - 1)) ]]; then
-        echo -e "${lprompt_parts[$i]}\e[0m"
+        echo -e "${lprompt_parts[${i}]}\e[0m"
       else
-        clean_part_l=$(echo -e "${lprompt_parts[$i]}" | tr -d '\033' | sed -E 's/\[[0-9]{1,3}(;[0-9]{1,3})?(;[0-9]{1,3})?m//g')
+        clean_part_l=$(echo -e "${lprompt_parts[${i}]}" | tr -d '\033' | sed -E 's/\[[0-9]{1,3}(;[0-9]{1,3})?(;[0-9]{1,3})?m//g')
         # Added space at end of RPROMPT to simulate actual $RPROMPT behavior
         #                                        v
         clean_part_r=$(echo -e "${rprompt_string} " | tr -d '\033' | sed -E 's/\[[0-9]{1,3}(;[0-9]{1,3})?(;[0-9]{1,3})?m//g')
         buffer=$(printf "%*s" $((COLUMNS - ${#clean_part_l} - ${#clean_part_r})) "")
-        echo -e "${lprompt_parts[$i]}${buffer}${rprompt_string}\e[0m"
+        echo -e "${lprompt_parts[${i}]}${buffer}${rprompt_string}\e[0m"
       fi
     done
 
-  # RPROMPT
+  # RPROMPT only
   elif [[ "$TYPEPROMPT" =~ ^[Rr]$ ]]; then
     rprompt_string="$1"
 
@@ -306,87 +403,79 @@ parts_menu() {
   if [[ "$TYPESHELL" =~ ^[Zz]$ ]]; then
     echo -e "Enter the numbers in order of what you want your prompt to consist of:"
     echo -e "----------------------------------------------------------------------\n"
-    echo -e "${UNDERLINE}Prompt Expansion Variables${NORMAL}:\n
+    echo -e "${LM}${BOLD}${UNDERLINE}Prompt Expansion Variables${RS}:\n
     1. Username     2. Hostname (Short)     3. Hostname (Full)     4. Shell's TTY\n
-    5. isRoot (% == Not Root, # == Root)   6. Return Status of Last Command   7. Current Working Directory\n
-    8. Current Working Directory from \$HOME      9. Current History Event Number\n
-    10. Date (yy-mm-dd)    11. Date (mm/dd/yy)    12. Date (day dd)    13. Time (12-Hour H:MM AM/PM)\n
-    14. Time (24-Hour H:MM:SS)    15. Number of Jobs    16. Current Value of \$SHLVL\n
+    5. Full-Path Current Working Directory      6. Current Working Directory from \$HOME\n
+    7. isRoot (% == Not Root, # == Root)    8. Return Status of Last Command    9. Current History Event Number\n
+    10. Date (yy-mm-dd)    11. Date (mm/dd/yy)    12. Date (day dd)    13. Time (24-Hour H:MM:SS)\n
+    14. Time (12-Hour H:MM AM/PM)    15. Number of Jobs    16. Current Value of \$SHLVL\n
     17. Name of the script, sourced file, or shell function that Zsh is currently executing\n
-    18. Other Zsh Prompt Expansion Variable (E.g. %! or %^)\n
-${UNDERLINE}Symbols${NORMAL}:\n
-    19. @   20. #   21. !   22. $   23. %   24. *   25. &   26. -   27. _   28. :   29. ~\n
-    30. |   31. .   32. ?   33. ,   34. ;   35. ^   36. +   37. =   38. /   39. ""\   40. \"\n
-    41. '   42. (   43. )   44. [   45. ]   46. {   47. }   48. <   49. >\n
-${UNDERLINE}Arrows${NORMAL}:\n
-    50. ←   51. ↑   52. →   53. ↓   54. ↖   55. ↗   56. ↘   57. ↙   58. ↔   59. ↕\n
-${UNDERLINE}Box Drawing${NORMAL}:\n
-    60. ─   61. │   62. ├   63. ┤   64. ┌   65. ┐   66. └   67. ┘   68. ╭   69. ╮   70. ╰   71. ╯\n
-${UNDERLINE}Special / Custom${NORMAL}:\n"
+    18. Custom Datetime    19. Other Zsh Prompt Expansion Variable (E.g. %e)\n
+${LM}${BOLD}${UNDERLINE}Environment Variables${RS}:\n
+    20. Arch Type   21. OS Type   22. Terminal Type   23. Parent Shell PID   24. Zsh Version   25. Subshell Level\n
+    26. Other Environment Variable\n
+${LM}${BOLD}${UNDERLINE}Box Drawing${RS}:\n
+    27. ─   28. │   29. ├   30. ┤   31. ┌   32. ┐   33. └   34. ┘   35. ╭   36. ╮   37. ╰   38. ╯\n
+${LM}${BOLD}${UNDERLINE}Special${RS}:\n"
 
-  if [[ ! "$TYPEPROMPT" =~ ^[Rr]$ ]]; then
-    echo -e "    72. Space   73. Newline (\\\n)   74. Emoji   75. Custom Text\n"
+  # Print Newline option only for non-RPROMPT walkthrough
+  if [[ "$TYPEPROMPT" =~ ^[Rr]$ ]]; then
+    echo -e "    39. Space    40. Tab (\\\t)\n"
   else
-    echo -e "    72. Space   74. Emoji   75. Custom Text\n"
+    echo -e "    39. Space    40. Tab (\\\t)    41. Newline (\\\n)\n"
   fi
+
     # Parts Dicionary - Each Index has each respective value from menu
-    parts_dictionary=('%n' '%m' '%M' '%l' '%#' '%?' '%d'
-    '%~' '%h' '%D' '%W' '%w' '%t' '%*' '%j' '%L' '%N' 'CV'
-    '@' '#' '!' '$' '%%' '*' '&' '-' '_' ':' '~' '|' '.'
-    '?' ',' ';' '^' '+' '=' '/' '\\\' '"' "\'" '(' ')'
-    '[' ']' '{' '}' '<' '>' '←' '↑' '→' '↓' '↖' '↗' '↘'
-    '↙' '↔' '↕' '─' '│' '├' '┤' '┌' '┐' '└' '┘' '╭' '╮'
-    '╰' '╯' ' ' '\\n')
+    part_dictionary=(
+    '%n' '%m' '%M' '%l' '%d' '%~' '%#' '%?' '%h' '%D' '%W' '%w' '%*' '%t' '%j' '%L' '%N' 'CDT' 'CPEV'
+    '$MACHTYPE' '$OSTYPE' '$TERM' '$$' '$ZSH_VERSION' '$ZSH_SUBSHELL' 'CEV'
+    '─' '│' '├' '┤' '┌' '┐' '└' '┘' '╭' '╮' '╰' '╯'
+    ' ' '\\t' '\\n')
 
     # For User to know what they're coloring
     # Doesn't need custom text choice
-    parts_choices=('Username' 'Hostname (Short)' 'Hostname (Full)' "Shell's TTY"
-    'isRoot' 'Return Status of Last Command' 'Current Working Directory'
-    'Current Working Directory from $HOME' 'Current History Event Number'
-    'Date (yy-mm-dd)' 'Date (mm/dd/yy)' 'Date (day dd)' 'Time (12-Hour H:MM AM/PM)' 'Time (24-Hour H:MM:SS)'
-    'Number of Jobs' 'Current Value of $SHLVL' 'Name of currently executed by Zsh' 'Custom Variable'
-    '@' '#' '!' '$' '%' '*' '&' '-' '_' ':' '~' '|' '.' '?' ',' ';'
-    '^' '+' '=' '/' '\\' '"' "'" '(' ')' '[' ']' '{' '}' '<' '>' '←'
-    '↑' '→' '↓' '↖' '↗' '↘' '↙' '↔' '↕' '─' '│' '├' '┤' '┌' '┐' '└'
-    '┘' '╭' '╮' '╰' '╯' ' ' '\n')
+    part_preview_strings=('Username' 'Hostname (Short)' 'Hostname (Full)' "Shell's TTY"
+    'Full-Path Current Working Directory' 'Current Working Directory from $HOME' 'isRoot'
+    'Return Status of Last Command' 'Current History Event Number' 'Date (yy-mm-dd)'
+    'Date (mm/dd/yy)' 'Date (day dd)' 'Time (24-Hour H:MM:SS)' 'Time (12-Hour H:MM AM/PM)'
+    'Number of Jobs' 'Current Value of $SHLVL' 'Name of currently executed by Zsh' 'Custom Datetime'
+    'Custom Variable' 'Arch Type' 'OS Type' 'Terminal Type' 'Parent Shell PID' 'Zsh Version' 'Subshell Level'
+    'Custom Env Variable' '─' '│' '├' '┤' '┌' '┐' '└' '┘' '╭' '╮' '╰' '╯' ' ' '\t' '\n')
   elif [[ "$TYPESHELL" =~ ^[Bb]$ ]]; then
     echo -e "Enter the numbers in order of what you want your prompt to consist of:"
     echo -e "----------------------------------------------------------------------\n"
-    echo -e "${UNDERLINE}Prompt Expansion Variables${NORMAL}:\n
+    echo -e "${LM}${BOLD}${UNDERLINE}Prompt Expansion Variables${RS}:\n
     1. Username     2. Hostname (Short)    3. Hostname (Full)    4. Shell's TTY\n
-    5. Return Status of Last Command      6. Current Working Directory\n
-    7. Current Working Directory from \$HOME      8. Current History Event Number\n
-    9. Date (day mm dd)     10. Time (24-Hour HH:MM:SS)     11. Time (12-Hour HH:MM:SS)\n
+    5. Current Working Directory      6. Current Working Directory from \$HOME \n
+    7. Current Shell Command Number      8. Current History Event Number\n
+    9. Date (day month dd)     10. Time (24-Hour HH:MM:SS)     11. Time (12-Hour HH:MM:SS)\n
     12. Time (12-Hour HH:MM AM/PM)     13. Time (12-Hour HH:MM)     14. Bash Version (Short)\n
     15. Bash Version (Full)    16. Number of Jobs    17. isRoot ($ == Not Root, # == Root)\n
-    18. Other Bash Prompt Expansion Variable (E.g. \\s or \\#)\n
-${UNDERLINE}Symbols${NORMAL}:\n
-    19. @   20. #   21. !   22. $   23. %   24. *   25. &   26. -   27. _   28. :   29. ~\n
-    30. |   31. .   32. ?   33. ,   34. ;   35. ^   36. +   37. =   38. /   39. ""\   40. \"\n
-    41. '   42. (   43. )   44. [   45. ]   46. {   47. }   48. <   49. >\n
-${UNDERLINE}Arrows${NORMAL}:\n
-    50. ←   51. ↑   52. →   53. ↓   54. ↖   55. ↗   56. ↘   57. ↙   58. ↔   59. ↕\n
-${UNDERLINE}Box Drawing${NORMAL}:\n
-    60. ─   61. │   62. ├   63. ┤   64. ┌   65. ┐   66. └   67. ┘   68. ╭   69. ╮   70. ╰   71. ╯\n
-${UNDERLINE}Special / Custom${NORMAL}:\n
-    72. Space   73. Newline (\\\n)   74. Emoji   75. Custom Text\n"
+    18. Custom Datetime    19. Other Bash Prompt Expansion Variable (E.g. \\s)\n
+${LM}${BOLD}${UNDERLINE}Environment Variables${RS}:\n
+    20. Arch Type   21. OS Type   22. Terminal Type   23. Parent Shell PID   24. Return Status of Last Command\n
+    25. Shell Level   26. Other Environment Variable\n
+${LM}${BOLD}${UNDERLINE}Box Drawing${RS}:\n
+    27. ─   28. │   29. ├   30. ┤   31. ┌   32. ┐   33. └   34. ┘   35. ╭   36. ╮   37. ╰   38. ╯\n
+${LM}${BOLD}${UNDERLINE}Special${RS}:\n
+    39. Space    40. Tab (\\\t)    41. Newline (\\\n)\n"
 
-    parts_dictionary=('\u' '\h' '\H' '\l' '\?' '\w'
-    '\W' '\!' '\d' '\\\\t' '\T' '\@' '\A' '\\\\v' '\V' '\j'
-    '\$' 'CV' '@' '#' '!' '$' '%' '*' '&' '-' '_' ':' '~'
-    '|' '.' '?' ',' ';' '^' '+' '=' '/' '\\\\\\\\' '"' "\'"
-    '(' ')' '[' ']' '{' '}' '<' '>' '←' '↑' '→' '↓' '↖' '↗'
-    '↘' '↙' '↔' '↕' '─' '│' '├' '┤' '┌' '┐' '└' '┘' '╭' '╮'
-    '╰' '╯' ' ' '\\n')
+    part_dictionary=(
+    '\u' '\h' '\H' '\l' '\W' '\w' '\#' '\!' '\d' '\\\\t' '\T' '\@' '\A' '\\\\v' '\V' '\j' '\$' 'CDT' 'CPEV'
+    '$HOSTTYPE' '$OSTYPE' '$TERM' '$$' '$?' '$SHLVL' 'CEV'
+    '─' '│' '├' '┤' '┌' '┐' '└' '┘' '╭' '╮' '╰' '╯'
+    ' ' '\\t' '\\n')
 
-    parts_choices=('Username' 'Hostname (Short)' 'Hostname (Full)' "Shell's TTY" 'Return Status of Last Command'
-    'Current Working Directory' 'Current Working Directory from $HOME' 'Current History Event Number'
-    'Date (day mm dd)' 'Time (24-Hour HH:MM:SS)' 'Time (12-Hour HH:MM:SS)' 'Time (12-Hour HH:MM AM/PM)'
+    part_preview_strings=('Username' 'Hostname (Short)' 'Hostname (Full)' "Shell's TTY" 'Current Working Directory'
+    'Current Working Directory from $HOME' 'Current Shell Command Number' 'Current History Event Number'
+    'Date (day month dd)' 'Time (24-Hour HH:MM:SS)' 'Time (12-Hour HH:MM:SS)' 'Time (12-Hour HH:MM AM/PM)'
     'Time (12-Hour HH:MM)' 'Bash Version (Short)' 'Bash Version (Full)' 'Number of Jobs'
-    'isRoot' 'Custom Variable' '@' '#' '!' '$' '%' '*' '&' '-' '_' ':' '~' '|' '.' '?' ',' ';' '^' '+' '=' '/'
-    '\\' '"' "'" '(' ')' '[' ']' '{' '}' '<' '>' '←' '↑' '→' '↓' '↖' '↗' '↘' '↙' '↔' '↕' '─' '│' '├' '┤' '┌' '┐'
-    '└' '┘' '╭' '╮' '╰' '╯' ' ' '\n')
+    'isRoot' 'Custom Datetime' 'Custom Variable' 'Arch Type' 'OS Type' 'Terminal Type' 'Parent Shell PID'
+    'Return Status of Last Command' 'Shell Level' 'Custom Env Variable'
+    '─' '│' '├' '┤' '┌' '┐' '└' '┘' '╭' '╮' '╰' '╯' ' ' '\t' '\n')
   fi
+
+  MAX_PART_CHOICE_NUM=$(( "${#part_dictionary[@]}" ))
 }
 
 
@@ -394,41 +483,76 @@ ${UNDERLINE}Special / Custom${NORMAL}:\n
 parts_picker() {
   # Choose Parts
   echo -e "\nType 'n' or 'N' when you're finished\n"
-  part_array=() # Append to this empty array
-  custom_array=() # Use if custom text/element is chosen
+  # Store choices - Each element 'MENU/CDT/CPEV/CEV/CUSTOM,$PART'
+  part_choices=()
 
   # Keep entering options until 'n' or 'N' also has error handling
-  while :; do  # No argument for break, keep going until a break is found in the body
-    read -r -p "Enter a number choice: " CHOICE
-    if [[ "$CHOICE" =~ ^[Nn]$ ]]; then    # If choice is 'n' or 'N' (regex)
-      break  # Break while-loop
-    elif ! [[ $CHOICE =~ ^[0-9]+$ ]]; then  # If it's not a number and not '[Nn]' like above ^
-      echo "Enter a valid number! (1-75)"
-    elif [[ "$CHOICE" == '18' ]]; then  # If custom variable
-      read -r -p $'\tEnter Custom Variable: ' CUSTVAR  # -r flag so we keep '\' for Bash prompt vars
-      part_array+=("$CHOICE")
-      custom_array+=("$CUSTVAR")
-    # If newline chosen during $RPROMPT
-    elif [[ "$CHOICE" == '73' ]] && { [[ "$TYPEPROMPT" =~ ^[Rr]$ ]] || [[ "$rprompt_turn" == true ]]; }; then
-      echo "RPROMPT cannot contain newlines!"
-    elif [[ "$CHOICE" == '74' ]]; then  # If emoji
-      read -r -p $'\tEnter Emoji: ' EMOJI
-      part_array+=("$CHOICE")
-      custom_array+=("$EMOJI")
-    elif [[ "$CHOICE" == '75' ]]; then  # If custom text
-      read -r -p $'\tEnter Custom Text: ' CUSTEXT
-      part_array+=("$CHOICE")
-      # Escape quotes & backslashes
-      custom_array+=("$(printf "%q" "$CUSTEXT")") # Needed for printing custom text
-    elif ((CHOICE >= 1 && CHOICE <= 73)); then  # And it's in range (74, 75 already handled)
-      part_array+=("$CHOICE")  # Append to array
+  while :; do
+    read -r -p "Enter a number choice or custom text: " CHOICE
+
+    # If finished
+    if [[ "$CHOICE" == "n" ]] || [[ "$CHOICE" == "N" ]]; then
+      break
+
+    # If empty choice answer
+    elif [[ -z "$CHOICE" ]]; then
+      echo "Can't add nothing!"
+      continue
+
+    # If menu part choice
+    elif [[ $CHOICE =~ ^[0-9]+$ ]]; then
+
+      # Part numbers in the menu start at 1, part_dictionary starts at 1
+      # Move part number choices down 1 to be level w/ part_dictionary
+      CHOICE=$((CHOICE - 1))
+
+      # When extra prompt is needed for Custom
+      case "${part_dictionary[$CHOICE]}" in
+          "CDT")
+              read -r -p $'\tEnter Datetime Format: ' DATETIME
+              part_choices+=("CDT,$DATETIME")
+              continue  # Don't continue down to other if-statements below which could also be true
+              ;;
+          "CPEV")
+              read -r -p $'\tEnter Prompt Expansion Variable: ' CUSTPEVAR
+              part_choices+=("CPEV,$CUSTPEVAR")
+              continue
+              ;;
+          "CEV")
+              read -r -p $'\tEnter Environment Variable: ' CUSTENVVAR
+              part_choices+=("CEV,$CUSTENVVAR")
+              continue
+              ;;
+      esac
+
+      # Newline chosen during $RPROMPT
+      if [[ "${part_dictionary[$CHOICE]}" == "\\\n" ]] && { [[ "$TYPEPROMPT" =~ ^[Rr]$ ]] || [[ "$rprompt_turn" == true ]]; }; then
+        echo "RPROMPT cannot contain newlines!"
+        continue
+      fi
+
+      # In range
+      # Bring +1 back bc we're checking against the menu selection now, not parts_dictionary
+      if (( CHOICE+1 >= 1 && CHOICE+1 <= MAX_PART_CHOICE_NUM )); then
+        part_choices+=("MENU,$CHOICE")
+      # Out of range
+      else
+        echo "Part choice out of range (1-${MAX_PART_CHOICE_NUM})! If you want a raw number use '!' beforehand e.g. !1337"
+      fi
+
+    # If user wants raw number or raw 'n'/'N' e.g. !1337 or !n
+    elif [[ $CHOICE =~ ^![0-9]+$ ]] || [[ $CHOICE =~ ^![Nn]$ ]]; then
+      part_choices+=("CUSTOM,${CHOICE:1}")
+
+    # If custom/non-menu
     else
-      echo "Enter a valid number! (1-75)"
+      part_choices+=("CUSTOM,$CHOICE")
     fi
+
   done
 
 
-  if [ ${#part_array[@]} -eq 0 ]; then  # Check if part_array is empty (if size is zero)
+  if [ ${#part_choices[@]} -eq 0 ]; then  # Check if part_choices is empty (if size is zero)
 
     # 3 - Cases: LPROMPT !empty, but RPROMPT empty
     # LPROMPT empty, but RPROMPT !empty
@@ -462,7 +586,7 @@ colors_menu() {
   echo -e  "----------------------------------------------------------------------------------------\n"
   if [[ "$lightmode" == false ]]; then
     # Dark mode contrast
-    echo -e "Foregrounds:  1. \e[38;5;15mWhite\e[0m     14. \e[1m\e[38;5;15mBold White\e[0m             Backgrounds:  29. \e[0;30m\e[48;5;15mWhite\e[0m         42. \e[0;30m\e[48;5;255mBright White\e[0m\n"
+    echo -e "${BOLD}Foregrounds:${RS}  1. \e[38;5;15mWhite\e[0m     14. \e[1m\e[38;5;15mBold White\e[0m             ${BOLD}Backgrounds:${RS}  29. \e[0;30m\e[48;5;15mWhite\e[0m         42. \e[0;30m\e[48;5;255mBright White\e[0m\n"
     echo -e "              2. \e[0;30m\e[48;5;15mBlack\e[0m     15. \e[1;30m\e[48;5;15mBold Black\e[0m                           30. \e[38;5;15m\e[40mBlack\e[0m         43. \e[100mBright Black\e[0m\n"
     echo -e "              3. \e[0;31mRed\e[0m       16. \e[1;31mBold Red\e[0m                             31. \e[41mRed\e[0m           44. \e[0;30m\e[101mBright Red\e[0m\n"
     echo -e "              4. \e[0;32mGreen\e[0m     17. \e[1;32mBold Green\e[0m                           32. \e[42mGreen\e[0m         45. \e[0;30m\e[102mBright Green\e[0m\n"
@@ -479,7 +603,7 @@ colors_menu() {
     echo -e "             28. Custom RGB Foreground                              56. Custom RGB Background\e[0m\n\n"
   else
     # Light mode contrast
-    echo -e "Foregrounds:  1. \e[38;5;15m\e[40mWhite\e[0m     14. \e[1m\e[38;5;15m\e[40mBold White\e[0m             Backgrounds:  29. \e[0;30m\e[48;5;15mWhite\e[0m         42. \e[0;30m\e[48;5;255mBright White\e[0m\n"
+    echo -e "${LM}${BOLD}Foregrounds:${RS}  1. \e[38;5;15m\e[40mWhite\e[0m     14. \e[1m\e[38;5;15m\e[40mBold White\e[0m             ${LM}${BOLD}Backgrounds:${RS}  29. \e[0;30m\e[48;5;15mWhite\e[0m         42. \e[0;30m\e[48;5;255mBright White\e[0m\n"
     echo -e "              2. \e[0;30mBlack\e[0m     15. \e[1;30mBold Black\e[0m                           30. \e[38;5;15m\e[40mBlack\e[0m         43. \e[38;5;15m\e[100mBright Black\e[0m\n"
     echo -e "              3. \e[0;31mRed\e[0m       16. \e[1;31mBold Red\e[0m                             31. \e[38;5;15m\e[41mRed\e[0m           44. \e[0;30m\e[101mBright Red\e[0m\n"
     echo -e "              4. \e[0;32mGreen\e[0m     17. \e[1;32mBold Green\e[0m                           32. \e[38;5;15m\e[42mGreen\e[0m         45. \e[0;30m\e[102mBright Green\e[0m\n"
@@ -504,181 +628,230 @@ colors_menu() {
   '\e[0;37m' '\e[1m\e[38;5;15m' '\e[1;30m' '\e[1;31m'
   '\e[1;32m' '\e[1m\e[38;5;22m' '\e[1;33m' '\e[1m\e[38;5;202m'
   '\e[1m\e[38;5;27m' '\e[1;36m' '\e[1;35m' '\e[1m\e[38;5;93m'
-  '\e[1m\e[38;5;201m' '\e[1;37m' '' '' '\e[48;5;15m'
+  '\e[1m\e[38;5;201m' '\e[1;37m' '' 'RGB' '\e[48;5;15m'
   '\e[40m' '\e[41m' '\e[42m' '\e[48;5;22m'
   '\e[43m' '\e[48;5;202m' '\e[44m' '\e[46m'
   '\e[45m' '\e[48;5;93m' '\e[48;5;201m' '\e[47m'
   '\e[48;5;255m' '\e[100m' '\e[101m' '\e[102m'
   '\e[48;5;28m' '\e[103m' '\e[48;5;214m' '\e[104m'
-  '\e[106m' '\e[105m' '\e[48;5;99m' '\e[48;5;207m' '\e[107m' '' '')
+  '\e[106m' '\e[105m' '\e[48;5;99m' '\e[48;5;207m' '\e[107m' '' 'RGB')
+
+  MAX_FG_COLOR_CHOICE_NUM=$(( "${#color_dictionary[@]}" / 2 ))
+  MAX_BG_COLOR_CHOICE_NUM=$(( "${#color_dictionary[@]}" ))
 }
 
 
 # Handle color choices
 colors_picker() {
-  local local_part_array=("${!1}")
-  local local_custom_array=("${!2}")
+  local local_part_choices=("${!1}")
 
   # Choose Colors
-  color_array=() # Append to this empty array
-  declare -i counter=0   # Required for array indexing - "declare" makes it a local var
-  for i in "${local_part_array[@]}"; do
+  color_choices=() # Each element "$FG,$BG"
 
-    # Arrays start from 0
-    i=$((i - 1))
+  for i in "${local_part_choices[@]}"; do
 
-    # Do FG and BG adding in parts, so if there's an error,
-    # so we don't have to redo both, just the culprit
-    while :; do  # Let it do input prompts, then do check at the end
+    local CHECK="${i%%,*}"  # Everything before the 1st comma
+    local VALUE="${i#*,}"   # Everything after the 1st comma
 
-      # Keep in mind, this is just the selection menu number choices - 1 bc arrays start from 0
-      if [[ "$i" == '73' || "$i" == '74' ]]; then   # If its the custom text, just print it from part_array
-        read -r -p "Enter ${UNDERLINE}Foreground${NORMAL} Color Number for ${local_custom_array[counter]}: " FG  # Holds the actual values of menu, Bash/Zsh arrays start at 1
-      elif [[ "$i" == '71' ]] || [[ "$i" == '72' ]]; then  # No FG for space char or newline
-        break
-      elif [[ "$i" == '38' ]]; then  # Prevent double \\ - Don't change parts dictionary, need the double for preview print
-        read -r -p "Enter ${UNDERLINE}Foreground${NORMAL} Color Number for \\: " FG
-      elif [[ "$i" == '27' ]]; then  # double ":" issue
-        read -r -p "Enter ${UNDERLINE}Foreground${NORMAL} Color Number for : : " FG
-      elif [[ "$i" == '17' ]]; then  # Custom Variable
-        read -r -p "Enter ${UNDERLINE}Foreground${NORMAL} Color Number for Custom Variable (${local_custom_array[counter]}): " FG
-      else
-        read -r -p "Enter ${UNDERLINE}Foreground${NORMAL} Color Number for ${parts_choices[i]}: " FG
+    # Do FG and BG adding in parts, so if there's an error, so we don't have to redo both, just the culprit
+
+    local FG
+
+    while :; do
+
+      # - Double ':' issue - Looks weird if the string ends in ':' and then we have the ':' here right next to it "::"
+      # - If not ASCII, could be a wide character, need an extra space on the right to not overwrite ':'
+      if [[ ${VALUE: -1} == ":" ]] || (( $(printf "%d" "'$VALUE") > 127 )); then
+        read -r -p "Enter ${UNDERLINE}Foreground${RS} color number for ${VALUE} : " FG
+
+      # Custom Datetime
+      elif [[ "$CHECK" == "CDT" ]]; then
+        read -r -p "Enter ${UNDERLINE}Foreground${RS} color number for Custom Datetime (${VALUE}): " FG
+
+      # Custom Prompt Expansion Variable
+      elif [[ "$CHECK" == "CPEV" ]]; then
+        read -r -p "Enter ${UNDERLINE}Foreground${RS} color number for Custom Prompt Variable (${VALUE}): " FG
+
+      # Custom Environment Variable
+      elif [[ "$CHECK" == "CEV" ]]; then
+        read -r -p "Enter ${UNDERLINE}Foreground${RS} color number for Custom Environment Variable (${VALUE}): " FG
+
+      # Menu selection
+      elif [[ "$CHECK" == "MENU" ]]; then
+
+        # Further check for space, tab, and newline since they don't get an FG color
+        # Need to check if menu value first bc index here needs a number
+        if [[ "${part_dictionary[${VALUE}]}" =~ ^([[:space:]]|\\\\t|\\\\n)$ ]]; then
+          FG=$((MAX_FG_COLOR_CHOICE_NUM - 1))
+        else
+          read -r -p "Enter ${UNDERLINE}Foreground${RS} color number for ${part_preview_strings[${VALUE}]}: " FG
+        fi
+
+      # Custom
+      elif [[ "$CHECK" == "CUSTOM" ]]; then
+        read -r -p "Enter ${UNDERLINE}Foreground${RS} color number for ${VALUE}: " FG
       fi
 
-      if ! [[ $FG =~ ^[0-9]+$ ]]; then  # Check if fg is a number
-        echo "The foreground number you entered was invalid. Make sure to use a valid foreground number this time! (1-28)"
-        continue  # Back to top of loop - try again
-      fi
-
-      if ((FG >= 1 && FG <= 28)); then
-        if (( FG == 28 )); then
-          # Append to end of color dictionary and use that new index as the color
-          color_dictionary+=("$(custom_rgb 'FG')")
-          FG=${#color_dictionary[@]}
+      # After handling the color choosing messages for each part type, validate the colors chosen
+      if [[ $FG =~ ^[0-9]+$ ]] && (( FG >= 1 && FG <= MAX_FG_COLOR_CHOICE_NUM )); then
+        if [[ "${color_dictionary[$((FG - 1))]}" == "RGB" ]]; then
+          FG=$(custom_rgb 'FG')
         fi
 
         break  # On correct, move onto background
       else  # Never need to break on foreground, still need to check background
-        echo "The foreground number you entered was invalid. Make sure to use a valid foreground number this time! (1-28)"
+        echo "The foreground number you entered was invalid. Make sure to use a valid foreground number this time! (1-${MAX_FG_COLOR_CHOICE_NUM})"
       fi  # Go back to top of while loop and ask for input again
 
     done
 
+
     # Add BG for item after having done FG
+    local BG
+
     while :; do
-      if [[ "$i" == '73' || "$i" == '74' ]]; then   # If its the custom text, just print it from part_array
-        read -r -p "Enter ${UNDERLINE}Background${NORMAL} Color Number for ${local_custom_array[counter]}: " BG
-      elif [[ "$i" == '72' ]]; then  # If it's a newline, no need for background color either
-        break
-      elif [[ "$i" == '71' ]]; then  # 'Space' for color picker but ' ' later for prompt preview
-        read -r -p "Enter ${UNDERLINE}Background${NORMAL} Color Number for Space: " BG
-      elif [[ "$i" == '38' ]]; then  # Prevent double \\
-        read -r -p "Enter ${UNDERLINE}Background${NORMAL} Color Number for \\: " BG
-      elif [[ "$i" == '27' ]]; then  # double ":" issue
-        read -r -p "Enter ${UNDERLINE}Background${NORMAL} Color Number for : : " BG
-      elif [[ "$i" == '17' ]]; then  # Custom Variable
-        read -r -p "Enter ${UNDERLINE}Background${NORMAL} Color Number for Custom Variable (${local_custom_array[counter]}): " BG
-      else
-        read -r -p "Enter ${UNDERLINE}Background${NORMAL} Color Number for ${parts_choices[i]}: " BG
+
+      # - Double ':' issue - Looks weird if the string ends in ':' and then we have the ':' here right next to it "::"
+      # - If not ASCII, could be a wide character, need an extra space on the right to not overwrite ':'
+      if [[ ${VALUE: -1} == ":" ]] || (( $(printf "%d" "'$VALUE") > 127 )); then
+        read -r -p "Enter ${UNDERLINE}Background${RS} color number for ${VALUE} : " BG
+
+      # Custom Datetime
+      elif [[ "$CHECK" == "CDT" ]]; then
+        read -r -p "Enter ${UNDERLINE}Background${RS} color number for Custom Datetime (${VALUE}): " BG
+
+      # Custom Prompt Expansion Variable
+      elif [[ "$CHECK" == "CPEV" ]]; then
+        read -r -p "Enter ${UNDERLINE}Background${RS} color number for Custom Prompt Variable (${VALUE}): " BG
+
+      # Custom Environment Variable
+      elif [[ "$CHECK" == "CEV" ]]; then
+        read -r -p "Enter ${UNDERLINE}Background${RS} color number for Custom Environment Variable (${VALUE}): " BG
+
+      # Menu selection
+      elif [[ "$CHECK" == "MENU" ]]; then
+
+        # No background for newline (Need to check if menu value first bc index here needs a number)
+        if [[ "${part_dictionary[${VALUE}]}" == "\\\n" ]]; then
+          BG=$((MAX_BG_COLOR_CHOICE_NUM - 1))
+        elif [[ "${part_dictionary[${VALUE}]}" == "\\\t" ]]; then
+          read -r -p "Enter ${UNDERLINE}Background${RS} color number for Tab: " BG
+        elif [[ "${part_dictionary[${VALUE}]}" == " " ]]; then
+          read -r -p "Enter ${UNDERLINE}Background${RS} color number for Space: " BG
+        else
+          read -r -p "Enter ${UNDERLINE}Background${RS} color number for ${part_preview_strings[${VALUE}]}: " BG
+        fi
+
+      # Custom
+      elif [[ "$CHECK" == "CUSTOM" ]]; then
+        read -r -p "Enter ${UNDERLINE}Background${RS} color number for ${VALUE}: " BG
       fi
 
-      if ! [[ $BG =~ ^[0-9]+$ ]]; then  # Always need bg, no need to check if its used
-        echo "The background number you entered was invalid. Make sure to use a valid background number this time! (29-56)"
-        continue  # Back to top of loop - try again
-      fi
-
-      if ((BG >= 29 && BG <= 56)); then
-        if (( BG == 56 )); then
-          color_dictionary+=("$(custom_rgb 'BG')")
-          BG=${#color_dictionary[@]}
+      if [[ $BG =~ ^[0-9]+$ ]] && (( BG >= MAX_FG_COLOR_CHOICE_NUM+1 && BG <= MAX_BG_COLOR_CHOICE_NUM )); then
+        if [[ "${color_dictionary[$((BG - 1))]}" == "RGB" ]]; then
+          BG=$(custom_rgb 'BG')
         fi
 
         break  # End this loop, the color input is fine for this part, go to the next for-loop iteration
       else
-        echo "The background number you entered was invalid. Make sure to use a valid background number this time! (29-56)"
+        echo "The background number you entered was invalid. Make sure to use a valid background number this time! (${MAX_FG_COLOR_CHOICE_NUM+1}-${MAX_BG_COLOR_CHOICE_NUM})"
       fi  # Go back to top of while loop and ask for input again
 
     done
 
-    # Results of tests - Both must be good before adding, or it messes up color_array
-    if [[ "$i" == '17' || "$i" == '73' || "$i" == '74' ]]; then  # Custom Variable, Emoji, Custom Text cases
-      counter+=1
-      color_array+=($((FG - 1)) $((BG - 1)))
-    elif [[ "$i" == '71' ]]; then  # Spaces case
-      color_array+=($((BG - 1)))
-    elif [[ "$i" == '72' ]]; then  # Newline case - No colors
-      continue  # Do nothing
-    else # Normal case
-      color_array+=($((FG - 1)) $((BG - 1)))
+    # - Color numbers in the menu start at 1, color_dictionary starts at 0
+    #   Move part number choices down 1 to be level w/ part_dictionary
+    # - Non-number selections that already have their color code, like Custom RGB,
+    #   don't need to be brought down 1 bc they already got their color code
+    if [[ $FG =~ ^[0-9]+$ ]]; then
+      FG=${color_dictionary[$((FG - 1))]}  #  Go grab the color code from color_dictionary
     fi
+
+    if [[ $BG =~ ^[0-9]+$ ]]; then
+      BG=${color_dictionary[$((BG - 1))]}
+    fi
+
+    color_choices+=("${FG},${BG}")
+
   done
 }
 
 
 # Merge all part and color choices into $final_prompt and $review_prompt
 merge() {
-  local local_part_array=("${!1}")
-  local local_custom_array=("${!2}")
-  local local_color_array=("${!3}")
+  local local_part_choices=("${!1}")
+  local local_color_choices=("${!2}")
 
   review_prompt=""
   final_prompt=""
-  declare -i counter=0   # Required for array indexing
-  declare -i counter2=0  # Required for array indexing of custom text
-  for i in "${local_part_array[@]}"; do
 
-    # Arrays start from 0
-    i=$((i - 1))
+  # part_choices and color_choices are the same length, every part has a color pair (FG,BG)
+  # So if we iterate through one array, we can also go through the other at the same time
+  for i in "${!local_part_choices[@]}"; do
 
-    # Add colors to review_prompt & final_prompt
-    if [[ "$i" == '71' ]]; then  # If it's a space, no fg needed, first number will act as background
-      review_prompt+=${color_dictionary[local_color_array[counter]]}  # Just print a space char, don't actually print "Space"
-      # Add proper escapes '%{ %}' for Zsh and \[ \] for Bash
-      if [[ "$TYPESHELL" =~ ^[Zz]$ ]]; then
-        final_prompt+="%{${color_dictionary[local_color_array[counter]]}%}"
-      else
-        final_prompt+="\\[${color_dictionary[local_color_array[counter]]}\\]"
-      fi
-      counter+=1  # Only need to go up 1, not trying to skip a second number in a pair this time
-    elif [[ "$i" == '72' ]]; then # Newline just skip colors altogether
-      counter+=0  # Do nothing, don't use 'continue' as it skips the rest of the for-loop
-    else
-      next=$((counter+1))  # +1 to print both fg and bg pair
-      review_prompt+=${color_dictionary[local_color_array[counter]]}
-      review_prompt+=${color_dictionary[local_color_array[next]]}
-      if [[ "$TYPESHELL" =~ ^[Zz]$ ]]; then
-        final_prompt+="%{${color_dictionary[local_color_array[counter]]}%}"
-        final_prompt+="%{${color_dictionary[local_color_array[next]]}%}"
-      else
-        final_prompt+="\\[${color_dictionary[local_color_array[counter]]}\\]"
-        final_prompt+="\\[${color_dictionary[local_color_array[next]]}\\]"
-      fi
-      counter+=2  # Colors come in two's, don't add bg color twice everytime
-    fi
+    # Parts
+    local CHECK="${local_part_choices[${i}]%%,*}"
+    local VALUE="${local_part_choices[${i}]#*,}"
 
-    # Add parts to review_prompt & final_prompt
-    if [[ "$i" == '73' || "$i" == '74' ]]; then  # If it's emoji or custom text, use $custom_array array
-      review_prompt+="${local_custom_array[counter2]}"  # Has its own counter that goes up by 1's
-      final_prompt+=${local_custom_array[counter2]}
-      counter2+=1 # Only go up if more custom text found
-    elif [[ "$i" == '17' ]]; then
-      review_prompt+="Custom Variable (${local_custom_array[counter2]})"
-      final_prompt+=${local_custom_array[counter2]}
-      counter2+=1
-    else   # If normal
-      review_prompt+="${parts_choices[i]}"
-      final_prompt+=${parts_dictionary[i]}
-    fi
+    # Colors
+    local FG="${local_color_choices[${i}]%%,*}"
+    local BG="${local_color_choices[${i}]#*,}"
 
-    review_prompt+="\e[0m"
+    review_prompt+="${FG}${BG}"
 
-    # Separate each of the parts with this escape sequence to prevent
-    # prompt from deleting itself or causing other bugs
-    if [[ "$TYPESHELL" =~ ^[Zz]$ ]]; then
-      final_prompt+="%{\e[0m%}"
-    elif [[ "$TYPESHELL" =~ ^[Bb]$ ]]; then
-      final_prompt+="\\[\e[0m\\]"
+    # Create review prompt
+    case "$CHECK" in
+        "MENU")
+            review_prompt+="${part_preview_strings[${VALUE}]}" ;;
+        "CDT")
+            review_prompt+="Datetime (${VALUE})" ;;
+        "CPEV")
+            review_prompt+="Prompt Var (${VALUE})" ;;
+        "CEV")
+            review_prompt+="Environment Var (${VALUE})" ;;
+        "CUSTOM")
+            VALUE="${VALUE//\\/\\\\}"  # Replace \ with \\ for preview_print
+            review_prompt+="${VALUE}" ;;
+    esac
+
+    review_prompt+="${RC}"  # Don't want to affect next item
+
+    # Create final prompt - Needs color escape for actual terminal prompt
+    if [[ "$TYPESHELL" =~ ^[Zz]$ ]]; then  # Zsh color escape %{XYZ%}
+      final_prompt+="%{${FG}%}%{${BG}%}"  # Add color before part
+
+      case "$CHECK" in
+          "MENU")
+              final_prompt+="${part_dictionary[${VALUE}]}" ;;
+          "CDT")
+              final_prompt+="%D{${VALUE}}" ;;  # %D{string}
+          "CPEV"|"CEV")
+              final_prompt+="${VALUE}" ;;  # Don't escape - these are variables
+          "CUSTOM")
+              # Escape all non-variables so we get raw/uninterpreted strings for "CUSTOM"
+              local ESCAPED
+              ESCAPED=$(escape_chars "${VALUE}")
+              final_prompt+="${ESCAPED}" ;;
+      esac
+
+      final_prompt+="%{${RC}%}"  # Add reset color after part
+    elif [[ "$TYPESHELL" =~ ^[Bb]$ ]]; then  # Bash color escape \\[XYZ\\]
+      final_prompt+="\\[${FG}\\]\\[${BG}\\]"
+
+      case "$CHECK" in
+          "MENU")
+              final_prompt+="${part_dictionary[${VALUE}]}" ;;
+          "CDT")
+              final_prompt+="\D{${VALUE}}" ;;  # \D{string}
+          "CPEV"|"CEV")
+              final_prompt+="${VALUE}" ;;
+          "CUSTOM")
+              local ESCAPED
+              ESCAPED=$(escape_chars "${VALUE}")
+              final_prompt+="${ESCAPED}" ;;
+      esac
+
+      final_prompt+="\\[${RC}\\]"
     fi
 
   done
@@ -713,6 +886,9 @@ while [[ "$#" -gt 0 ]]; do
         --uninstall)
             uninstall
             ;;
+        --char-table)
+            char_table
+            ;;
         --comment-out)
             command_check
             commentout=true
@@ -725,6 +901,9 @@ while [[ "$#" -gt 0 ]]; do
             ;;
         --light-mode)
             lightmode=true
+            # If light-mode enabled, use black where necessary
+            # If not-enabled, $LM will be empty/blank
+            LM='\e[0;30m'
             shift
             ;;
         --no-extras)
@@ -746,7 +925,7 @@ while [[ "$#" -gt 0 ]]; do
             shift
             ;;
         *)
-            echo -e "\n${RED}ERR${RC}: Unknown flag / option: $1\n" >&2
+            echo -e "\n${RED}ERR${RC}: Unknown flag/option: $1\n" >&2
             exit 1
             ;;
     esac
@@ -754,18 +933,14 @@ done
 
 
 # Welcome Message
-if [[ "$lightmode" == false ]]; then
-  echo -e "${BOLD}\n                ~Welcome to the Shell ${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r ${RC}${BOLD}Prompt Tool v${version}~${NORMAL}"
-else
-  echo -e "${BLACK}${BOLD}\n                ~Welcome to the Shell ${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r ${RC}${BLACK}${BOLD}Prompt Tool v${version}~${NORMAL}"
-fi
+echo -e "${LM}${BOLD}\n                ~Welcome to the Shell-${GREEN}C${RED}o${BLUE}l${PURPLE}o${CYAN}r${RC}${LM}${BOLD}-Prompt-Tool v${version}~${RS}"
 echo -e "                        @KyleTimmermans\n\n"
 
 
 read -r -p "Will this be a Zsh or a Bash prompt? Enter 'Z' for Zsh or 'B' for Bash: " TYPESHELL
 echo ""
 
-# For choosing the prompt / prompttype, if error, 2 new line buffers. If no error, only need 1 line buffer
+# For choosing the prompt/prompttype, if error, 2 new line buffers. If no error, only need 1 line buffer
 isError=false
 while :; do
   if [[ "$TYPESHELL" =~ ^[Zz]$ ]] || [[ "$TYPESHELL" =~ ^[Bb]$ ]]; then
@@ -818,20 +993,21 @@ fi
 # Give menu
 if [[ "$TYPEPROMPT" =~ ^[Bb]$ ]]; then
   # "Both" workflow
+  # We need the l_xyz and r_xyz variables since the pass from PROMPTTYPE
+  # to another will overwrite the global vars and we need a persistent vcopy
   parts_menu
 
+  # Choose parts for both
   echo -e "\nLPROMPT:\n--------"
   lprompt_turn=true
   parts_picker
-  l_parts=("${part_array[@]}")
-  l_custom_parts=("${custom_array[@]}")
+  l_parts=("${part_choices[@]}")
   lprompt_turn=false  # Don't want to check lprompt again in menu()
 
   echo -e "\n\nRPROMPT:\n--------"
   rprompt_turn=true
   parts_picker
-  r_parts=("${part_array[@]}")
-  r_custom_parts=("${custom_array[@]}")
+  r_parts=("${part_choices[@]}")
   rprompt_turn=false
 
   colors_menu
@@ -839,47 +1015,52 @@ if [[ "$TYPEPROMPT" =~ ^[Bb]$ ]]; then
   if [[ ${#l_parts[@]} -gt 0 ]]; then
     echo -e "LPROMPT:\n--------\n"
   fi
-  colors_picker "l_parts[@]" "l_custom_parts[@]"
-  l_colors=("${color_array[@]}")
+  colors_picker "l_parts[@]"
+  l_colors=("${color_choices[@]}")
 
   if [[ ${#r_parts[@]} -gt 0 ]]; then
     echo -e "\n\nRPROMPT:\n--------\n"
   fi
-  colors_picker "r_parts[@]" "r_custom_parts[@]"
-  r_colors=("${color_array[@]}")
+  colors_picker "r_parts[@]"
+  r_colors=("${color_choices[@]}")
 
-  merge "l_parts[@]" "l_custom_parts[@]" "l_colors[@]"
+  merge "l_parts[@]" "l_colors[@]"
   l_review_prompt="$review_prompt"
   l_final_prompt="$final_prompt"
 
-  merge "r_parts[@]" "r_custom_parts[@]" "r_colors[@]"
+  merge "r_parts[@]" "r_colors[@]"
   r_review_prompt="$review_prompt"
   r_final_prompt="$final_prompt"
 
   # If user skips one section, don't write out the prompt they didn't create
+
+  # If content in LPROMPT and RPROMPT
   if [[ "$l_final_prompt" != "" ]] && [[ "$r_final_prompt" != "" ]]; then
     preview_print "$l_review_prompt" "$r_review_prompt"
-  elif [[ "$l_final_prompt" == "" ]] && [[ "$r_final_prompt" != "" ]]; then
-    # Change prompt type for later checks since the type changed from 'Both' to something else
-    TYPEPROMPT='R'
-    final_prompt="$r_final_prompt"
-    preview_print "$r_review_prompt"
+
+  # If content in LPROMPT, but RPROMPT empty
   elif [[ "$l_final_prompt" != "" ]] && [[ "$r_final_prompt" == "" ]]; then
+    # Change prompt type for later checks since the type changed from 'Both' to something else
     TYPEPROMPT='L'
     final_prompt="$l_final_prompt"
     preview_print "$l_review_prompt"
+
+  # If LPROMPT empty, but there is content in RPROMPT
+  elif [[ "$l_final_prompt" == "" ]] && [[ "$r_final_prompt" != "" ]]; then
+    TYPEPROMPT='R'
+    final_prompt="$r_final_prompt"
+    preview_print "$r_review_prompt"
   fi
+
 else
+  # Single prompt workflow
   parts_menu
   parts_picker
-  parts=("${part_array[@]}")
-  custom_parts=("${custom_array[@]}")
 
   colors_menu
-  colors_picker "parts[@]" "custom_parts[@]"
-  colors=("${color_array[@]}")
+  colors_picker "part_choices[@]"
 
-  merge "parts[@]" "custom_parts[@]" "colors[@]"
+  merge "part_choices[@]" "color_choices[@]"
 
   preview_print "$review_prompt"
 fi
@@ -897,11 +1078,7 @@ if [[ "$CHOICE" =~ ^[Yy]$ ]]; then
 
   # Disable Oh My Zsh theme which could prevent our prompt from applying
   if [[ "$omz" == true ]]; then
-    if [[ "$nowatermarks" == false ]]; then
-      gawk -i inplace '/^([[:space:]]*)?(export[[:space:]])?ZSH_THEME=/{ if(prev !~ /^([[:space:]]*)?# Commented out by Shell-Color-Prompt-Tool/) { match($0,/^([[:space:]]*)/,parts);NR==FNR-1;print parts[1] "# Commented out by Shell-Color-Prompt-Tool"}} {prev=$0; print $0}' ~/.zshrc
-    fi
-
-    gsed -i '/^[[:space:]]*\(\(export \)\{0,1\}ZSH\_THEME=\)/s/^\([[:space:]]*\)/\1#/' ~/.zshrc
+    omz_comment_out
   fi
 
   # If its not a custom file name, then we can use the normal ones

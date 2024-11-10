@@ -1,5 +1,6 @@
 - Prompt Walkthrough Screenshot
 
+	- Unplug external monitor
 	- Comment out ZSH_THEME= in .zshrc & restart terminal
 	- Temp RGB fix if TRUECOLOR not available
 	- Full screen
@@ -10,10 +11,10 @@
 	- View --> Hide Marks & Hide Tab Bar
 	- scpt
 	- choices.py
-	- CleanShot X - Scrolling Capture - Auto-Scroll
+	- CleanShot X - Scrolling Capture - Do NOT use Auto-Scroll
 	- Crop to show the top calling line and prompt
 	- Crop to not show the last prompt line to prevent confusion
-	- 4.4 Image Dimensions: 2878x8440
+	- 5.0 Image Dimensions: 2878x8135
 	- Cover up upper scroll bar parts w/ black
 
 

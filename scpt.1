@@ -1,11 +1,11 @@
-.TH scpt 1 "October 14, 2024" "SCPT v4.4" "Shell-Color-Prompt-Tool"
+.TH scpt 1 "November 9, 2024" "SCPT v5.0" "Shell-Color-Prompt-Tool"
 .SH NAME
-scpt \- Create your own Zsh / Bash terminal prompt from scratch and give it some color, all from the command line
+scpt \- Create your own Zsh/Bash terminal prompt from scratch and give it some color, all from the command line
 .SH SYNOPSIS
 .B scpt
-[\-\-options]
+[\fIoptions\fP]
 .SH DESCRIPTION
-Customize your Zsh / Bash terminal prompt with a menu-style selection guide. Choose what info you want the prompt to display (username, hostname, symbols, etc.) and customize their foreground and background colors—all from the command line. Use brighter colors for extra pop!
+Customize your Zsh/Bash terminal prompt with a menu-style selection guide. Choose what info you want the prompt to display (username, hostname, symbols, etc.) and customize their foreground and background colors—all from the command line. Use brighter colors for extra pop!
 .SH OPTIONS
 .TP
 .B \-u, \-\-usage, \-h, \-\-help
@@ -25,16 +25,19 @@ Comment out older prompt lines in .zshrc / .bashrc e.g. PROMPT= / PS1= to help p
 Disables your 'Oh My Zsh' theme if you have one, which could get in the way of applying your new prompt
 .TP
 .B \-\-light\-mode
-Better color contrast for the color picker menu on white / light-colored terminal backgrounds
+Better color contrast for the color picker menu and other various portions on white/light-colored terminal backgrounds. If you plan on using this flag, always put it first, before all other flags/args
 .TP
 .B \-\-no\-extras
 Don't automatically add a newline to the start of the prompt and a space to the end of the prompt
 .TP
-.B \-\-separate\-fill
+.B \-\-separate\-file
 Place the prompt string in a separate file instead of putting it in .zshrc / .bashrc E.g. --separate-file="~/test.txt"
 .TP
 .B \-\-no\-watermarks
 Don't add the "# Added by Shell-Color-Prompt-Tool" comment to .zshrc / .bashrc when adding the prompt string and don't add the "# Commented out by Shell-Color-Prompt-Tool" comment when using --comment-out or --omz
+.TP
+.B \-\-char\-table
+Display a table of cool UTF-8 characters for copy-and-pasting into prompt part choices. If you can't see the characters or if they show up incorrectly, ensure that your terminal supports the UTF-8 charset
 .SH EXAMPLES
 .TP
 .B scpt \-\-comment\-out \-\-omz \-\-no\-watermarks
@@ -43,6 +46,8 @@ Comment out all previous PS1= / PROMPT= / RPROMPT= lines in .zshrc / .bashrc, as
 .B scpt \-\-separate-file="~/test.txt" \-\-no\-extras
 Write the prompt into a file called ~/test.txt and have it so the prompt definition doesn't have a newline at the beginning and a space at the end.
 .SH USAGE NOTES
+.TP
+- To add a number as a raw string and to not get it recognized as a menu-number choice, or to add 'n'/'N' and not exit the parts selector, add a '!' before the number or 'n'/'N' e.g. '!14' yields '14' and '!n' yields 'n' and won't exit the parts selector
 .TP
 - No need to put a space at the end of your prompt, one will be added automatically. Same with a newline at the beginning for proper spacing between actual prompts, one will automatically be added. Disable this feature w/ \fI--no-extras\fP
 .TP
@@ -59,6 +64,8 @@ Write the prompt into a file called ~/test.txt and have it so the prompt definit
 - If your command is too long, $RPROMPT will visually be temporarily overwritten
 .TP
 - $RPROMPT cannot contain newlines (\\n)
+.TP
+- For part option "Custom Datetime", the datetime string is formatted using the 'strftime' function. See strftime(3) for more details. E.g.'%Y-%m-%d %k:%M:%S' would become: '2024-11-09 14:37:34'
 .TP
 - For more prompt expansion variables not listed in this program:
 \t Zsh: \fIzsh.sourceforge.io/Doc/Release/Prompt-Expansion.html\fP

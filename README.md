@@ -1,4 +1,4 @@
-![Version 4.4](http://img.shields.io/badge/Version-4.4-orange.svg)
+![Version 5.0](http://img.shields.io/badge/Version-5.0-orange.svg)
 ![Zsh 5.8](https://img.shields.io/badge/Zsh-5.8-red.svg)
 ![Bash 5.1.16](https://img.shields.io/badge/Bash-5.1.16-red.svg)
 ![Latest Commit](https://img.shields.io/github/last-commit/kyletimmermans/shell-color-prompt-tool?color=lightblue&label=Latest%20Commit)
@@ -7,20 +7,20 @@
 
 # <div align="center">Shell-Color-Prompt-Tool</div>
 
-Customize your Zsh / Bash terminal prompt with a menu-style selection guide. Choose what info you want the prompt to display (username, hostname, symbols, etc.) and customize their foreground and background colors—all from the command line. Use brighter colors for extra pop!
+Customize your Zsh/Bash terminal prompt with a menu-style selection guide. Choose what info you want the prompt to display (username, hostname, symbols, etc.) and customize their foreground and background colors—all from the command line. Use brighter colors for extra pop!
 
 <div>&#8203;</div>
 
 ### Install as a Command - "scpt":
 ```bash
-URL="https://github.com/kyletimmermans/shell-color-prompt-tool/releases/download/latest"; curl -q -s -LJO "$URL/shell-color-prompt-tool.sh" && chmod a+x shell-color-prompt-tool.sh && sudo mv shell-color-prompt-tool.sh /usr/local/bin/scpt && curl -q -s -LJO "$URL/scpt.1" && sudo mv scpt.1 /usr/local/share/man/man1/
+URL="https://github.com/kyletimmermans/shell-color-prompt-tool/releases/download/latest"; curl -q -s -S -LJO "$URL/shell-color-prompt-tool.sh" && chmod a+x shell-color-prompt-tool.sh && sudo mv shell-color-prompt-tool.sh /usr/local/bin/scpt && curl -q -s -S -LJO "$URL/scpt.1" && sudo mv scpt.1 /usr/local/share/man/man1/
 ```
 
 <div>&#8203;</div>
 
 ### Temporary Use in Current Directory:
 ```bash
-curl -q -s -LJO "https://github.com/kyletimmermans/shell-color-prompt-tool/releases/download/latest/shell-color-prompt-tool.sh" && chmod +x shell-color-prompt-tool.sh
+curl -q -s -S -LJO "https://github.com/kyletimmermans/shell-color-prompt-tool/releases/download/latest/shell-color-prompt-tool.sh" && chmod +x shell-color-prompt-tool.sh
 ```
 
 <div>&#8203;</div>
@@ -46,28 +46,27 @@ sudo port install gawk gsed
 
 ### Sample Program Walkthrough
 <p align="center">
-  <img src="/media/visuals/prompt_walkthrough_v4.4.png?raw=true" alt="Sample Program Walkthrough"/>
+  <img src="/media/visuals/prompt_walkthrough_v5.0.png?raw=true" alt="Sample Program Walkthrough"/>
 </p>
 
 ### Resulting Prompt
 <p align="center">
-  <img src="/media/visuals/prompt_walkthrough_result_v4.4.png?raw=true" alt="Resulting Prompt"/>
+  <img src="/media/visuals/prompt_walkthrough_result_v5.0.png?raw=true" alt="Resulting Prompt"/>
 </p>
 
 <div align="center"><b>Note: I don't think anyone would create a prompt setup as chaotic as this one,
-but I wanted to show off all of the different variables, symbols, colors and
-how they're handled</b></div>
+but I wanted to show off all of the different variables/symbols/colors and how they're handled</b></div>
 
 <div>&#8203;</div>
 
 ### Demo Video
 
-![Demo Video](/media/visuals/vhs_demo_v4.4.gif)
+![Demo Video](/media/visuals/vhs_demo_v5.0.gif)
 
 ### Demo Resulting Prompt
 
 <p align="center">
-  <img src="/media/visuals/gif_walkthrough_result_v4.4.png?raw=true" alt="Demo Resulting Prompt"/>
+  <img src="/media/visuals/gif_walkthrough_result_v5.0.png?raw=true" alt="Demo Resulting Prompt"/>
 </p>
 
 <div>&#8203;</div>
@@ -77,36 +76,56 @@ how they're handled</b></div>
 ```text
 -u, --usage, -h, --help      Show usage/help menu
 
--v, --version                Get program version. Reveal if a newer version is available on GitHub
+-v, --version                Get program version. Reveal if a newer version is available on
+                             GitHub
 
---uninstall                  Undoes the "Install as a Command" installation option. It will delete
-                             /usr/local/bin/scpt (program) and the associated man page
+--uninstall                  Undoes the "Install as a Command" installation option. It will
+                             delete /usr/local/bin/scpt (program) and the associated
+                             man page
 
---comment-out                Comment out older prompt lines in .zshrc / .bashrc e.g. PROMPT= / PS1=
-                             to help prevent conflicting prompt definitions
+--comment-out                Comment out older prompt lines in .zshrc / .bashrc
+                             e.g. PROMPT= / PS1= to help prevent conflicting prompt
+                             definitions
 
---omz                        Disables your 'Oh My Zsh' theme if you have one, which could get in
-                             the way of applying your new prompt
+--omz                        Disables your 'Oh My Zsh' theme if you have one, which could
+                             get in the way of applying your new prompt
 
---light-mode                 Better color contrast for the color picker menu on white / light-colored
-                             terminal backgrounds
+--light-mode                 Better color contrast for the color picker menu and other
+                             various portions on white/light-colored terminal backgrounds.
+                             If you plan on using this flag, always put it first, before
+                             all other flags/args
 
 --no-extras                  Don't automatically add a newline to the start of the prompt
                              and a space to the end of the prompt
 
---separate-file              Place the prompt string in a separate file instead of putting it in
-                             .zshrc / .bashrc for any reason E.g. --separate-file="~/test.txt"
+--separate-file              Place the prompt string in a separate file instead of putting
+                             it in .zshrc / .bashrc for any reason
+                             E.g. --separate-file="~/test.txt"
 
 --no-watermarks              Don't add the "# Added by Shell-Color-Prompt-Tool" comment to
                              .zshrc / .bashrc when adding the prompt string and don't add the
                              "# Commented out by Shell-Color-Prompt-Tool" comment when
                              using --comment-out or --omz
+
+--char-table                 Display a table of cool UTF-8 characters for copy-and-pasting
+                             into prompt part choices. If you can't see the characters or
+                             if they show up incorrectly, ensure that your terminal supports
+                             the UTF-8 charset
 ```
+
+<div>&#8203;</div>
+
+### Char Table
+
+<p align="center">
+  <img src="/media/visuals/char_table_v5.0.png?raw=true" alt="Char Table"/>
+</p>
 
 <div>&#8203;</div>
 
 ### Usage Notes
 > [!NOTE]
+> * #### To add a number as a raw string and to not get it recognized as a menu-number choice, or to add 'n'/'N' and not exit the parts selector, add a '!' before the number or 'n'/'N' e.g. '!14' yields '14' and '!n' yields 'n' and won't exit the parts selector
 > * #### You don't need to add a newline character at the beginning of your prompt for spacing between actual prompts, one will be added for you. Same with a space after the prompt so there's space between the prompt and inputted commands, one will automatically be added for you. This feature can be disabled with the --no-extras flag
 > * #### If you want to use the --comment-out or --omz flags, you must have 'gawk' and 'gsed' installed. On Mac, you'll need to install both. On Linux, you just need gawk, as gsed should already be your default sed version
 > * #### --comment-out and --omz can break the config if the variables that are getting commented out, are defined within things like if-statements or case-statements
@@ -115,6 +134,7 @@ how they're handled</b></div>
 > * #### Colors may vary from system to system. When using the Custom RGB option, make sure your terminal supports TRUECOLOR (See [here](https://github.com/termstandard/colors))
 > * #### If your command is too long, $RPROMPT will visually be temporarily overwritten
 > * #### $RPROMPT cannot contain newlines (\n)
+> * #### For part option "Custom Datetime", the datetime string is formatted using the 'strftime' function. See strftime(3) for more details. E.g.'%Y-%m-%d %k:%M:%S' would become: '2024-11-09 14:37:34'
 > * #### For more prompt expansion variables not listed in this program: [Zsh](https://zsh.sourceforge.io/Doc/Release/Prompt-Expansion.html) & [Bash](https://www.gnu.org/software/bash/manual/html_node/Controlling-the-Prompt.html)
 
 <div>&#8203;</div>
@@ -123,8 +143,8 @@ how they're handled</b></div>
 | Don't like the prompt that got saved and want to change it back to its default? |
 |---------------------------------------------------------------------------------|
 |1. In your Terminal type: ```vi ~/.zshrc``` or ```vi ~/.bashrc```|
-|2. Hit 'i' on your keyboard to start editing the file and remove the line(s) at the bottom of the file, e.g. "export PROMPT=etc" (Zsh) or "export PS1=etc" (Bash), that has the comment above it "# Added by Shell-Color-Prompt-Tool"|
-|3. If you used --comment-out or --omz, uncomment your old prompt lines where the line above it says "# Commented out by Shell-Color-Prompt-Tool" |
+|2. Hit 'i' on your keyboard to start editing the file and remove the line(s) at the bottom of the file, e.g. "export PROMPT=etc" (Zsh) or "export PS1=etc" (Bash), that has the comment above it:<br>"# Added by Shell-Color-Prompt-Tool"|
+|3. If you used --comment-out or --omz, uncomment your old prompt lines where the line above it says:<br>"# Commented out by Shell-Color-Prompt-Tool" |
 |4. Hit 'escape (esc)' on your keyboard and then type ```:wq``` and hit enter|
 |5. Back in your Terminal now, type ```source ~/.zshrc``` or ```source ~/.bashrc``` and hit enter|
 |6. Restart your Terminal|
@@ -135,7 +155,7 @@ how they're handled</b></div>
 ### Security Warning
 
 > [!CAUTION]
-> Exercise caution when copy and pasting code from someone else and / or code that you do not understand, into the custom parts options (Custom Text, Emoji, Other Prompt Expansion Variable).
+> Exercise caution when copy and pasting code from someone else and/or code that you do not understand, into any of the parts option picker. Which includes, but is not limited to, the "Custom Datetime", "Other Zsh/Bash Prompt Expansion Variable", and "Other Environment Variable" choices.
 >
 > Shell prompts are fully capable of running commands and entire command pipelines.
 >
@@ -165,49 +185,49 @@ graph TD;
 <div>&#8203;</div>
 
 ### Changelog
+
 <div><b>v1.0:</b> Initial-Relase</div>
 <div><b>v1.1:</b></div>
-<div>&ensp;&ensp;-Fixed issue where symbol choices misaligned with actual symbol output, found by @christiankuhtz</div>
-<div>&ensp;&ensp;-Added period symbol to list of part choices</div>
-<div>&ensp;&ensp;-Added --version and -v command line flag</div>
-<div>&ensp;&ensp;-Fixed prompt spacing and wording</div>
+<div>&ensp;&ensp;-Fixed: Issue where symbol choices misaligned with actual symbol output, found by @christiankuhtz</div>
+<div>&ensp;&ensp;-Added: period symbol to list of part choices</div>
+<div>&ensp;&ensp;-Added: --version and -v command line flag</div>
+<div>&ensp;&ensp;-Fixed: Prompt spacing and wording</div>
 <div><b>v2.0:</b></div>
-<div>&ensp;&ensp;-Support for Bash added so its been changed from "Zsh-Color-Prompt-Tool" to "Shell-Color-Prompt-Tool"</div>
-<div>&ensp;&ensp;-Added option to edit either PROMPT or RPROMPT, or both for Zsh</div>
-<div>&ensp;&ensp;-Any added line(s) will have the comment above it, "# Added by Zsh Color Prompt Tool" so the user knows which prompts were generated by the program</div>
-<div>&ensp;&ensp;-Added --omz, --light-mode, --comment-out, and --no-extras flags</div>
-<div>&ensp;&ensp;-Added more symbols and colors to chose from in the menus</div>
-<div>&ensp;&ensp;-Added automatic newline to front of generated prompt and extra space to the end for cleaner prompt and terminal UX</div>
-<div>&ensp;&ensp;-Messing up a color no longer makes you redo the foreground and background color, just the one that was incorrect</div>
-<div>&ensp;&ensp;-Fixed issue where colors weren't properly escaped and could cause visual bugs</div>
+<div>&ensp;&ensp;-Added: Support for Bash added so its been changed from "Zsh-Color-Prompt-Tool" to "Shell-Color-Prompt-Tool"</div>
+<div>&ensp;&ensp;-Added: Option to edit either PROMPT or RPROMPT, or both for Zsh</div>
+<div>&ensp;&ensp;-Added: Any added line(s) will have the comment above it, "# Added by Zsh Color Prompt Tool" so the user knows which prompts were generated by the program</div>
+<div>&ensp;&ensp;-Added: --omz, --light-mode, --comment-out, and --no-extras flags</div>
+<div>&ensp;&ensp;-Added: More symbols and colors to chose from in the menus</div>
+<div>&ensp;&ensp;-Added: automatic newline to front of generated prompt and extra space to the end for cleaner prompt and terminal UX</div>
+<div>&ensp;&ensp;-Fixed: Messing up a color no longer makes you redo the foreground and background color, just the one that was incorrect</div>
+<div>&ensp;&ensp;-Fixed: Issue where colors weren't properly escaped and could cause visual bugs</div>
 <div>&ensp;&ensp;-Added: -h/--help & -u/--usage flags</div>
 <div><b>v2.5:</b></div>
-<div>&ensp;&ensp;-Added Custom RGB color option</div>
-<div>&ensp;&ensp;-Fixed error messsages showing incorrect range of color options</div>
-<div>&ensp;&ensp;-Updated and cleaned up help/usage flag output</div>
+<div>&ensp;&ensp;-Added: Custom RGB color option</div>
+<div>&ensp;&ensp;-Fixed: error messsages showing incorrect range of color options</div>
+<div>&ensp;&ensp;-Updated: and cleaned up help/usage flag output</div>
 <div><b>v2.7:</b></div>
-<div>&ensp;&ensp;-Force gawk usage, even on Linux, as there could be multiple awk types installed</div>
-<div>&ensp;&ensp;-Removed OS-specific commands in --comment-out and --omz functionality</div>
-<div>&ensp;&ensp;&ensp;&ensp;-Everything is using gawk and gsed now</div>
-<div>&ensp;&ensp;-Fixed some wording in the --help menu</div>
+<div>&ensp;&ensp;-Added: Force gawk usage, even on Linux, as there could be multiple awk types installed</div>
+<div>&ensp;&ensp;-Removed: OS-specific commands in --comment-out and --omz functionality (Everything is using gawk and gsed now)</div>
+<div>&ensp;&ensp;-Fixed: Some wording in the --help menu</div>
 <div><b>v3.0:</b></div>
-<div>&ensp;&ensp;-Better logic for ensuring gawk & gsed usage when using --comment-out or --omz flags</div>
-<div>&ensp;&ensp;-The version flag will show reveal whether an updated version of the tool is available</div>
+<div>&ensp;&ensp;-Added: Better logic for ensuring gawk & gsed usage when using --comment-out or --omz flags</div>
+<div>&ensp;&ensp;-Added: The version flag will show reveal whether an updated version of the tool is available</div>
 <div><b>v3.1:</b></div>
-<div>&ensp;&ensp;-Added error handling for version update check</div>
+<div>&ensp;&ensp;-Added: Error handling for version update check</div>
 <div><b>v4.0:</b></div>
 <div>&ensp;&ensp;-Fixed: RPROMPT means "Right Prompt" in Zsh, not "Root Prompt"</div>
 <div>&ensp;&ensp;&ensp;&ensp;-Subsequently, you can now create a Zsh PROMPT and RPROMPT in one run</div>
 <div>&ensp;&ensp;-Fixed: Multiple "Custom Text" options don't stick together anymore</div>
 <div>&ensp;&ensp;-Fixed: Some Bash prompt expansion variables were not working properly</div>
 <div>&ensp;&ensp;-Fixed: --comment-out / --omz logic bug that could break adding comments above added lines</div>
-<div>&ensp;&ensp;-Added: "Other Zsh/Bash Prompt Expansion Variable" to parts menu / options</div>
-<div>&ensp;&ensp;-Added: Newline to parts menu / options</div>
+<div>&ensp;&ensp;-Added: "Other Zsh/Bash Prompt Expansion Variable" to parts menu/options</div>
+<div>&ensp;&ensp;-Added: Newline to parts menu/options</div>
 <div>&ensp;&ensp;&ensp;&ensp;-Can handle multiline prompts now</div>
 <div>&ensp;&ensp;-Added: --separate-file flag</div>
 <div>&ensp;&ensp;-Added: --no-watermarks flag</div>
-<div>&ensp;&ensp;-Added: "Box Drawing" symbols to parts menu / options</div>
-<div>&ensp;&ensp;-Added: "Arrows" symbols to parts menu / options</div>
+<div>&ensp;&ensp;-Added: "Box Drawing" symbols to parts menu/options</div>
+<div>&ensp;&ensp;-Added: "Arrows" symbols to parts menu/options</div>
 <div>&ensp;&ensp;-Refactored and simplified file output logic section</div>
 <div>&ensp;&ensp;-Refactored flag parsing - Now all parsing done in case statement</div>
 <div>&ensp;&ensp;-Added more info and formatting to usage/help output</div>
@@ -219,10 +239,10 @@ graph TD;
 <div>&ensp;&ensp;-Added: --uninstall flag (Deletes scpt & man page)</div>
 <div>&ensp;&ensp;-Refactor: Used <a href="https://www.shellcheck.net/">ShellCheck</a> linter - applied minor fixes</div>
 <div>&ensp;&ensp;-Repo: Created man page</div>
-<div>&ensp;&ensp;-Repo: Added screenshot automation / helper files to /media</div>
+<div>&ensp;&ensp;-Repo: Added screenshot automation/helper files to /media</div>
 <div><b>v4.2:</b></div>
 <div>&ensp;&ensp;-Fixed: Further improved filename arg parsing for the --separate-file flag</div>
-<div>&ensp;&ensp;-Fixed: Handle unknown flags / options properly</div>
+<div>&ensp;&ensp;-Fixed: Handle unknown flags/options properly</div>
 <div>&ensp;&ensp;-Fixed: For error logging, swapped "> /dev/stderr" to ">&2" for better portability</div>
 <div><b>v4.3:</b></div>
 <div>&ensp;&ensp;-Added: Better formatting for prompt preview section</div>
@@ -231,6 +251,19 @@ graph TD;
 <div>&ensp;&ensp;-Added: More arg parsing and error handling for --separate-flag and moved all its logic into separate_file()</div>
 <div>&ensp;&ensp;-Added: 'read' now using -r flag to avoid backslash issues for inputs</div>
 <div>&ensp;&ensp;-Refactor: Removed redundant code, de-nested several if-statements</div>
+<div><b>v5.0:</b></div>
+<div>&ensp;&ensp;-Fixed: Certain prompt expansion variables were swapped out or renamed because they did not work or exist</div>
+<div>&ensp;&ensp;-Added: "Custom Datetime" part to "Prompt Expansion Variables" section</div>
+<div>&ensp;&ensp;-Added: "Environment Variables" section to parts menu/options</div>
+<div>&ensp;&ensp;-Added: Tab (\t) to the "Special" section of the parts menu/options </div>
+<div>&ensp;&ensp;-Added: --char-table flag - Shows cool UTF-8 symbols that can be copy-pasted for use in prompt creation</div>
+<div>&ensp;&ensp;-Added: escape_chars() to prevent any interpretation issues of char literals in the evaluated prompt</div>
+<div>&ensp;&ensp;-Changed/Removed: No more "Symbols", "Arrows", or "Custom" sections in parts menu/options. Users can now enter in symbols and text without needing to pick a number</div>
+<div>&ensp;&ensp;-Refactor: When doing checks for certain part choices, actual part will be referenced and not its index number since that can change in new versions</div>
+<div>&ensp;&ensp;-Refactor: Removed custom_array from prompt creation workflow to simplify process</div>
+<div>&ensp;&ensp;-Refactor: parts_array stores (TYPE,PART) for each part and color_array stores (FG,BG) for each part. Resulting in easier checks and keeping related info together</div>
+<div>&ensp;&ensp;-Refactor: Created variables for setting range checks of parts and colors so only one part needs to be changed when the range is added to</div>
+<div>&ensp;&ensp;-Refactor: Better declaration and use of light mode throughout the program</div>
 
 <div>&#8203;</div>
 
