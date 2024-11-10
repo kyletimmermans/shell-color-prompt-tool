@@ -120,12 +120,14 @@ uninstall() {
   trap 'echo -e "\n\n${RED}ERR${RC}: SIGINT/SIGTERM signal receieved, scpt not uninstalled!\n" >&2; exit 1' SIGINT SIGTERM
 
   echo ""
-  read -r -p "Did you install this program with \"Install as a Command\"? (Y/n): " yn
+  read -r -p "Did you install this program with \"Install as a Command\"? (Y/n): " CONFIRM
 
-  if [[ "$yn" =~ ^[Yy]$ ]]; then
-    sudo rm /usr/local/bin/scpt
-    sudo rm /usr/local/share/man/man1/scpt.1
-    echo -e "\n${GREEN}INFO${RC}: Successfully Uninstalled - Deleted scpt and man page!\n"
+  if [[ "$CONFIRM" =~ ^[Yy]$ ]]; then
+    # Use && bc all lines need to be correct for the message to be true
+    # and if one line fails, they all fail and then no success message
+    sudo rm /usr/local/bin/scpt && \
+    sudo rm /usr/local/share/man/man1/scpt.1 && \
+    echo -e "\n${GREEN}INFO${RC}: Successfully Uninstalled - Deleted scpt and man page!\n" && \
     exit 0
   else
     echo -e "\n${RED}ERR${RC}: Nothing to uninstall - Simply delete the downloaded file\n" >&2
