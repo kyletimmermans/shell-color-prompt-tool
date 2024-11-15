@@ -11,7 +11,7 @@ Customize your Zsh/Bash terminal prompt with a menu-style selection guide. Choos
 
 <div>&#8203;</div>
 
-### Install as a Command - "scpt":
+### Install as a Command - "scpt" (man page included):
 ```bash
 URL="https://github.com/kyletimmermans/shell-color-prompt-tool/releases/download/latest"; curl -q -s -S -LJO "$URL/shell-color-prompt-tool.sh" && chmod a+x shell-color-prompt-tool.sh && sudo mv shell-color-prompt-tool.sh /usr/local/bin/scpt && curl -q -s -S -LJO "$URL/scpt.1" && sudo mv scpt.1 /usr/local/share/man/man1/
 ```
