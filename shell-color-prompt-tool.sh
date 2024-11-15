@@ -399,12 +399,13 @@ preview_print() {
 }
 
 
-# Picking parts, colors, creating $review_prompt, and $final_prompt
+# Show parts menu and create: parts_dictionary() & part_preview_strings()
 parts_menu() {
+  echo -e "Enter the part numbers and any custom text in the order you want them to appear in your prompt:"
+  echo -e "-----------------------------------------------------------------------------------------------\n"
+
   # Parts Menu
   if [[ "$TYPESHELL" =~ ^[Zz]$ ]]; then
-    echo -e "Enter the numbers in order of what you want your prompt to consist of:"
-    echo -e "----------------------------------------------------------------------\n"
     echo -e "${LM}${BOLD}${UNDERLINE}Prompt Expansion Variables${RS}:\n
     1. Username     2. Hostname (Short)     3. Hostname (Full)     4. Shell's TTY\n
     5. Full-Path Current Working Directory      6. Current Working Directory from \$HOME\n
@@ -444,8 +445,6 @@ ${LM}${BOLD}${UNDERLINE}Special${RS}:\n"
     'Custom Variable' 'Arch Type' 'OS Type' 'Terminal Type' 'Parent Shell PID' 'Zsh Version' 'Subshell Level'
     'Custom Env Variable' '─' '│' '├' '┤' '┌' '┐' '└' '┘' '╭' '╮' '╰' '╯' ' ' '\t' '\n')
   elif [[ "$TYPESHELL" =~ ^[Bb]$ ]]; then
-    echo -e "Enter the numbers in order of what you want your prompt to consist of:"
-    echo -e "----------------------------------------------------------------------\n"
     echo -e "${LM}${BOLD}${UNDERLINE}Prompt Expansion Variables${RS}:\n
     1. Username     2. Hostname (Short)    3. Hostname (Full)    4. Shell's TTY\n
     5. Current Working Directory      6. Current Working Directory from \$HOME \n
@@ -584,8 +583,8 @@ parts_picker() {
 
 # Show color menu
 colors_menu() {
-  echo -e "\n\nEnter the number of the color you want, in order with each part of the prompt you chose:"
-  echo -e  "----------------------------------------------------------------------------------------\n"
+  echo -e "\n\nEnter the numbers of the colors you want for each part of the prompt that you chose:"
+  echo -e  "------------------------------------------------------------------------------------\n"
   if [[ "$lightmode" == false ]]; then
     # Dark mode contrast
     echo -e "${BOLD}Foregrounds:${RS}  1. \e[38;5;15mWhite\e[0m     14. \e[1m\e[38;5;15mBold White\e[0m             ${BOLD}Backgrounds:${RS}  29. \e[0;30m\e[48;5;15mWhite\e[0m         42. \e[0;30m\e[48;5;255mBright White\e[0m\n"
@@ -621,7 +620,6 @@ colors_menu() {
     echo -e "             27. No Foreground Color / No Change                    55. No Background Color / No Change\e[0m\n"
     echo -e "             28. Custom RGB Foreground                              56. Custom RGB Background\e[0m\n\n"
   fi
-
 
   # Parts Dicionary - Each Index has each respective value from menu (Foregrounds and backgrounds)
   color_dictionary=('\e[38;5;15m' '\e[0;30m' '\e[0;31m' '\e[0;32m'

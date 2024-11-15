@@ -258,6 +258,7 @@ graph TD;
 <div>&ensp;&ensp;-Added: Tab (\t) to the "Special" section of the parts menu/options </div>
 <div>&ensp;&ensp;-Added: --char-table flag - Shows cool UTF-8 symbols that can be copy-pasted for use in prompt creation</div>
 <div>&ensp;&ensp;-Added: escape_chars() to prevent any interpretation issues of char literals in the evaluated prompt</div>
+<div>&ensp;&ensp;-Added: Improved wording of menu instructions</div>
 <div>&ensp;&ensp;-Changed/Removed: No more "Symbols", "Arrows", or "Custom" sections in parts menu/options. Users can now enter in symbols and text without needing to pick a number</div>
 <div>&ensp;&ensp;-Refactor: When doing checks for certain part choices, actual part will be referenced and not its index number since that can change in new versions</div>
 <div>&ensp;&ensp;-Refactor: Removed custom_array from prompt creation workflow to simplify process</div>

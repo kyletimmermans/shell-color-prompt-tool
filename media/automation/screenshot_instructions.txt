@@ -11,7 +11,7 @@
 	- View --> Hide Marks & Hide Tab Bar
 	- scpt
 	- choices.py
-	- CleanShot X - Scrolling Capture - Do NOT use Auto-Scroll
+	- CleanShot X - Scrolling Capture - Do NOT use Auto-Scroll - Go slowly
 	- Crop to show the top calling line and prompt
 	- Crop to not show the last prompt line to prevent confusion
 	- 5.0 Image Dimensions: 2878x8135
