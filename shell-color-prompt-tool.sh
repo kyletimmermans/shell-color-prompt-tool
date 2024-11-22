@@ -467,7 +467,8 @@ ${LM}${BOLD}${UNDERLINE}Special${RS}:\n
     '\u' '\h' '\H' '\l' '\W' '\w' '\#' '\!' '\d' '\\\\t' '\T' '\@' '\A' '\\\\v' '\V' '\j' '\$' 'CDT' 'CPEV'
     '$HOSTTYPE' '$OSTYPE' '$TERM' '$$' '$?' '$SHLVL' 'CEV'
     '─' '│' '├' '┤' '┌' '┐' '└' '┘' '╭' '╮' '╰' '╯'
-    ' ' '\\011' '\\n')
+    ' ' '\\011' '\\n')  # Can't use \t in Bash since its already a prompt expansion variable that represents a timestamp
+                        # Instead, we can use \011 which is octal for 9 which represents 'Horizontal Tab' in ASCII
 
     part_preview_strings=('Username' 'Hostname (Short)' 'Hostname (Full)' "Shell's TTY" 'Current Working Directory'
     'Current Working Directory from $HOME' 'Current Shell Command Number' 'Current History Event Number'
