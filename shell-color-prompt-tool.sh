@@ -101,6 +101,8 @@ usage() {
   echo -e "  prompt the best\n"
   echo -e "* Colors may vary from system to system. When using the Custom RGB option, make sure your"
   echo -e "  terminal supports TRUECOLOR (See github.com/termstandard/colors)\n"
+  echo -e "* Some terminals may not display the background color for the \"Tab\" part, either in the"
+  echo -e "  preview or the actual prompt\n"
   echo -e "* If your command is too long, \$RPROMPT will visually be temporarily overwritten\n"
   echo -e "* \$RPROMPT cannot contain newlines (\\\n)\n"
   echo -e "* For part option \"Custom Datetime\", the datetime string is formatted using the 'strftime'"
@@ -459,13 +461,13 @@ ${LM}${BOLD}${UNDERLINE}Environment Variables${RS}:\n
 ${LM}${BOLD}${UNDERLINE}Box Drawing${RS}:\n
     27. ─   28. │   29. ├   30. ┤   31. ┌   32. ┐   33. └   34. ┘   35. ╭   36. ╮   37. ╰   38. ╯\n
 ${LM}${BOLD}${UNDERLINE}Special${RS}:\n
-    39. Space    40. Tab (\\\t)    41. Newline (\\\n)\n"
+    39. Space    40. Tab    41. Newline (\\\n)\n"
 
     part_dictionary=(
     '\u' '\h' '\H' '\l' '\W' '\w' '\#' '\!' '\d' '\\\\t' '\T' '\@' '\A' '\\\\v' '\V' '\j' '\$' 'CDT' 'CPEV'
     '$HOSTTYPE' '$OSTYPE' '$TERM' '$$' '$?' '$SHLVL' 'CEV'
     '─' '│' '├' '┤' '┌' '┐' '└' '┘' '╭' '╮' '╰' '╯'
-    ' ' '\\t' '\\n')
+    ' ' '\\011' '\\n')
 
     part_preview_strings=('Username' 'Hostname (Short)' 'Hostname (Full)' "Shell's TTY" 'Current Working Directory'
     'Current Working Directory from $HOME' 'Current Shell Command Number' 'Current History Event Number'
@@ -473,7 +475,7 @@ ${LM}${BOLD}${UNDERLINE}Special${RS}:\n
     'Time (12-Hour HH:MM)' 'Bash Version (Short)' 'Bash Version (Full)' 'Number of Jobs'
     'isRoot' 'Custom Datetime' 'Custom Variable' 'Arch Type' 'OS Type' 'Terminal Type' 'Parent Shell PID'
     'Return Status of Last Command' 'Shell Level' 'Custom Env Variable'
-    '─' '│' '├' '┤' '┌' '┐' '└' '┘' '╭' '╮' '╰' '╯' ' ' '\t' '\n')
+    '─' '│' '├' '┤' '┌' '┐' '└' '┘' '╭' '╮' '╰' '╯' ' ' '\011' '\n')
   fi
 
   MAX_PART_CHOICE_NUM=$(( "${#part_dictionary[@]}" ))
@@ -681,7 +683,7 @@ colors_picker() {
 
         # Further check for space, tab, and newline since they don't get an FG color
         # Need to check if menu value first bc index here needs a number
-        if [[ "${part_dictionary[${VALUE}]}" =~ ^([[:space:]]|\\\\t|\\\\n)$ ]]; then
+        if [[ "${part_dictionary[${VALUE}]}" =~ ^([[:space:]]|\\\\t|\\\\011|\\\\n)$ ]]; then
           FG=$((MAX_FG_COLOR_CHOICE_NUM - 1))
         else
           read -r -p "Enter ${UNDERLINE}Foreground${RS} color number for ${part_preview_strings[${VALUE}]}: " FG
@@ -734,7 +736,7 @@ colors_picker() {
         # No background for newline (Need to check if menu value first bc index here needs a number)
         if [[ "${part_dictionary[${VALUE}]}" == "\\\n" ]]; then
           BG=$((MAX_BG_COLOR_CHOICE_NUM - 1))
-        elif [[ "${part_dictionary[${VALUE}]}" == "\\\t" ]]; then
+        elif [[ "${part_dictionary[${VALUE}]}" == "\\\t" || "${part_dictionary[${VALUE}]}" == "\\\011" ]]; then
           read -r -p "Enter ${UNDERLINE}Background${RS} color number for Tab: " BG
         elif [[ "${part_dictionary[${VALUE}]}" == " " ]]; then
           read -r -p "Enter ${UNDERLINE}Background${RS} color number for Space: " BG

@@ -132,6 +132,7 @@ but I wanted to show off all of the different variables/symbols/colors and how t
 > * #### For the actual prompt string in the .zshrc / .bashrc file, some text editors like Sublime Text will show the ANSI escape characters like "\e[0;30m" as "<0x1b>". Use a text editor like Vim to show the raw text
 > * #### Fullscreen terminals will be able to fit the spacing and styling of the interactive prompt the best
 > * #### Colors may vary from system to system. When using the Custom RGB option, make sure your terminal supports TRUECOLOR (See [here](https://github.com/termstandard/colors))
+> * #### Some terminals may not display the background color for the "Tab" part, either in the preview or the actual prompt
 > * #### If your command is too long, $RPROMPT will visually be temporarily overwritten
 > * #### $RPROMPT cannot contain newlines (\n)
 > * #### For part option "Custom Datetime", the datetime string is formatted using the 'strftime' function. See strftime(3) for more details. E.g.'%Y-%m-%d %k:%M:%S' would become: '2024-11-09 14:37:34'
