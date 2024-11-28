@@ -32,12 +32,12 @@ curl -q -s -S -LJO "https://github.com/kyletimmermans/shell-color-prompt-tool/re
 sudo apt install -y gawk
 ```
 
-###### MacOS (Homebrew)
+###### macOS (Homebrew)
 ```bash
 brew install gawk gnu-sed
 ```
 
-###### MacOS (MacPorts)
+###### macOS (MacPorts)
 ```bash
 sudo port install gawk gsed
 ```
@@ -61,7 +61,7 @@ but I wanted to show off all of the different variables/symbols/colors and how t
 
 ### Demo Video
 
-![Demo Video](/media/visuals/vhs_demo_v5.0.gif)
+![Demo Video](/media/visuals/vhs_demo_v5.0.gif?raw=true)
 
 ### Demo Resulting Prompt
 
@@ -169,7 +169,7 @@ but I wanted to show off all of the different variables/symbols/colors and how t
 ```mermaid
 graph TD;
     CST(Choose Shell Type)-- Zsh --->ZSH(Choose Prompt Type: $PROMPT, $RPROMPT, or Both)
-    ZSH-->CHP(Choose Parts #40;Variables, Symbols, etc#41;)
+    ZSH-->CHP(Choose Parts #40;Variables, Symbols, etc.#41;)
     CST-- Bash ---CHP
     CHP-->CSC(Choose Colors #40;Foreground and Background#41; for the Chosen Parts)
     CSC-->Preview(Preview the Prompt Before Saving)
@@ -187,7 +187,7 @@ graph TD;
 
 ### Changelog
 
-<div><b>v1.0:</b> Initial-Relase</div>
+<div><b>v1.0:</b> Initial-Release</div>
 <div><b>v1.1:</b></div>
 <div>&ensp;&ensp;-Fixed: Issue where symbol choices misaligned with actual symbol output, found by @christiankuhtz</div>
 <div>&ensp;&ensp;-Added: period symbol to list of part choices</div>
@@ -205,7 +205,7 @@ graph TD;
 <div>&ensp;&ensp;-Added: -h/--help & -u/--usage flags</div>
 <div><b>v2.5:</b></div>
 <div>&ensp;&ensp;-Added: Custom RGB color option</div>
-<div>&ensp;&ensp;-Fixed: error messsages showing incorrect range of color options</div>
+<div>&ensp;&ensp;-Fixed: error messages showing incorrect range of color options</div>
 <div>&ensp;&ensp;-Updated: and cleaned up help/usage flag output</div>
 <div><b>v2.7:</b></div>
 <div>&ensp;&ensp;-Added: Force gawk usage, even on Linux, as there could be multiple awk types installed</div>
@@ -289,9 +289,9 @@ Need inspiration and ideas for cool prompts? Check out this list!
 #### <ins>What’s the point of making this, hasn’t this been done already?</ins>
 I've seen a few programs, mainly web-based ones, that help you to build out and customize shell prompts. I wanted to make
 something that was native to the shell environment, no need to copy from the website and then needing to paste into your config
-on the command line. I wanted it to be all in one place. There's a few other feaatures I wanted to see in a prompt customization
+on the command line. I wanted it to be all in one place. There's a few other features I wanted to see in a prompt customization
 program as well:
-- [x] Show the user all of the options they have for customizing their prompt, which includes all of the terminal variables (username, hostname, etc) and many of the colors available
+- [x] Show the user all of the options they have for customizing their prompt, which includes all of the terminal variables (username, hostname, etc.) and many of the colors available
 - [x] Simple menu-style system for choosing which components and colors you'd like to be in the prompt
 - [x] No additional software required (besides for 2 flags, potentially) - Most Unix-based systems (Linux, macOS) already have Bash pre-installed, so there’s no need to install any additional interpreters or libraries
 - [x] No need to edit the .bashrc / .zshrc file at all, no need to copy and paste the variable in there. The program will put it in there for you
@@ -301,6 +301,13 @@ program as well:
 #### <ins>Will you support other shells?</ins>
 The plan is to potentially support other shells in the future. A big refactor would be needed to be able to support other ones.
 Right now Zsh and Bash are the main shells that are supported, but if you put in an issue or even submit a PR, I can work with you to add support for another shell.
+
+<div>&#8203;</div>
+
+#### <ins>Why does the program use a Bash shebang instead of Zsh, sh, or another shell?</ins>
+A Bash shebang is used because it covers both Bash and Zsh users. Almost everyone that has Zsh, has Bash installed. However, not everyone that has Bash,
+has Zsh installed. Therefore, the Bash shebang covers all use cases. We can't use the "sh" shebang because that could invoke a shell that's not Bash
+or Zsh.
 
 <div>&#8203;</div>
 

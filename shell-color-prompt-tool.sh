@@ -7,7 +7,7 @@
 
 
 # Handle SIGINT/SIGTERM before saving prompt
-trap 'echo -e "\n\n\e[1;33mWARN\e[0m: SIGINT/SIGTERM signal receieved, prompt not saved!\n" >&2; exit 1' SIGINT SIGTERM
+trap 'echo -e "\n\n\e[1;33mWARN\e[0m: SIGINT/SIGTERM signal received, prompt not saved!\n" >&2; exit 1' SIGINT SIGTERM
 
 
 # Global Variables
@@ -119,7 +119,7 @@ usage() {
 
 # Remove scpt file and man page
 uninstall() {
-  trap 'echo -e "\n\n${RED}ERR${RC}: SIGINT/SIGTERM signal receieved, scpt not uninstalled!\n" >&2; exit 1' SIGINT SIGTERM
+  trap 'echo -e "\n\n${RED}ERR${RC}: SIGINT/SIGTERM signal received, scpt not uninstalled!\n" >&2; exit 1' SIGINT SIGTERM
 
   echo ""
   read -r -p "Did you install this program with \"Install as a Command\"? (Y/n): " CONFIRM
@@ -401,7 +401,7 @@ preview_print() {
 }
 
 
-# Show parts menu and create: parts_dictionary() & part_preview_strings()
+# Show parts menu and create: part_dictionary() & part_preview_strings()
 parts_menu() {
   echo -e "Enter the part numbers and any custom text in the order you want them to appear in your prompt:"
   echo -e "-----------------------------------------------------------------------------------------------\n"
@@ -430,7 +430,7 @@ ${LM}${BOLD}${UNDERLINE}Special${RS}:\n"
     echo -e "    39. Space    40. Tab (\\\t)    41. Newline (\\\n)\n"
   fi
 
-    # Parts Dicionary - Each Index has each respective value from menu
+    # Part Dictionary - Each index has each respective value from menu
     part_dictionary=(
     '%n' '%m' '%M' '%l' '%d' '%~' '%#' '%?' '%h' '%D' '%W' '%w' '%*' '%t' '%j' '%L' '%N' 'CDT' 'CPEV'
     '$MACHTYPE' '$OSTYPE' '$TERM' '$$' '$ZSH_VERSION' '$ZSH_SUBSHELL' 'CEV'
@@ -536,7 +536,7 @@ parts_picker() {
       fi
 
       # In range
-      # Bring +1 back bc we're checking against the menu selection now, not parts_dictionary
+      # Bring +1 back bc we're checking against the menu selection now, not part_dictionary
       if (( CHOICE+1 >= 1 && CHOICE+1 <= MAX_PART_CHOICE_NUM )); then
         part_choices+=("MENU,$CHOICE")
       # Out of range
@@ -624,7 +624,7 @@ colors_menu() {
     echo -e "             28. Custom RGB Foreground                              56. Custom RGB Background\e[0m\n\n"
   fi
 
-  # Parts Dicionary - Each Index has each respective value from menu (Foregrounds and backgrounds)
+  # Color Dictionary - Each index has each respective value from menu (Foregrounds and Backgrounds)
   color_dictionary=('\e[38;5;15m' '\e[0;30m' '\e[0;31m' '\e[0;32m'
   '\e[38;5;22m' '\e[0;33m' '\e[38;5;202m' '\e[38;5;27m'
   '\e[0;36m' '\e[0;35m' '\e[38;5;93m' '\e[38;5;201m'
@@ -997,7 +997,7 @@ fi
 if [[ "$TYPEPROMPT" =~ ^[Bb]$ ]]; then
   # "Both" workflow
   # We need the l_xyz and r_xyz variables since the pass from PROMPTTYPE
-  # to another will overwrite the global vars and we need a persistent vcopy
+  # to another will overwrite the global vars and we need a persistent copy
   parts_menu
 
   # Choose parts for both
@@ -1121,7 +1121,7 @@ if [[ "$CHOICE" =~ ^[Yy]$ ]]; then
   fi
 
   # Handle SIGINT/SIGTERM after saving prompt
-  trap 'echo -e "\n\n${RED}ERR${RC}: SIGINT/SIGTERM signal receieved, but prompt was already saved!\n" >&2; exit 1' SIGINT SIGTERM
+  trap 'echo -e "\n\n${RED}ERR${RC}: SIGINT/SIGTERM signal received, but prompt was already saved!\n" >&2; exit 1' SIGINT SIGTERM
 
   # Dont print this if we are using the --separate-file flag
   if [[ "$separatefile" == true ]]; then
