@@ -125,7 +125,7 @@ but I wanted to show off all of the different variables/symbols/colors and how t
 
 ### Usage Notes
 > [!NOTE]
-> * #### To add a number as a raw string and to not get it recognized as a menu-number choice, or to add 'n'/'N' and not exit the parts selector, add a '!' before the number or 'n'/'N' e.g. '!14' yields '14' and '!n' yields 'n' and won't exit the parts selector
+> * #### To add a number as a raw string and to not get it recognized as a menu-number choice, or to add 'n'/'N' and not exit the part selector, add a '!' before the number or 'n'/'N' e.g. '!14' yields '14' and '!n' yields 'n'
 > * #### You don't need to add a newline character at the beginning of your prompt for spacing between actual prompts, one will be added for you. Same with a space after the prompt so there's space between the prompt and inputted commands, one will automatically be added for you. This feature can be disabled with the --no-extras flag
 > * #### If you want to use the --comment-out or --omz flags, you must have 'gawk' and 'gsed' installed. On Mac, you'll need to install both. On Linux, you just need gawk, as gsed should already be your default sed version
 > * #### --comment-out and --omz can break the config if the variables that are getting commented out, are defined within things like if-statements or case-statements

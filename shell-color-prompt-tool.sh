@@ -85,8 +85,8 @@ usage() {
   echo -e "                     up incorrectly, ensure that your terminal supports the UTF-8 charset\n\n"
   echo -e "${LM}${BOLD}${UNDERLINE}Usage Notes${RS}:\n"
   echo -e "* To add a number as a raw string and to not get it recognized as a menu-number choice, or"
-  echo -e "  to add 'n'/'N' and not exit the parts selector, add a '!' before the number or 'n'/'N'"
-  echo -e "  e.g. '!14' yields '14' and '!n' yields 'n' and won't exit the parts selector\n"
+  echo -e "  to add 'n'/'N' and not exit the part selector, add a '!' before the number or 'n'/'N'"
+  echo -e "  e.g. '!14' yields '14' and '!n' yields 'n'\n"
   echo -e "* No need to put a space at the end of your prompt, one will be added automatically."
   echo -e "  Same with a newline at the beginning for proper spacing between actual prompts,"
   echo -e "  one will automatically be added. Disable this feature w/ --no-extras\n"
@@ -401,8 +401,8 @@ preview_print() {
 }
 
 
-# Show parts menu and create: part_dictionary() & part_preview_strings()
-parts_menu() {
+# Show part menu and create: part_dictionary() & part_preview_strings()
+part_menu() {
   echo -e "Enter the part numbers and any custom text in the order you want them to appear in your prompt:"
   echo -e "-----------------------------------------------------------------------------------------------\n"
 
@@ -446,6 +446,7 @@ ${LM}${BOLD}${UNDERLINE}Special${RS}:\n"
     'Number of Jobs' 'Current Value of $SHLVL' 'Name of currently executed by Zsh' 'Custom Datetime'
     'Custom Variable' 'Arch Type' 'OS Type' 'Terminal Type' 'Parent Shell PID' 'Zsh Version' 'Subshell Level'
     'Custom Env Variable' '─' '│' '├' '┤' '┌' '┐' '└' '┘' '╭' '╮' '╰' '╯' ' ' '\t' '\n')
+
   elif [[ "$TYPESHELL" =~ ^[Bb]$ ]]; then
     echo -e "${LM}${BOLD}${UNDERLINE}Prompt Expansion Variables${RS}:\n
     1. Username     2. Hostname (Short)    3. Hostname (Full)    4. Shell's TTY\n
@@ -479,12 +480,17 @@ ${LM}${BOLD}${UNDERLINE}Special${RS}:\n
     '─' '│' '├' '┤' '┌' '┐' '└' '┘' '╭' '╮' '╰' '╯' ' ' '\011' '\n')
   fi
 
-  MAX_PART_CHOICE_NUM=$(( "${#part_dictionary[@]}" ))
+  # Remove 1 if its an RPROMPT, they can't use the newline part in the part_dictionary() array
+  if [[ "$TYPEPROMPT" =~ ^[Rr]$ ]]; then
+    MAX_PART_CHOICE_NUM=$(( "${#part_dictionary[@]}" - 1 ))
+  else
+    MAX_PART_CHOICE_NUM=$(( "${#part_dictionary[@]}" ))
+  fi
 }
 
 
 # Handle part choices
-parts_picker() {
+part_picker() {
   # Choose Parts
   echo -e "\nType 'n' or 'N' when you're finished\n"
   # Store choices - Each element 'MENU/CDT/CPEV/CEV/CUSTOM,$PART'
@@ -585,7 +591,7 @@ parts_picker() {
 
 
 # Show color menu
-colors_menu() {
+color_menu() {
   echo -e "\n\nEnter the numbers of the colors you want for each part of the prompt that you chose:"
   echo -e  "------------------------------------------------------------------------------------\n"
   if [[ "$lightmode" == false ]]; then
@@ -645,7 +651,7 @@ colors_menu() {
 
 
 # Handle color choices
-colors_picker() {
+color_picker() {
   local local_part_choices=("${!1}")
 
   # Choose Colors
@@ -664,7 +670,7 @@ colors_picker() {
 
       # - Double ':' issue - Looks weird if the string ends in ':' and then we have the ':' here right next to it "::"
       # - If not ASCII, could be a wide character, need an extra space on the right to not overwrite ':'
-      if [[ ${VALUE: -1} == ":" ]] || (( $(printf "%d" "'$VALUE") > 127 )); then
+      if [[ ${VALUE: -1} == ":" ]] || (( $(printf "%d" "'${VALUE: -1}") > 127 )); then
         read -r -p "Enter ${UNDERLINE}Foreground${RS} color number for ${VALUE} : " FG
 
       # Custom Datetime
@@ -716,7 +722,7 @@ colors_picker() {
 
       # - Double ':' issue - Looks weird if the string ends in ':' and then we have the ':' here right next to it "::"
       # - If not ASCII, could be a wide character, need an extra space on the right to not overwrite ':'
-      if [[ ${VALUE: -1} == ":" ]] || (( $(printf "%d" "'$VALUE") > 127 )); then
+      if [[ ${VALUE: -1} == ":" ]] || (( $(printf "%d" "'${VALUE: -1}") > 127 )); then
         read -r -p "Enter ${UNDERLINE}Background${RS} color number for ${VALUE} : " BG
 
       # Custom Datetime
@@ -943,7 +949,7 @@ echo -e "                        @KyleTimmermans\n\n"
 read -r -p "Will this be a Zsh or a Bash prompt? Enter 'Z' for Zsh or 'B' for Bash: " TYPESHELL
 echo ""
 
-# For choosing the prompt/prompttype, if error, 2 new line buffers. If no error, only need 1 line buffer
+# For choosing the prompt/typeprompt, if error, 2 new line buffers. If no error, only need 1 line buffer
 isError=false
 while :; do
   if [[ "$TYPESHELL" =~ ^[Zz]$ ]] || [[ "$TYPESHELL" =~ ^[Bb]$ ]]; then
@@ -996,35 +1002,35 @@ fi
 # Give menu
 if [[ "$TYPEPROMPT" =~ ^[Bb]$ ]]; then
   # "Both" workflow
-  # We need the l_xyz and r_xyz variables since the pass from PROMPTTYPE
+  # We need the l_xyz and r_xyz variables since the pass from TYPEPROMPT
   # to another will overwrite the global vars and we need a persistent copy
-  parts_menu
+  part_menu
 
   # Choose parts for both
   echo -e "\nLPROMPT:\n--------"
   lprompt_turn=true
-  parts_picker
+  part_picker
   l_parts=("${part_choices[@]}")
   lprompt_turn=false  # Don't want to check lprompt again in menu()
 
   echo -e "\n\nRPROMPT:\n--------"
   rprompt_turn=true
-  parts_picker
+  part_picker
   r_parts=("${part_choices[@]}")
   rprompt_turn=false
 
-  colors_menu
+  color_menu
 
   if [[ ${#l_parts[@]} -gt 0 ]]; then
     echo -e "LPROMPT:\n--------\n"
   fi
-  colors_picker "l_parts[@]"
+  color_picker "l_parts[@]"
   l_colors=("${color_choices[@]}")
 
   if [[ ${#r_parts[@]} -gt 0 ]]; then
     echo -e "\n\nRPROMPT:\n--------\n"
   fi
-  colors_picker "r_parts[@]"
+  color_picker "r_parts[@]"
   r_colors=("${color_choices[@]}")
 
   merge "l_parts[@]" "l_colors[@]"
@@ -1057,11 +1063,11 @@ if [[ "$TYPEPROMPT" =~ ^[Bb]$ ]]; then
 
 else
   # Single prompt workflow
-  parts_menu
-  parts_picker
+  part_menu
+  part_picker
 
-  colors_menu
-  colors_picker "part_choices[@]"
+  color_menu
+  color_picker "part_choices[@]"
 
   merge "part_choices[@]" "color_choices[@]"
 
